@@ -46,9 +46,9 @@ const ForgotPassword = ({ history }) => {
     };
 
     return (
-        <div class="my-5">
-            <div class="row my-5 justify-content-center">
-                <div class="col-sm-4">
+        <div className="my-5">
+            <div className="row my-5 justify-content-center">
+                <div className="col-sm-4">
                     <div className="container my-5">
                         <h2><b>Reset Password</b></h2>
                         <div className="my-5">

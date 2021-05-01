@@ -31,7 +31,7 @@ const Login = ({ history }) => {
         return (
             <form onSubmit={handleSubmit}>
                 <input type="email" className="py-3 px-4 my-2" placeholder="Enter email address" value={email} onChange={(e) => setEmail(e.target.value)} style={inputStyle} />
-                <input type="password" className="py-3 px-4 my-2" placeholder="Enter password" value={password} onChange={(e) => setPassword(e.target.value)} style={inputStyle} />
+                <input type="password" className="py-3 px-4 my-2" placeholder="Enter password" value={password} onChange={(e) => setPassword(e.target.value)} style={inputStyle} autoComplete="on"/>
                 <div className="my-2 text-right">
                     <Link to="/password/reset">Forgot Password?</Link>
                 </div>
@@ -104,15 +104,15 @@ const Login = ({ history }) => {
 
 
     return (
-        <div class="my-5">
-            <div class="row my-5 justify-content-center">
-                <div class="col-sm-4">
+        <div className="my-5">
+            <div className="row my-5 justify-content-center">
+                <div className="col-sm-4">
                     <div className="container">
                         <h2><b>Login</b></h2>
                         <p>Don't have an account, <Link to="sign-up" style={{ color: "#0065FF", fontWeight: "bold" }}>Sign up</Link></p>
                         <div className="my-5">
                             <button type="submit" className="py-3" style={googleAuthStyle} onClick={googleLogin}>
-                                <span><img src={googleIcon} height="24px" /></span> &ensp; Sign in with Google
+                                <span><img src={googleIcon} height="24px" alt="Google Icon"/></span> &ensp; Sign in with Google
                             </button>
                             <Divider className="my-4"><span style={{ color: "#999999" }}>or</span></Divider>
                             {loginForm()}

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom"
 import { Link } from 'react-router-dom';
 import logo from './blocmarket-logo.svg'
-import { Menu, Button, message, Avatar } from 'antd';
+import { Menu, Button, message } from 'antd';
 const { SubMenu } = Menu;
 
 const Navbar = () => {

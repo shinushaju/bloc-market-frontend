@@ -79,16 +79,16 @@ const Signup = ({ history }) => {
     };
 
     return (
-        <div class="my-5">
-            <div class="row my-5 justify-content-center">
-                <div class="col-sm-4">
+        <div className="my-5">
+            <div className="row my-5 justify-content-center">
+                <div className="col-sm-4">
                     <div className="container">
                         <h2><b>Sign Up</b></h2>
                         <p>Already have an account, <Link to="login" style={{ color: "#0065FF", fontWeight: "bold" }}>Login</Link></p>
                         <div className="my-5">
 
                             <button type="submit" className="py-3" style={googleAuthStyle} onClick={googleSignup}>
-                                <span><img src={googleIcon} height="24px" /></span> &emsp; Sign up with Google
+                                <span><img src={googleIcon} height="24px" alt="Google Icon"/></span> &emsp; Sign up with Google
                             </button>
                             <Divider className="my-4"><span style={{ color: "#999999" }}>or</span></Divider>
                             {signupForm()}
