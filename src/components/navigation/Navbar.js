@@ -48,9 +48,9 @@ const Navbar = () => {
 
             {user && (
                 <SubMenu className="float-right" selectedKeys={[current]} key="SubMenu" title={<Avatar size="large" src={user.picture} />}>
-                    <Menu.Item key="profile" style={{ fontWeight: "400" }}><Link to="/profile"><UserOutlined /> Profile</Link></Menu.Item>
                     <Menu.Item key="store" style={{ fontWeight: "400" }}><Link to="/store"><AppstoreAddOutlined /> My Store</Link></Menu.Item>
-                    <Menu.Item key="account" style={{ fontWeight: "400" }}><Link to="/account/profile/edit"><SettingOutlined /> Settings</Link></Menu.Item>
+                    <Menu.Item key="account" style={{ fontWeight: "400" }}><Link to="/account"><UserOutlined /> My Account</Link></Menu.Item>
+                    <Menu.Item key="settings" style={{ fontWeight: "400" }}><Link to="/settings/account/profile/edit"><SettingOutlined /> Settings</Link></Menu.Item>
                     <hr></hr>
                     <Menu.Item key="logout" style={{ fontWeight: "400" }} onClick={logout}><LogoutOutlined /> Log Out</Menu.Item>
                 </SubMenu>

@@ -124,13 +124,13 @@ const ChangePassword = () => {
                                         theme="light"
                                     >
                                         <Menu.Item key="1">
-                                            <Link to="/account/profile/edit">Edit Profile</Link>
+                                            <Link to="/settings/account/profile/edit">Edit Profile</Link>
                                         </Menu.Item>
                                         <Menu.Item key="2">
-                                            <Link to="/account/settings">Account Settings</Link>
+                                            <Link to="/settings/account">Account Settings</Link>
                                         </Menu.Item>
                                         <Menu.Item disabled key="3">
-                                            <Link to="/password/change">Password</Link>
+                                            <Link to="/settings/account/password/change">Password</Link>
                                         </Menu.Item>
                                     </Menu>
                                 </div>

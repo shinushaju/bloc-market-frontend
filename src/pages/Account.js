@@ -17,7 +17,7 @@ import { getFavourites } from '../helpers/users';
 const { TabPane } = Tabs;
 const { Title } = Typography;
 
-const Profile = () => {
+const Account = () => {
 
     const { user } = useSelector((state) => ({ ...state }));
 
@@ -45,7 +45,7 @@ const Profile = () => {
 
         <>
             <Helmet>
-                <title>My Profile | Bloc | Market</title>
+                <title>My Account | Bloc | Market</title>
             </Helmet>
             <div className="container-fluid my-5">
                 <div className="row px-4 py-4">
@@ -53,7 +53,7 @@ const Profile = () => {
                         <UserProfile />
                     </div>
                     <div className="col py-4" style={{ width: "100%", margin: "0" }}>
-                        <Title>My Profile</Title>
+                        <Title>My Account</Title>
 
                         <Tabs size="large">
                             <TabPane
@@ -97,4 +97,4 @@ const Profile = () => {
     )
 }
 
-export default Profile;
+export default Account;

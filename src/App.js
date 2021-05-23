@@ -16,7 +16,7 @@ import Home from './pages/Home';
 import Explore from './pages/Explore';
 import Activity from './pages/Activity';
 import Notifications from './pages/Notifications';
-import Profile from './pages/Profile';
+import Account from './pages/Account';
 import Store from './pages/Store';
 import Collection from './pages/Collection';
 import AddItem from './pages/AddItem';
@@ -85,11 +85,11 @@ const App = () => {
           {/* authorized user routes*/}
           <UserRoute exact path="/notifications" component={Notifications} />
           <UserRoute exact path="/store" component={Store} />
-          <UserRoute exact path="/profile" component={Profile} />
+          <UserRoute exact path="/account" component={Account} />
           <UserRoute exact path="/store/:collection/assets" component={Collection} />
           <UserRoute exact path="/store/:collection/assets/new" component={AddItem} />
-          <UserRoute exact path="/account/profile/edit" component={EditProfile} />
-          <UserRoute exact path="/account/settings" component={AccountSettings} />
+          <UserRoute exact path="/settings/account/profile/edit" component={EditProfile} />
+          <UserRoute exact path="/settings/account" component={AccountSettings} />
           <UserRoute exact path="/password/change" component={ChangePassword} />
           <UserRoute exact path="/assets/:item/sell" component={SellItem} />
         </Switch>
