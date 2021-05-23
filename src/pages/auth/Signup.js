@@ -1,23 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import googleIcon from './google-icon.svg';
-import { Link } from 'react-router-dom';
-import { Divider, notification, message } from 'antd';
-import { auth, googleAuthProvider } from '../../firebase';
 import { useDispatch, useSelector } from "react-redux";
+import { Divider, notification, message } from 'antd';
+import { Link } from 'react-router-dom';
+import googleIcon from './google-icon.svg';
+
+// email validator
+import EmailValidation from '../../hooks/EmailValidation';
+
+// api functions
+import { createOrUpdateUser } from '../../helpers/auth';
+import { auth, googleAuthProvider } from '../../firebase';
+
 
 const Signup = ({ history }) => {
 
+    let dispatch = useDispatch();
+    const { user } = useSelector((state) => ({ ...state }));
+    var emailValidity;
+
     // states
     const [email, setEmail] = useState("");
+    const [validEmail] = EmailValidation({ email });
 
     // styles
     const inputStyle = { border: "none", borderRadius: "8px", width: "100%", fontWeight: "500", fontSize: "larger", backgroundColor: "#F4F5F7", color: "#666666" }
     const buttonStyle = { cursor: "pointer", border: "none", borderRadius: "8px", width: "100%", fontWeight: "500", fontSize: "medium", backgroundColor: "#0065FF", color: "#ffffff" }
     const googleAuthStyle = { boxShadow: "rgba(0, 0, 0, 0.08) 0px 1.5px 6px", cursor: "pointer", border: "none", borderRadius: "8px", width: "100%", fontWeight: "500", fontSize: "larger", backgroundColor: "#ffffff", color: "#666666" }
 
-    let dispatch = useDispatch();
-
-    const { user } = useSelector((state) => ({ ...state }));
 
     useEffect(() => {
         if (user && user.token) {
@@ -25,11 +34,18 @@ const Signup = ({ history }) => {
         }
     }, [user, history]);
 
+    // checks email valid or not.
+    if (email != '' && !validEmail) {
+        emailValidity = <p style={{ color: "red" }}>Please enter a valid email</p>;
+    }
+
     const signupForm = () => {
         return (
             <form onSubmit={handleSubmit}>
                 <input type="email" className="py-3 px-4 my-2" value={email} placeholder="Enter email address" onChange={(e) => setEmail(e.target.value)} style={inputStyle} />
-                <button type="submit" className="py-3 my-4" style={buttonStyle} onClick={handleSubmit} disabled={!email}>
+                <br />
+                {emailValidity}
+                <button type="submit" className="py-3 my-4" style={buttonStyle} onClick={handleSubmit} disabled={!email || !validEmail}>
                     Sign up with email
                 </button>
             </form>
@@ -62,13 +78,21 @@ const Signup = ({ history }) => {
                 const { user } = result;
                 const idTokenResult = await user.getIdTokenResult();
 
-                dispatch({
-                    type: "LOGGED_IN_USER",
-                    payload: {
-                        email: user.email,
-                        token: idTokenResult.token,
-                    },
-                });
+                createOrUpdateUser(idTokenResult.token)
+                    .then((res) => {
+                        dispatch({
+                            type: "CURRENT_USER",
+                            payload: {
+                                name: res.data.name,
+                                email: res.data.email,
+                                username: res.data.username,
+                                picture: res.data.picture,
+                                _id: res.data._id,
+                                token: idTokenResult.token,
+                            },
+                        });
+                    })
+                    .catch((error) => console.log(error.message));
 
                 message.success('Sign-in Success! ', 3)
                     .then(() => history.push('/'));
@@ -88,11 +112,10 @@ const Signup = ({ history }) => {
                         <div className="my-5">
 
                             <button type="submit" className="py-3" style={googleAuthStyle} onClick={googleSignup}>
-                                <span><img src={googleIcon} height="24px" alt="Google Icon"/></span> &emsp; Sign up with Google
+                                <span><img src={googleIcon} height="24px" alt="Google Icon" /></span> &emsp; Sign up with Google
                             </button>
                             <Divider className="my-4"><span style={{ color: "#999999" }}>or</span></Divider>
                             {signupForm()}
-
                         </div>
                     </div>
                 </div>

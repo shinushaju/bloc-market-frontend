@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { auth } from '../../firebase';
 import { useSelector } from "react-redux";
 import { notification, message } from 'antd';
+import { auth } from '../../firebase';
+
+// email validator
+import EmailValidation from '../../hooks/EmailValidation';
 
 const ForgotPassword = ({ history }) => {
 
-    const [email, setEmail] = useState("");
+    const { user } = useSelector((state) => ({ ...state }));
+    var emailValidity;
 
+    // states
+    const [email, setEmail] = useState("");
+    const [validEmail] = EmailValidation({ email });
+
+    // styles
     const inputStyle = { border: "none", borderRadius: "8px", width: "100%", fontWeight: "500", fontSize: "larger", backgroundColor: "#F4F5F7", color: "#666666" }
     const buttonStyle = { cursor: "pointer", border: "none", borderRadius: "8px", width: "100%", fontWeight: "500", fontSize: "medium", backgroundColor: "#0065FF", color: "#ffffff" }
 
-    const { user } = useSelector((state) => ({ ...state }));
 
     useEffect(() => {
         if (user && user.token) {
@@ -18,6 +26,10 @@ const ForgotPassword = ({ history }) => {
         }
     }, [user, history]);
 
+    // checking email valid or not.
+    if (email != '' && !validEmail) {
+        emailValidity = <p style={{ color: "red" }}>Please enter a valid email</p>;
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -38,6 +50,7 @@ const ForgotPassword = ({ history }) => {
             });
     };
 
+    // email sent notification
     const emailSentNotification = type => {
         notification[type]({
             description:
@@ -54,6 +67,8 @@ const ForgotPassword = ({ history }) => {
                         <div className="my-5">
                             <form>
                                 <input type="email" className="py-3 px-4 my-2" placeholder="Enter email address" style={inputStyle} value={email} onChange={(e) => setEmail(e.target.value)} />
+                                <br />
+                                {emailValidity}
                                 <button className="py-3 my-4" style={buttonStyle} onClick={handleSubmit} disabled={!email}>
                                     Reset Password
                                 </button>

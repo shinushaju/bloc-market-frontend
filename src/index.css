@@ -1,14 +1,274 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@200;300;400;500;600;700;800;900&display=swap");
+
 body {
   margin: 0;
-  color: #000000;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: "Roboto", sans-serif;
+}
+
+.main-container {
+  width: 100%;
+  height: 100%;
+  bottom: 0px;
+  top: 0px;
+  position: absolute;
+}
+
+.main-box {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.main-box-child {
+  position: absolute;
+  top: -45px;
+  left: 15%;
+}
+
+.main-container-child {
+  padding: 0 86px;
+  position: absolute;
+  top: 32%;
+  width: 100vw;
+  margin-left: 0px;
+  margin-top: -24px;
+}
+
+.blur-effect {
+  position: absolute;
+  width: 50%;
+  height: 70%;
+  bottom: 0;
+  right: 0;
+  opacity: 0.4;
+  overflow: hidden;
+  background-image: inherit;
+  background-size: cover;
+  background: radial-gradient(
+    circle at left,
+    #ff8349 0%,
+    #ffad33 5%,
+    firebrick 50%,
+    dodgerblue 100%
+  );
+  filter: blur(64px);
+  -webkit-filter: blur(64px) brightness(1);
+}
+
+.blurred-box {
+  border-radius: 16px;
+  width: 360px;
+  height: auto;
+  padding: 0.8rem;
+  -webkit-backdrop-filter: blur(50px);
+  backdrop-filter: blur(50px);
+  background-color: rgba(255, 255, 255, 0.4);
+  box-shadow: rgba(0, 0, 0, 0.03) 0px -2px 18px;
+}
+
+input::placeholder {
+  font-weight: 400;
+}
+
+textarea::placeholder {
+  font-weight: 400;
+}
+
+input:focus {
+  outline-color: #dbeaff;
+}
+
+textarea:focus {
+  outline-color: #dbeaff;
+}
+
+button:disabled {
+  opacity: 0.3;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.foil-image {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  text-align: center;
+  padding: 10px;
+  width: 360px;
+  margin: auto;
+  border: 2px solid #dddddd;
+  transform-origin: center center;
+  transform-style: preserve-3d;
+  -webkit-animation: move 3s infinite linear;
+  -moz-animation: move 3s infinite linear;
+  animation: move 3s infinite linear;
+}
+.foil-image::after {
+  content: " ";
+  position: absolute;
+  height: 200%;
+  width: 200%;
+  top: 0px;
+  left: 0px;
+  z-index: 2;
+  -webkit-animation: moveafter 3s infinite linear;
+  -moz-animation: moveafter 3s infinite linear;
+  animation: moveafter 3s infinite linear;
+
+  background: -moz-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0) 55%,
+    rgba(255, 255, 255, 0) 100%
+  ); /* FF3.6+ */
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right bottom,
+    color-stop(0%, rgba(255, 255, 255, 0)),
+    color-stop(45%, rgba(255, 255, 255, 0)),
+    color-stop(50%, rgba(255, 255, 255, 0.2)),
+    color-stop(55%, rgba(255, 255, 255, 0)),
+    color-stop(100%, rgba(255, 255, 255, 0))
+  ); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 55%,
+    rgba(255, 255, 255, 0) 100%
+  ); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 55%,
+    rgba(255, 255, 255, 0) 100%
+  ); /* Opera 11.10+ */
+  background: -ms-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 55%,
+    rgba(255, 255, 255, 0) 100%
+  ); /* IE10+ */
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 55%,
+    rgba(255, 255, 255, 0) 100%
+  ); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+.foil-image .img {
+  background-blend-mode: multiply, normal;
+}
+@-webkit-keyframes move {
+  0% {
+    -webkit-transform: rotateX(5deg) rotateY(-5deg) rotateZ(-1deg);
+  }
+  25% {
+    -webkit-transform: rotateX(5deg) rotateY(5deg) rotateZ(0deg);
+  }
+  50% {
+    -webkit-transform: rotateX(-5deg) rotateY(5deg) rotateZ(1deg);
+  }
+  75% {
+    -webkit-transform: rotateX(-5deg) rotateY(-5deg) rotateZ(0deg);
+  }
+  100% {
+    -webkit-transform: rotateX(5deg) rotateY(-5deg) rotateZ(-1deg);
+  }
+}
+@-moz-keyframes move {
+  0% {
+    -moz-transform: rotateX(15deg) rotateY(-15deg) rotateZ(-3deg);
+  }
+  25% {
+    -moz-transform: rotateX(15deg) rotateY(15deg) rotateZ(0deg);
+  }
+  50% {
+    -moz-transform: rotateX(-15deg) rotateY(15deg) rotateZ(3deg);
+  }
+  75% {
+    -moz-transform: rotateX(-15deg) rotateY(-15deg) rotateZ(0deg);
+  }
+  100% {
+    -moz-transform: rotateX(15deg) rotateY(-15deg) rotateZ(-3deg);
+  }
+}
+@keyframes move {
+  0% {
+    transform: rotateX(15deg) rotateY(-15deg) rotateZ(-3deg);
+  }
+  25% {
+    transform: rotateX(15deg) rotateY(15deg) rotateZ(0deg);
+  }
+  50% {
+    transform: rotateX(-15deg) rotateY(15deg) rotateZ(3deg);
+  }
+  75% {
+    transform: rotateX(-15deg) rotateY(-15deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(15deg) rotateY(-15deg) rotateZ(-3deg);
+  }
+}
+@-webkit-keyframes moveafter {
+  0% {
+    top: 100%;
+    left: 100%;
+  }
+  50% {
+    top: -100%;
+    left: -100%;
+  }
+  100% {
+    top: -200%;
+    left: -200%;
+  }
+}
+@-moz-keyframes moveafter {
+  0% {
+    top: 100%;
+    left: 100%;
+  }
+  50% {
+    top: -100%;
+    left: -100%;
+  }
+  100% {
+    top: -100%;
+    left: -100%;
+  }
+}
+@keyframes moveafter {
+  0% {
+    top: 100%;
+    left: 100%;
+  }
+  50% {
+    top: -100%;
+    left: -100%;
+  }
+  100% {
+    top: -100%;
+    left: -100%;
+  }
 }
