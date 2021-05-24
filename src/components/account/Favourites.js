@@ -38,7 +38,7 @@ const Favourites = ({ favourites }) => {
                             key={asset._id}
                             bordered
                             style={{ width: "96%" }}
-                            
+
                             cover={
                                 <Link to={`assets/${asset.slug}`}>
                                     <img
@@ -59,19 +59,19 @@ const Favourites = ({ favourites }) => {
                                     </div>}
                                 description={
                                     <>
-                                        <div className="row my-2">
-                                            <div className="col-2">
-                                                <Avatar size="large" src={asset.owner.picture} />
-                                            </div>
-                                            <div className="col">
-                                                <span className="m-1" style={{ fontSize: "50%", border: "1px solid #00875A", background: "#E3FCEF", color: "#00875A", padding: "2px 8px", borderRadius: "100px" }}>OWNER</span>
-                                                <Link to={`/${asset.owner.username}/profile`}>
-                                                    <div style={{ color: "#000000", marginLeft: "4px", fontSize: "small", color: "#333333" }}>
-                                                        @{asset.owner.username}
+                                        <Link to={`/${asset.owner.username}/profile`}>
+                                            <div className="row my-2">
+                                                <div className="col-3">
+                                                    <Avatar size="large" src={asset.owner.picture} />
+                                                </div>
+                                                <div className="col" style={{ marginLeft: "-12px"}}>
+                                                    <div style={{ fontSize: "small", fontWeight: "600", color: "#333333" }}>
+                                                        {asset.owner.username}
                                                     </div>
-                                                </Link>
+                                                    <div style={{ fontSize: "80%", fontWeight: "500", marginTop: "-2px", color: "#999999" }}>Owner</div>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </Link>
                                         <span style={{ fontSize: "75%" }}>List price</span>
                                         <div className="row">
                                             <div className="col">

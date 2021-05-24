@@ -399,12 +399,12 @@ const AssetDetails = ({ history, match }) => {
                                             <div className="mx-3">
                                                 {user && (
                                                     <div style={{ color: "#000000", marginLeft: "2px", marginBottom: 0 }}>
-                                                        { owner._id === user._id ? "you" : '@' + owner.username}
+                                                        { owner._id === user._id ? "you" : owner.username}
                                                     </div>
                                                 )}
                                                 {!user && (
                                                     <div style={{ color: "#000000", marginLeft: "2px", marginBottom: 0 }}>
-                                                        @{owner.username}
+                                                        {owner.username}
                                                     </div>
                                                 )}
                                                 <span style={{ fontSize: "50%", border: "1px solid #00875A", background: "#E3FCEF", color: "#00875A", padding: "2px 8px", borderRadius: "100px" }}>OWNER</span>

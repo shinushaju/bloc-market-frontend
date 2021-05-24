@@ -151,32 +151,41 @@ const PublicProfile = () => {
                                                 </div>
                                             )}
 
-                                            {assets.map((item) => (
+                                            {assets.map((asset) => (
                                                 <div className="col-sm-4 my-2">
                                                     <Card
-                                                        hoverable
+                                                        key={asset._id}
+                                                        bordered
+                                                        style={{ width: "100%" }}
                                                         cover={
-                                                            <Link to={`/assets/${item.slug}`}>
+                                                            <Link to={`/assets/${asset.slug}`}>
                                                                 <img
                                                                     width="100%"
-                                                                    style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover" }}
-                                                                    height="auto"
-                                                                    alt={item.name}
-                                                                    src={item.assetFile}
+                                                                    style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover" }} height="auto"
+                                                                    alt={asset.name}
+                                                                    src={asset.assetFile}
                                                                 />
                                                             </Link>
                                                         }
                                                     >
                                                         <Meta
-                                                            title={<div>{item.name}</div>}
+                                                            title={<div>{asset.name}</div>}
                                                             description={
                                                                 <>
-                                                                    <div style={{ fontSize: "75%" }}>
-                                                                        <span style={{}}>List price</span>
+                                                                    <span style={{ fontSize: "75%" }}>List price</span>
+                                                                    <div className="row">
+                                                                        <div className="col">
+                                                                            {!asset.isListed && <>--</>}
+                                                                            {asset.isListed &&
+                                                                                <div style={{ fontSize: "120%", color: "#000000", fontWeight: "700" }}>
+                                                                                    {asset.price} BLC
+                                                </div>
+                                                                            }
+                                                                        </div>
+                                                                        <div className="col">
+                                                                            <b style={{ float: "right", color: "#333333" }}><HeartOutlined /> {asset.favourites}</b>
+                                                                        </div>
                                                                     </div>
-                                                                    <div style={{ fontSize: "150%", color: "#000000" }}>
-                                                                        3.05 BLC
-                                    </div>
                                                                 </>
                                                             }
                                                         />
@@ -229,24 +238,24 @@ const PublicProfile = () => {
                                                                     </div>}
                                                                 description={
                                                                     <>
-                                                                        <div className="row">
-                                                                            <div className="col-2">
-                                                                                <Avatar size="large" src={asset.owner.picture} />
-                                                                            </div>
-                                                                            <div className="col mx-2">
-                                                                                <span className="m-1" style={{ fontSize: "50%", border: "1px solid #00875A", background: "#E3FCEF", color: "#00875A", padding: "2px 8px", borderRadius: "100px" }}>OWNER</span>
-                                                                                <a href={`/${asset.owner.username}/profile`}>
-                                                                                    <div style={{ marginLeft: "4px", fontSize: "small", color: "#333333" }}>
+                                                                        <a href={`/${asset.owner.username}/profile`}>
+                                                                            <div className="row my-2">
+                                                                                <div className="col-3">
+                                                                                    <Avatar size="large" src={asset.owner.picture} />
+                                                                                </div>
+                                                                                <div className="col" style={{ marginLeft: "-12px"}}>
+                                                                                    <div style={{fontSize: "small", fontWeight: "600", color: "#333333" }}>
                                                                                         {user &&
-                                                                                            <>{asset.owner._id === user._id ? "you" : '@' + asset.owner.username}</>
+                                                                                            <>{asset.owner._id === user._id ? "you" : asset.owner.username}</>
                                                                                         }
                                                                                         {!user &&
-                                                                                            <>@{asset.owner}</>
+                                                                                            <>{asset.owner}</>
                                                                                         }
                                                                                     </div>
-                                                                                </a>
+                                                                                    <div style={{ fontSize: "80%", fontWeight: "500", marginTop: "-2px", color: "#999999" }}>Owner</div>
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
+                                                                        </a>
                                                                         <span style={{ fontSize: "75%" }}>List price</span>
                                                                         <div className="row">
                                                                             <div className="col">

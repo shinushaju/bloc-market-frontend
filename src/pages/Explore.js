@@ -39,7 +39,7 @@ const Explore = () => {
     const items = () => {
         return (
             assets.map((asset) =>
-                <Col xs={6} className="gutter-row">
+                <div className="col col-sm-3 my-3">
                     <Card
                         key={asset._id}
                         bordered
@@ -100,7 +100,7 @@ const Explore = () => {
                             }
                         />
                     </Card>
-                </Col>
+                </div>
             )
         )
     }
@@ -122,9 +122,9 @@ const Explore = () => {
                         <div className="container py-5 my-5">
                             <h2>Latest Items&#128293;</h2>
                             <div className="my-5">
-                                <Row type="flex" gutter={16} >
+                                <div type="flex" className="row my-2" >
                                     {items()}
-                                </Row>
+                                </div>
                             </div>
                         </div>
                     </div>
