@@ -81,7 +81,7 @@ const Collection = ({ history, match }) => {
         loadCollectionInfo();
     }
 
-    const createItem = () => {
+    const mintNewNFT = () => {
         history.push({
             pathname: 'assets/new',
             state: {
@@ -183,7 +183,7 @@ const Collection = ({ history, match }) => {
                                         <span><h3>Items</h3></span>
                                     </div>
                                     <div className="col">
-                                        <button className="px-3 mx-3 py-2" onClick={createItem} style={buttonStyle1}>Create New Item</button>
+                                        <button className="px-3 mx-3 py-2" onClick={mintNewNFT} style={buttonStyle1}>Mint New NFT</button>
                                     </div>
                                 </div>
                             </div>

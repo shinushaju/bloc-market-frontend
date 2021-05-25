@@ -124,7 +124,7 @@ const Login = ({ history }) => {
                     })
                     .catch((error) => console.log(error.message));
 
-                message.success('Sign-in Success! ', 3)
+                message.success(`Authenticated as ${user.email}`, 5)
                     .then(() => history.push('/'));
             })
             .catch((error) => {

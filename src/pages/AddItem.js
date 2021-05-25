@@ -16,7 +16,7 @@ const AddItem = ({ history }) => {
     const { user } = useSelector((state) => ({ ...state }));
 
     // states
-    const [buttonLabel, setButtonLabel] = useState("Create Item");
+    const [buttonLabel, setButtonLabel] = useState("Mint Your NFT");
     const [asset, setAsset] = useState("");
     const [assetFile, setAssetFile] = useState("");
     const [collection, setCollecton] = useState("");
@@ -25,7 +25,7 @@ const AddItem = ({ history }) => {
     const [error, setError] = useState("");
 
     // styles
-    const buttonStyle = { cursor: "pointer", border: "none", borderRadius: "100px", fontWeight: "400", fontSize: "large", backgroundColor: "#0065FF", color: "#ffffff" }
+    const buttonStyle = { cursor: "pointer", border: "none", width: "47%", borderRadius: "100px", fontWeight: "400", fontSize: "large", backgroundColor: "#0065FF", color: "#ffffff" }
     const inputStyle = { border: "none", borderRadius: "8px", width: "100%", fontWeight: "400", fontSize: "larger", backgroundColor: "#F4F5F7", color: "#666666" }
     const labelStyle = { cursor: "pointer", width: "100%", border: "2px solid #050D1B", borderRadius: "8px", fontWeight: "400", fontSize: "medium", backgroundColor: "#050D1B", color: "#ffffff", textAlign: "center" }
 
@@ -70,14 +70,14 @@ const AddItem = ({ history }) => {
                     setAssetFile('');
                     setDescription('');
                     setAsset('');
-                    setButtonLabel("Create Item");
+                    setButtonLabel("Mint Your NFT");
                     successNotification('success');
                     setTimeout(() => { history.goBack(); }, 3000);
 
                 })
                 .catch((error) => {
                     setError("Category already exists!");
-                    setButtonLabel("Create Item");
+                    setButtonLabel("Mint Your NFT");
                 });
         }, "base64", 300, 300);
 
@@ -117,8 +117,8 @@ const AddItem = ({ history }) => {
                             }
                         </div>
                     </div>
-                    <div className="row">
-                        <button type="button" className="px-5 py-3 m-3" style={buttonStyle} onClick={handleSubmit}>{buttonLabel}</button>
+                    <div className="row my-3">
+                        <button type="button" className="px-5 py-3 m-3" style={buttonStyle} onClick={handleSubmit} disabled={!name || !description || !assetFile}>{buttonLabel}</button>
                     </div>
                 </form>
             </div >
@@ -134,7 +134,7 @@ const AddItem = ({ history }) => {
                     <PageHeader
                         style={{ paddingLeft: 0 }}
                         onBack={cancelForm}
-                        title="Create New Item"
+                        title="Mint New NFT"
                     />
                     <div className="px-3">
                         <div className="row">

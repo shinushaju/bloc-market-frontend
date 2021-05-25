@@ -19,7 +19,7 @@ const Home = ({ history }) => {
 
     // styles
     const buttonStyle1 = { cursor: "pointer", border: "1px solid #050D1B", borderRadius: "12px", width: "100%", fontWeight: "500", fontSize: "large", backgroundColor: "#050D1B", color: "#ffffff" }
-    const buttonStyle2 = { cursor: "pointer", border: "1px solid #050D1B", borderRadius: "12px", width: "100%", fontWeight: "500", fontSize: "large", backgroundColor: "#FFFFFF", color: "#050D1B" }
+    const buttonStyle2 = { cursor: "pointer", border: "none", borderRadius: "12px", width: "100%", fontWeight: "500", fontSize: "large", backgroundColor: "#FFFFFF", color: "#050D1B" }
 
     useEffect(() => {
         loadData();
@@ -49,8 +49,8 @@ const Home = ({ history }) => {
             {asset && <div className="blur-effect"></div>}
             <div className="row main-container-child">
                 <div className="col-sm-6" >
-                    <div style={{ fontSize: "1.3em" }}>Create, sell and discover rare digital arts.</div>
-                    <Title style={{ fontSize: "5em", letterSpacing: "-2px" }}>the new creative economy<span style={{ color: "#0065FF" }}>.</span></Title>
+                    <div style={{ fontSize: "1.3em", marginBottom: "8px" }}>Create, sell and discover rare digital arts.</div>
+                    <Title style={{ fontSize: "5em", letterSpacing: "-2px" }}>the new creative economy.</Title>
                     <div class="btn-group btn-group-lg" role="group" >
                         <Link to="/assets">
                             <button type="button" className="py-3 px-5" style={buttonStyle1}>

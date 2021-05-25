@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
-import { Layout, Tag, Card, Breadcrumb, notification, message, Modal, Button, Space, Typography, Tabs, Avatar, Divider } from 'antd';
-import { LoadingOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { Layout, Tag, Card, Breadcrumb, notification, message, Modal, Typography, Tabs, Avatar, Divider } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { Helmet } from 'react-helmet';
 
@@ -159,7 +159,6 @@ const AssetDetails = ({ history, match }) => {
             }
         }
         else {
-            notificationMessage('info', 3);
             history.push('/login');
         }
     }
@@ -257,14 +256,6 @@ const AssetDetails = ({ history, match }) => {
             history.push(`/assets/${asset.slug}/sell`);
         }
     }
-
-    const notificationMessage = type => {
-        notification[type]({
-            description:
-                'Login to place the bid!',
-        });
-    };
-
 
     const inputOffer = (e) => {
         e.preventDefault();
@@ -385,7 +376,7 @@ const AssetDetails = ({ history, match }) => {
                                 }
 
                                 {!user && asset.isListed && (
-                                    <button className="my-4 px-5 py-3" style={buttonStyle} onClick={handleOffer}>Make an Offer</button>
+                                    <button className="my-4 px-5 py-3" style={buttonStyle} onClick={handleOffer}>SIGN IN TO COLLECT</button>
                                 )}
 
                             </div>

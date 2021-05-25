@@ -67,7 +67,8 @@ const Account = () => {
                             >
                                 <OwnedItems />
                             </TabPane>
-                            <TabPane
+                            <TabPane 
+                                disabled
                                 tab={
                                     <span>
                                         <ClockCircleOutlined />

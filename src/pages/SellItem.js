@@ -97,8 +97,8 @@ console.log(isListed)
                         <Divider />
                     </div>
                     <div className="my-4">
-                        {!price && <h3>Sell Item</h3>}
-                        {price && <h3>Change Item Price</h3>}
+                        {(buttonLabel === 'Sell Item Now') && <h3>Sell Item</h3>}
+                        {(buttonLabel === 'Update') && <h3>Change Item Price</h3>}
                         <label>
                             This item will be on sale until you transfer this item or cancel it.
                         </label>
