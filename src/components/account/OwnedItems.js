@@ -25,7 +25,7 @@ const OwnedItems = () => {
 
 
     return (
-        <div className="container-fluid py-2" style={{ overflowY: "auto", overflowX: "hidden", height: "500px" }}>
+        <div className="container-fluid py-2">
             <div className="row">
                 {assets.length <= 0 && (
                     <div className="py-5" style={{ display: "flex", margin: "auto" }}>
@@ -43,7 +43,8 @@ const OwnedItems = () => {
                                 <Link to={`assets/${asset.slug}`}>
                                     <img
                                         width="100%"
-                                        style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover" }}                                        height="auto"
+                                        className="p-3"
+                                        style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover", borderRadius: "24px" }} height="auto"
                                         alt={asset.name}
                                         src={asset.assetFile}
                                     />
@@ -51,7 +52,8 @@ const OwnedItems = () => {
                             }
                         >
                             <Meta
-                                title={<div>{asset.name}</div>}
+                                style={{ marginTop: "-24px" }}
+                                title={<div style={{ fontSize: "130%" }}>{asset.name}</div>}
                                 description={
                                     <>
                                         <span style={{ fontSize: "75%" }}>List price</span>

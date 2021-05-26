@@ -119,7 +119,8 @@ const CollectionProfile = () => {
                                                     <Link to={`/assets/${asset.slug}`}>
                                                         <img
                                                             width="100%"
-                                                            style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover" }} height="auto"
+                                                            className="p-3"
+                                                            style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover", borderRadius: "24px" }} height="auto"
                                                             alt={asset.name}
                                                             src={asset.assetFile}
                                                         />
@@ -127,7 +128,8 @@ const CollectionProfile = () => {
                                                 }
                                             >
                                                 <Meta
-                                                    title={<div>{asset.name}</div>}
+                                                    style={{ marginTop: "-24px" }}
+                                                    title={<div style={{ fontSize: "130%" }}>{asset.name}</div>}
                                                     description={
                                                         <>
                                                             <span style={{ fontSize: "75%" }}>List price</span>

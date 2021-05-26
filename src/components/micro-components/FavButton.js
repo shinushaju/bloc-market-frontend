@@ -13,8 +13,6 @@ const FavButton = () => {
     const [fav, setFav] = useState(false);
     const [count, setCount] = useState(0);
 
-
-    
     getFavouriteCount(asset._id)
         .then((res) => {
             setCount(res.data.favourites);
@@ -52,7 +50,7 @@ const FavButton = () => {
             removeFromFavourites(user._id, asset._id, user.token);
             setTimeout(() => {
                 setFav(false);
-                setCount(count - 1)
+                setCount(count - 1);
             }, 500);
         }
     }

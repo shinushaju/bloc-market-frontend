@@ -43,7 +43,8 @@ const Favourites = ({ favourites }) => {
                                 <Link to={`assets/${asset.slug}`}>
                                     <img
                                         width="100%"
-                                        style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover" }}
+                                        className="p-3"
+                                        style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover", borderRadius: "24px" }}
                                         height="auto"
                                         alt={asset.name}
                                         src={asset.assetFile}
@@ -53,18 +54,16 @@ const Favourites = ({ favourites }) => {
 
                         >
                             <Meta
-                                title={
-                                    <div>
-                                        {asset.name}
-                                    </div>}
+                                style={{ marginTop: "-24px" }}
+                                title={<div style={{ fontSize: "130%" }}>{asset.name}</div>}
                                 description={
                                     <>
                                         <Link to={`/${asset.owner.username}/profile`}>
                                             <div className="row my-2">
-                                                <div className="col-3">
-                                                    <Avatar size="large" src={asset.owner.picture} />
+                                                <div className="col-2">
+                                                    <Avatar size="default" src={asset.owner.picture} />
                                                 </div>
-                                                <div className="col" style={{ marginLeft: "-12px"}}>
+                                                <div className="col">
                                                     <div style={{ fontSize: "small", fontWeight: "600", color: "#333333" }}>
                                                         {asset.owner.username}
                                                     </div>

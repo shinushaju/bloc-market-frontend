@@ -161,7 +161,8 @@ const PublicProfile = () => {
                                                             <Link to={`/assets/${asset.slug}`}>
                                                                 <img
                                                                     width="100%"
-                                                                    style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover" }} height="auto"
+                                                                    className="p-3"
+                                                                    style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover", borderRadius: "24px" }} height="auto"
                                                                     alt={asset.name}
                                                                     src={asset.assetFile}
                                                                 />
@@ -169,7 +170,8 @@ const PublicProfile = () => {
                                                         }
                                                     >
                                                         <Meta
-                                                            title={<div>{asset.name}</div>}
+                                                                style={{ marginTop: "-24px" }}
+                                                                title={<div style={{ fontSize: "130%" }}>{asset.name}</div>}
                                                             description={
                                                                 <>
                                                                     <span style={{ fontSize: "75%" }}>List price</span>
@@ -217,12 +219,13 @@ const PublicProfile = () => {
                                                         <Card
                                                             key={asset._id}
                                                             bordered
-                                                            style={{ width: "96%" }}
+                                                            style={{ width: "100%" }}
                                                             cover={
                                                                 <Link to={`/assets/${asset.slug}`}>
                                                                     <img
                                                                         width="100%"
-                                                                        style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover" }}
+                                                                        className="p-3"
+                                                                        style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover", borderRadius: "24px" }}
                                                                         height="auto"
                                                                         alt={asset.name}
                                                                         src={asset.assetFile}
@@ -232,19 +235,17 @@ const PublicProfile = () => {
 
                                                         >
                                                             <Meta
-                                                                title={
-                                                                    <div>
-                                                                        {asset.name}
-                                                                    </div>}
+                                                                style={{ marginTop: "-24px" }}
+                                                                title={<div style={{ fontSize: "130%" }}>{asset.name}</div>}
                                                                 description={
                                                                     <>
                                                                         <a href={`/${asset.owner.username}/profile`}>
                                                                             <div className="row my-2">
-                                                                                <div className="col-3">
-                                                                                    <Avatar size="large" src={asset.owner.picture} />
+                                                                                <div className="col-2">
+                                                                                    <Avatar size="default" src={asset.owner.picture} />
                                                                                 </div>
-                                                                                <div className="col" style={{ marginLeft: "-12px"}}>
-                                                                                    <div style={{fontSize: "small", fontWeight: "600", color: "#333333" }}>
+                                                                                <div className="col">
+                                                                                    <div style={{ fontSize: "small", fontWeight: "600", color: "#333333" }}>
                                                                                         {user &&
                                                                                             <>{asset.owner._id === user._id ? "you" : asset.owner.username}</>
                                                                                         }

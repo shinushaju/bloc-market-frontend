@@ -47,18 +47,20 @@ const Explore = () => {
                         cover={
                             <Link to={`assets/${asset.slug}`}>
                                 <img
-                                    style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover" }}
+                                    className="p-3"
+                                    style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover", borderRadius: "30px" }}
                                     alt={asset.name}
                                     src={asset.assetFile}
                                 />
                             </Link>
                         }
-
                     >
                         <Meta
-                            title={<h5>{asset.name}</h5>}
+                            style={{ marginTop: "-24px" }}
+                            title={<div style={{ fontSize: "130%" }}>{asset.name}</div>}
                             description={
                                 <>
+
                                     <Link to={`/${asset.owner.username}/profile`}>
 
                                         <div className="row my-2">
@@ -80,6 +82,7 @@ const Explore = () => {
                                             </div>
                                         </div>
                                     </Link>
+
                                     <span style={{ fontSize: "75%" }}>List price</span>
                                     <div className="row">
                                         <div className="col">
@@ -88,12 +91,12 @@ const Explore = () => {
                                             }
                                             {asset.isListed &&
                                                 <div style={{ fontSize: "130%", color: "#000000", fontWeight: "700" }}>
-                                                    {asset.price} <span style={{fontSize: "60%", color: "#666666", fontWeight: "400"}}>BLC</span>
+                                                    {asset.price} <span style={{ fontSize: "60%", color: "#666666", fontWeight: "400" }}>BLC</span>
                                                 </div>
                                             }
                                         </div>
                                         <div className="col">
-                                            <b style={{fontSize: "130%", float: "right", color: "#666666" }}><HeartOutlined /> {asset.favourites}</b>
+                                            <b style={{ fontSize: "130%", float: "right", color: "#666666" }}><HeartOutlined /> {asset.favourites}</b>
                                         </div>
                                     </div>
                                 </>

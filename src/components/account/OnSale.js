@@ -5,7 +5,7 @@ import { HeartOutlined } from '@ant-design/icons';
 
 const { Meta } = Card;
 
-const OnSale = ({onSaleItems}) => {
+const OnSale = ({ onSaleItems }) => {
 
     // states
     const [assets, setAssets] = useState([]);
@@ -15,7 +15,7 @@ const OnSale = ({onSaleItems}) => {
     }, [])
 
     const loadData = () => {
-       setAssets(onSaleItems);
+        setAssets(onSaleItems);
     }
 
     return (
@@ -32,12 +32,13 @@ const OnSale = ({onSaleItems}) => {
                         <Card
                             key={asset._id}
                             bordered
-                            style={{ width: "96%" }}
+                            style={{ width: "100%" }}
                             cover={
                                 <Link to={`assets/${asset.slug}`}>
                                     <img
                                         width="100%"
-                                        style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover" }}
+                                        className="p-3"
+                                        style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover", borderRadius: "24px" }}
                                         height="auto"
                                         alt={asset.name}
                                         src={asset.assetFile}
@@ -46,7 +47,8 @@ const OnSale = ({onSaleItems}) => {
                             }
                         >
                             <Meta
-                                title={<div>{asset.name}</div>}
+                                style={{ marginTop: "-24px" }}
+                                title={<div style={{ fontSize: "130%" }}>{asset.name}</div>}
                                 description={
                                     <>
                                         <span style={{ fontSize: "75%" }}>List price</span>
