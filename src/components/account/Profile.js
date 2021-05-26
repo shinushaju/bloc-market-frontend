@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { Avatar, Tag, message } from 'antd';
+import { Avatar, Tag, message, Button } from 'antd';
 import { Link } from 'react-router-dom';
 
 const Profile = () => {
@@ -27,6 +27,13 @@ const Profile = () => {
                     {user && (
                         <Link to={`/${user.username}/profile`}>
                             View Public Profile
+                        </Link>
+                    )}
+                </div>
+                <div className="my-3">
+                    {user && (
+                        <Link to='/settings/account/profile/edit'>
+                            <Button style={{background: "#000000", color: "#ffffff"}}>Edit Profile</Button>
                         </Link>
                     )}
                 </div>
