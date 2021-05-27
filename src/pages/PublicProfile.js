@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Tabs, Typography, Avatar, message, Tag, Row, Col, Statistic, Card, Divider } from 'antd';
+import { Tabs, Avatar, message, Tag, Row, Col, Statistic, Card, Divider } from 'antd';
 import { LoadingOutlined, HeartOutlined } from '@ant-design/icons';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Helmet } from 'react-helmet';
@@ -11,7 +11,6 @@ import { getMyCollections } from '../helpers/collection';
 import { getMyAssets } from '../helpers/asset';
 
 const { TabPane } = Tabs;
-const { Title } = Typography;
 const { Meta } = Card;
 
 const PublicProfile = () => {

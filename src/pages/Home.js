@@ -51,7 +51,7 @@ const Home = ({ history }) => {
                 <div className="col-sm-6" >
                     <div style={{ fontSize: "1.3em", marginBottom: "8px" }}>Create, sell and discover rare digital arts.</div>
                     <Title style={{ fontSize: "5em", letterSpacing: "-2px" }}>the new creative economy.</Title>
-                    <div class="btn-group btn-group-lg" role="group" >
+                    <div className="btn-group btn-group-lg" role="group" >
                         <Link to="/assets">
                             <button type="button" className="py-3 px-5" style={buttonStyle1}>
                                 Explore
@@ -69,7 +69,7 @@ const Home = ({ history }) => {
                                 <>
                                     <div className="blurred-box">
                                         <Link to={`/assets/${asset.slug}`}>
-                                            <img style={{ display: 'block', width: "100%", maxHeight: "auto", borderRadius: "16px" }} src={asset.assetFile} />
+                                            <img style={{ display: 'block', width: "100%", maxHeight: "auto", borderRadius: "16px" }} src={asset.assetFile} alt={asset.name}/>
                                         </Link>
                                     </div>
                                     <div className="blurred-box my-1">
@@ -86,7 +86,7 @@ const Home = ({ history }) => {
                                     </div>
                                 </>
                                 :
-                                <img src={illustration} height="450px" width="450px" />
+                                <img src={illustration} height="450px" width="450px"  alt="Illustration"/>
                             }
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import InActiveFavButton from './heart-icon/InActiveHeart';
 import ActiveFavButton from './heart-icon/ActiveHeart';
 import { useSelector } from "react-redux";

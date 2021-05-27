@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Tabs, Card, Tag, Avatar, Modal, message } from 'antd';
-import { LoadingOutlined, ExclamationCircleOutlined, CloseCircleTwoTone } from '@ant-design/icons';
+import { CloseCircleTwoTone } from '@ant-design/icons';
 import moment from 'moment';
 import { getOffersSent, withdrawOffer } from '../../helpers/offer';
 

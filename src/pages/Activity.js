@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Layout, Typography, Card, Avatar } from 'antd';
 import { Link } from 'react-router-dom';
 const { Title } = Typography;
@@ -7,7 +7,7 @@ const Activity = () => {
 
     const activities = [];
 
-    {
+    useEffect(() => {
         for (let i = 0; i < 12; i++) {
             activities.push({
                 userImage: 'https://www.cryptokitties.co/profile/profile-19.png',
@@ -25,7 +25,7 @@ const Activity = () => {
                 }
             )
         }
-    }
+    })
 
     return (
         <Layout style={{ background: "#ffffff" }}>

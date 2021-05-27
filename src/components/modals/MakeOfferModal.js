@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Divider, Modal, Tag, notification } from 'antd';
+import React, { useState } from 'react';
+import { Divider, Modal, notification } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { makeOffer } from '../../helpers/offer';
 
@@ -82,11 +82,11 @@ const MakeOfferModal = ({ assetData, highestOffer, ownerId, user, reload, modal,
         >
             <div className="">
                 <div className="my-1" style={{ fontSize: "large" }}>
-                Price: <b>{assetData.price} BLC</b><br />
+                    Price: <b>{assetData.price} BLC</b><br />
                 Minimum Offer Price: <b>{assetData.minPrice} BLC</b><br />
                 Highest Offer: <b>{highestOffer}</b>
-                {highestOffer !== 'No Offers Yet!' && <> <b>BLC</b></>}
-                <Divider />
+                    {highestOffer !== 'No Offers Yet!' && <> <b>BLC</b></>}
+                    <Divider />
                 Your Balance: <b>{balance} BLC</b>
                 </div>
             </div>

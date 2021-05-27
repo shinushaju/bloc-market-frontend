@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import Resizer from 'react-image-file-resizer';
 import { createCollection, getMyCollections } from '../../helpers/collection';
 import CreateCollectionModal from '../modals/CreateCollectionModal';
-const { Meta } = Card;
 
 
 const Collections = ({history}) => {

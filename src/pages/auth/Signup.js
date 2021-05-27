@@ -35,7 +35,7 @@ const Signup = ({ history }) => {
     }, [user, history]);
 
     // checks email valid or not.
-    if (email != '' && !validEmail) {
+    if (email !== '' && !validEmail) {
         emailValidity = <p style={{ color: "red" }}>Please enter a valid email</p>;
     }
 

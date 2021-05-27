@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Spin } from "antd";
 import {LoadingOutlined} from '@ant-design/icons'
 import { useHistory } from 'react-router-dom';
 

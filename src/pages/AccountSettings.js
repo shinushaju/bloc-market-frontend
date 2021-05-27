@@ -32,7 +32,7 @@ const AccountSettings = () => {
 
     // username validation
     var usernameAvailable;
-    if (isAvailable && username != user.username) {
+    if (isAvailable && username !== user.username) {
         usernameAvailable = <div style={{ color: "green" }}>Username available.</div>;
     }
     if (!isAvailable) {
@@ -81,7 +81,7 @@ const AccountSettings = () => {
                 <label>Username</label><span style={{ color: "red" }}> * </span>
                 <input type="name" className="py-2 px-4 my-2" placeholder="Enter username" value={username} onChange={(e) => setUserName(e.target.value)} style={inputStyle} />
                 {usernameAvailable}
-                {username != user.username &&
+                {username !== user.username &&
                     <div className="my-4 float-left">
                         <Button
                             type="primary"

@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Avatar } from 'antd';
 import { HeartOutlined } from '@ant-design/icons';
-import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
-import { getFavourites } from '../../helpers/users';
-import { getAssetInfoById } from '../../helpers/asset';
-
 const { Meta } = Card;
 
 const Favourites = ({ favourites }) => {
 
     const [assets, setAssets] = useState([]);
-
-    const { user } = useSelector((state) => ({ ...state }));
 
     useEffect(() => {
         loadData();

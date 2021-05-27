@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
-import { Layout, Avatar, Card, Row, Col } from 'antd';
+import { Layout, Avatar, Card } from 'antd';
 import { HeartOutlined, LoadingOutlined } from '@ant-design/icons';
 
 // api functions

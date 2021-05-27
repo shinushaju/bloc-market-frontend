@@ -14,7 +14,7 @@ const UsernameValidation = ({ username }) => {
     const loadUsernames = () => {
         getUsernames(user.token)
             .then((res) => {
-                const data = res.data.reduce((a, o) => (a.push(o.username), a), []);
+                const data = res.data.reduce((a, o) => (a.push(o.username)), []);
                 const index = data.indexOf(user.username);
                 if (index > -1) {
                     data.splice(index, 1);

@@ -45,7 +45,6 @@ const Collection = ({ history, match }) => {
         name,
         buttonLabel,
         logoButtonLabel,
-        name,
         description,
         setName,
         setDescription,

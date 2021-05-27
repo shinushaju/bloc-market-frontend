@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Layout, Typography, Alert, Avatar } from 'antd';
 import { Link } from 'react-router-dom';
 const { Title } = Typography;
@@ -7,7 +7,7 @@ const Notifications = () => {
 
     const notifications = [];
 
-    {
+    useEffect(() => {
         for (let i = 0; i < 3; i++) {
             notifications.push({
                 userImage: 'https://www.cryptokitties.co/profile/profile-19.png',
@@ -25,7 +25,7 @@ const Notifications = () => {
                 }
             )
         }
-    }
+    })
 
     return (
         <Layout style={{ background: "#ffffff" }}>
@@ -42,7 +42,7 @@ const Notifications = () => {
                                             <div className="col-1 px-3">
                                                 <Avatar size="large" src={item.userImage} />
                                             </div>
-                                            <div className="col" style={{fontSize: "120%"}}>
+                                            <div className="col" style={{ fontSize: "120%" }}>
                                                 <Link href=""> {item.userName} </Link> {item.event} <Link href="activity"> {item.item} </Link>
                                                 <div style={{ fontSize: "60%", color: "#666666", textTransform: "uppercase" }}> {item.date}</div>
                                             </div>
