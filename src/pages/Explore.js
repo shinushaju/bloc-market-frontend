@@ -121,8 +121,8 @@ const Explore = () => {
 
             {loading &&
                 <Layout style={{ background: "#FFFFFF" }}>
-                    <div className="my-5">
-                        <div className="container py-5 my-5">
+                    <div className="my-5 mx-2">
+                        <div className="p-5 m-5">
                             <h2>Latest Items&#128293;</h2>
                             <div className="my-5">
                                 <div type="flex" className="row my-2" >

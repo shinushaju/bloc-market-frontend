@@ -77,7 +77,6 @@ const Signup = ({ history }) => {
             .then(async (result) => {
                 const { user } = result;
                 const idTokenResult = await user.getIdTokenResult();
-
                 createOrUpdateUser(idTokenResult.token)
                     .then((res) => {
                         dispatch({
