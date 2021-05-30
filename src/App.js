@@ -20,6 +20,7 @@ import Account from './pages/Account';
 import Store from './pages/Store';
 import Collection from './pages/Collection';
 import AddItem from './pages/AddItem';
+import EditItem from './pages/EditItem';
 import AssetDetails from './pages/AssetDetails';
 import EditProfile from './pages/EditProfile';
 import AccountSettings from './pages/AccountSettings';
@@ -87,7 +88,8 @@ const App = () => {
           <UserRoute exact path="/store" component={Store} />
           <UserRoute exact path="/account" component={Account} />
           <UserRoute exact path="/store/:collection/assets" component={Collection} />
-          <UserRoute exact path="/store/:collection/assets/new" component={AddItem} />
+          <UserRoute exact path="/store/:collection/assets/mint" component={AddItem} />
+          <UserRoute exact path="/store/:collection/assets/:asset/edit" component={EditItem} />
           <UserRoute exact path="/settings/account/profile/edit" component={EditProfile} />
           <UserRoute exact path="/settings/account" component={AccountSettings} />
           <UserRoute exact path="/password/change" component={ChangePassword} />

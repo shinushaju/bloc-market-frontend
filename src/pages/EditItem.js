@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import Resizer from 'react-image-file-resizer';
 import { PageHeader, Alert, notification } from 'antd';
 import { PaperClipOutlined, LoadingOutlined } from '@ant-design/icons';
@@ -11,9 +12,10 @@ import UserProfile from '../components/account/Profile';
 import { createAsset } from '../helpers/asset';
 
 
-const AddItem = ({ history }) => {
+const EditItem = ({ history }) => {
 
     const { user } = useSelector((state) => ({ ...state }));
+    const path = useParams();
 
     // states
     const [buttonLabel, setButtonLabel] = useState("Mint Your NFT");
@@ -32,7 +34,7 @@ const AddItem = ({ history }) => {
 
 
     useEffect(() => {
-        setCollecton(history.location.state.collection_id);
+        setCollecton(path.collection);
         setTimeout(() => {
             setLoading(true);
         }, 1500)
@@ -139,7 +141,7 @@ const AddItem = ({ history }) => {
                         <PageHeader
                             style={{ paddingLeft: 0 }}
                             onBack={cancelForm}
-                            title="Mint New NFT"
+                            title="Edit Item"
                         />
                         <div className="px-3">
                             <div className="row">
@@ -161,4 +163,4 @@ const AddItem = ({ history }) => {
     )
 }
 
-export default AddItem;
+export default EditItem;

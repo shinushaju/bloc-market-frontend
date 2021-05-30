@@ -120,7 +120,7 @@ const Explore = () => {
             }
 
             {loading &&
-                <Layout style={{ background: "#FFFFFF" }}>
+                <Layout style={{ background: "#feffde" }}>
                     <div className="my-5 mx-2">
                         <div className="p-5 m-5">
                             <h2>Latest Items&#128293;</h2>

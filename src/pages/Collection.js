@@ -82,7 +82,7 @@ const Collection = ({ history, match }) => {
 
     const mintNewNFT = () => {
         history.push({
-            pathname: 'assets/new',
+            pathname: 'assets/mint',
             state: {
                 collection_id: collectionInfo._id
             }
@@ -206,19 +206,21 @@ const Collection = ({ history, match }) => {
                                             bordered
                                             style={{ width: "100%" }}
                                             className="px-2"
-                                            headStyle={{border: "none"}}
+                                            headStyle={{ border: "none" }}
                                             title={<div style={{ fontSize: "130%" }}>{asset.name}</div>}
                                             extra={
                                                 <Dropdown
                                                     trigger={['click']}
                                                     overlay={
                                                         <Menu>
-                                                            <Menu.Item key="1" onClick={() => modalVisible(true)}>
-                                                                <EditOutlined /> Edit Item
-                                                </Menu.Item>
+                                                            <Menu.Item key="1">
+                                                                <Link to={`/store/${collectionInfo.slug}/assets/${asset.slug}/edit`}>
+                                                                    <EditOutlined /> Edit Item
+                                                                </Link>
+                                                            </Menu.Item>
                                                             <Menu.Item key="2" danger>
                                                                 <DeleteOutlined /> Delete Item
-                                                </Menu.Item>
+                                                            </Menu.Item>
                                                         </Menu>
                                                     }
                                                 >
@@ -240,7 +242,7 @@ const Collection = ({ history, match }) => {
                                             }
                                         >
                                             <Meta
-                                            className="py-2"
+                                                className="py-2"
                                                 style={{ marginTop: "-24px" }}
                                                 description={
                                                     <>
