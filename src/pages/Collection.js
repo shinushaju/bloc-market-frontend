@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { PageHeader, Card, Divider, Button, Avatar, Typography, Dropdown, Menu, notification, message } from 'antd';
+import { PageHeader, Card, Divider, Button, Avatar, Modal, Typography, Dropdown, Menu, notification, message } from 'antd';
 import { EditOutlined, LoadingOutlined, DeleteOutlined, SettingOutlined, HeartOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import Resizer from 'react-image-file-resizer';
@@ -12,7 +12,7 @@ import UserProfile from '../components/account/Profile';
 import UpdateCollectionModal from '../components/modals/UpdateCollectionModal';
 
 // api functions
-import { getCollection, updateCollection } from '../helpers/collection';
+import { deleteCollection, getCollection, updateCollection } from '../helpers/collection';
 import { getMyAssetsByCollection } from '../helpers/asset';
 
 const { Title } = Typography;
@@ -144,6 +144,34 @@ const Collection = ({ history, match }) => {
         }
     }
 
+    const confirmCollectionDelete = () => {
+        Modal.confirm({
+            centered: true,
+            title: <h5>Delete Collection</h5>,
+            content: 'Are you sure you want to permanently delete this collection?',
+            width: 360,
+            icon: '',
+            okText: 'Delete Collection',
+            cancelText: 'Nevermind',
+
+            onOk() {
+                return new Promise((resolve, reject) => {
+                    var status = '';
+                    deleteCollection(user._id, collectionInfo._id, user.token)
+                        .then((res) => {
+                            status = res.data;
+                            setTimeout(() => {
+                                history.push("/store");
+                                message.success("Collection Deleted!", 5);
+                            }, 3000);
+                        })
+                    setTimeout(status === 'Collection Deleted' ? resolve : reject, 3000);
+                }).catch(() => console.log('Error'));
+            },
+        });
+    }
+
+
     return (
         <>
             <Helmet>
@@ -171,7 +199,7 @@ const Collection = ({ history, match }) => {
                                             <Menu.Item key="1" onClick={() => modalVisible(true)}>
                                                 <EditOutlined /> Edit Collection
                                     </Menu.Item>
-                                            <Menu.Item key="2" danger>
+                                            <Menu.Item key="2" danger onClick={confirmCollectionDelete}>
                                                 <DeleteOutlined /> Delete Collection
                                     </Menu.Item>
                                         </Menu>

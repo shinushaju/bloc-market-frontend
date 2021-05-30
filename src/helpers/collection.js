@@ -27,3 +27,11 @@ export const updateCollection = async (id, collection, payload, authtoken) => {
         }
     });
 }
+
+export const deleteCollection = async (id, collection, authtoken) => {
+    return await axios.delete(`${process.env.REACT_APP_API}/user/${id}/collection/delete/${collection}`, {
+        headers: {
+            authtoken
+        }
+    });
+}
