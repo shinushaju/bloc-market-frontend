@@ -160,7 +160,7 @@ const Collection = ({ history, match }) => {
                             onBack={() => (history.goBack())}
                             title={`Collection / ${collectionInfo.name}`}
                             extra={[
-                                <Button key="view" size="large" onClick={() => (history.push(`/collections/${collectionInfo.slug}`))}>View Collection</Button>,
+                                <Button key="view" size="large" onClick={() => (history.push(`/collections/${collectionInfo.slug}`))}>Preview Collection</Button>,
                                 <Button key="mint" size="large" type="primary" onClick={mintNewNFT}>
                                     Mint New NFT
                                 </Button>,
