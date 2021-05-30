@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PageHeader, Card, Divider, Button, Avatar, Typography, Dropdown, Menu, notification, message } from 'antd';
-import { EditOutlined, LoadingOutlined, DeleteOutlined, SettingOutlined } from '@ant-design/icons';
+import { EditOutlined, LoadingOutlined, DeleteOutlined, SettingOutlined, HeartOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import Resizer from 'react-image-file-resizer';
 import { Helmet } from 'react-helmet';
@@ -195,32 +195,72 @@ const Collection = ({ history, match }) => {
                             </div>
                             <Divider />
                             <div className="my-2">
-                                <span><h3>Items In Collection</h3></span>
+                                <span><h3> Collection Items</h3></span>
                             </div>
-                            <div className="row py-2">
+                            <div className="row">
                                 {collectionAssetsInfo.map((asset) => (
-                                    <div className="col-sm-4">
-                                        <Card key={asset._id} hoverable style={{ width: "100%", margin: "auto" }}
+                                    <div className="col-sm-4 my-3">
+                                        <Card
+                                            key={asset._id}
+                                            size="small"
+                                            bordered
+                                            style={{ width: "100%" }}
+                                            className="px-2"
+                                            headStyle={{border: "none"}}
+                                            title={<div style={{ fontSize: "130%" }}>{asset.name}</div>}
+                                            extra={
+                                                <Dropdown
+                                                    trigger={['click']}
+                                                    overlay={
+                                                        <Menu>
+                                                            <Menu.Item key="1" onClick={() => modalVisible(true)}>
+                                                                <EditOutlined /> Edit Item
+                                                </Menu.Item>
+                                                            <Menu.Item key="2" danger>
+                                                                <DeleteOutlined /> Delete Item
+                                                </Menu.Item>
+                                                        </Menu>
+                                                    }
+                                                >
+                                                    <Button size="large">
+                                                        <SettingOutlined />
+                                                    </Button>
+                                                </Dropdown>
+                                            }
                                             cover={
                                                 <Link to={`/assets/${asset.slug}`}>
                                                     <img
+                                                        className="p-3"
                                                         width="100%"
-                                                        style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover" }}
-                                                        height="auto"
+                                                        style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover", borderRadius: "24px" }} height="auto"
                                                         alt={asset.name}
                                                         src={asset.assetFile}
                                                     />
                                                 </Link>
                                             }
                                         >
-                                            <Meta title={
-                                                <>
-                                                    <b>{asset.name}</b>
-                                                    <Link to={`edit/${asset.slug}`}>
-                                                        <EditOutlined style={{ float: "right" }} />
-                                                    </Link>
-                                                </>
-                                            } />
+                                            <Meta
+                                            className="py-2"
+                                                style={{ marginTop: "-24px" }}
+                                                description={
+                                                    <>
+                                                        <span style={{ fontSize: "75%" }}>List price</span>
+                                                        <div className="row">
+                                                            <div className="col">
+                                                                {!asset.isListed && <>--</>}
+                                                                {asset.isListed &&
+                                                                    <div style={{ fontSize: "120%", color: "#000000", fontWeight: "700" }}>
+                                                                        {asset.price} BLC
+                                            </div>
+                                                                }
+                                                            </div>
+                                                            <div className="col">
+                                                                <b style={{ float: "right", color: "#333333" }}><HeartOutlined /> {asset.favourites}</b>
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                }
+                                            />
                                         </Card>
                                     </div>
                                 ))}
