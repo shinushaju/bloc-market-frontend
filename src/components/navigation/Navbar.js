@@ -39,7 +39,7 @@ const Navbar = () => {
     }
 
     return (
-        <Menu theme="light" onClick={handleClick} selectedKeys={[current]} mode="horizontal" style={{ padding: "18px 80px", borderBottomColor: "transparent", position: 'fixed', zIndex: 50, width: '100%', background: "#ffffff" }}>
+        <Menu theme="light" onClick={handleClick} selectedKeys={[current]} mode="horizontal" style={{ padding: "18px 80px", borderBottomColor: "transparent", position: 'fixed', zIndex: 50, width: '100%', background: "#ffffff"}}>
            <Menu.Item key="/">
                 <Link to="/">
                     <img src={logo} height="30px" width="auto" alt="Bloc Logo" />

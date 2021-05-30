@@ -198,6 +198,11 @@ const Collection = ({ history, match }) => {
                                 <span><h3> Collection Items</h3></span>
                             </div>
                             <div className="row">
+                                {collectionAssetsInfo.length <= 0 && (
+                                    <div className="py-5" style={{ display: "flex", margin: "auto" }}>
+                                        <h3>No Items Yet!</h3>
+                                    </div>
+                                )}
                                 {collectionAssetsInfo.map((asset) => (
                                     <div className="col-sm-4 my-3">
                                         <Card
@@ -224,7 +229,7 @@ const Collection = ({ history, match }) => {
                                                         </Menu>
                                                     }
                                                 >
-                                                    <Button style={{ fontSize: "110%", cursor: "pointer", fontWeight: "800"}}>
+                                                    <Button style={{ fontSize: "110%", cursor: "pointer", fontWeight: "800" }}>
                                                         &#8942;
                                                     </Button>
                                                 </Dropdown>

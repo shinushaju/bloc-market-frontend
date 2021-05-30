@@ -42,7 +42,7 @@ const Explore = () => {
                 <div className="col col-sm-3 my-3">
                     <Card
                         key={asset._id}
-                        bordered
+                        
                         style={{ width: "100%", display: "block", margin: "auto" }}
                         cover={
                             <Link to={`assets/${asset.slug}`}>
@@ -120,7 +120,7 @@ const Explore = () => {
             }
 
             {loading &&
-                <Layout style={{ background: "transparent" }}>
+                <Layout>
                     <div className="my-5 mx-2">
                         <div className="p-5 m-5">
                             <h2>Latest Items&#128293;</h2>
