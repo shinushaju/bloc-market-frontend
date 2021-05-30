@@ -207,7 +207,7 @@ const Collection = ({ history, match }) => {
                                             style={{ width: "100%" }}
                                             className="px-2"
                                             headStyle={{ border: "none" }}
-                                            title={<div style={{ fontSize: "130%" }}>{asset.name}</div>}
+                                            title={<div className="py-2" style={{ fontSize: "130%" }}>{asset.name}</div>}
                                             extra={
                                                 <Dropdown
                                                     trigger={['click']}
@@ -224,8 +224,8 @@ const Collection = ({ history, match }) => {
                                                         </Menu>
                                                     }
                                                 >
-                                                    <Button size="large">
-                                                        <SettingOutlined />
+                                                    <Button style={{ fontSize: "110%", cursor: "pointer", fontWeight: "800"}}>
+                                                        &#8942;
                                                     </Button>
                                                 </Dropdown>
                                             }
