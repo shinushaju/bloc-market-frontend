@@ -9,7 +9,7 @@ import { PaperClipOutlined, LoadingOutlined } from '@ant-design/icons';
 import UserProfile from '../components/account/Profile';
 
 // api functions
-import { createAsset } from '../helpers/asset';
+import { createAsset, getAssetInfo } from '../helpers/asset';
 
 
 const EditItem = ({ history }) => {
@@ -19,6 +19,7 @@ const EditItem = ({ history }) => {
 
     // states
     const [buttonLabel, setButtonLabel] = useState("Mint Your NFT");
+    const [item, setItem] = useState("");
     const [asset, setAsset] = useState("");
     const [assetFile, setAssetFile] = useState("");
     const [collection, setCollecton] = useState("");
@@ -34,6 +35,12 @@ const EditItem = ({ history }) => {
 
 
     useEffect(() => {
+        getAssetInfo(path.asset)
+            .then((res) => {
+                setItem(res.data.assetFile);
+                setName(res.data.name);
+                setDescription(res.data.description);
+            })
         setCollecton(path.collection);
         setTimeout(() => {
             setLoading(true);
@@ -99,7 +106,7 @@ const EditItem = ({ history }) => {
                             <div className="form-group ">
                                 <label>Upload Your Art</label>
                                 <label htmlFor="file-upload" className="px-5 py-3" style={labelStyle}>
-                                    Add File
+                                    Upload New File
                         <input id="file-upload" type="file" accept="image/png,image/jpg,image/jpeg" multiple={false} onChange={handleImage} />
                                 </label>
                             </div>
@@ -121,10 +128,15 @@ const EditItem = ({ history }) => {
                                     <img id="image" className="img" src="#" width="100%" style={{ display: "block", margin: "auto", borderRadius: "16px" }} alt="" />
                                 </div>
                             }
+                            {item && !asset && !assetFile &&
+                                < div className="foil-image my-4">
+                                    <img className="img" src={item} width="100%" style={{ display: "block", margin: "auto", borderRadius: "16px" }} alt={name} />
+                                </div>
+                            }
                         </div>
                     </div>
                     <div className="row my-3">
-                        <button type="button" className="px-5 py-3 m-3" style={buttonStyle} onClick={handleSubmit} disabled={!name || !description || !assetFile}>{buttonLabel}</button>
+                        <button type="button" className="px-5 py-3 m-3" style={buttonStyle} onClick={handleSubmit} disabled>{buttonLabel}</button>
                     </div>
                 </form>
             </div >
