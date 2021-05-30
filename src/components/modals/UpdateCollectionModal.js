@@ -8,6 +8,7 @@ const UpdateCollectionModal = ({ props, handleSubmit, handleCoverImageUpdate }) 
     return (
         <Modal
             title={<h3>Update Collection</h3>}
+            centered
             visible={props.modal}
             footer={null}
             width={400}

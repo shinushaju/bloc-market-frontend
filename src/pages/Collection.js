@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { PageHeader, Card, Divider, Button, Avatar, Typography, notification, message } from 'antd';
-import { EditOutlined, LoadingOutlined } from '@ant-design/icons';
+import { PageHeader, Card, Divider, Button, Avatar, Typography, Dropdown, Menu, notification, message } from 'antd';
+import { EditOutlined, LoadingOutlined, DeleteOutlined, SettingOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import Resizer from 'react-image-file-resizer';
 import { Helmet } from 'react-helmet';
@@ -159,6 +159,29 @@ const Collection = ({ history, match }) => {
                             style={{ paddingLeft: 0 }}
                             onBack={() => (history.goBack())}
                             title={`Collection / ${collectionInfo.name}`}
+                            extra={[
+                                <Button key="view" size="large" onClick={() => (history.push(`/collections/${collectionInfo.slug}`))}>View Collection</Button>,
+                                <Button key="mint" size="large" type="primary" onClick={mintNewNFT}>
+                                    Mint New NFT
+                                </Button>,
+                                <Dropdown
+                                    trigger={['click']}
+                                    overlay={
+                                        <Menu>
+                                            <Menu.Item key="1" onClick={() => modalVisible(true)}>
+                                                <EditOutlined /> Edit Collection
+                                    </Menu.Item>
+                                            <Menu.Item key="2" danger>
+                                                <DeleteOutlined /> Delete Collection
+                                    </Menu.Item>
+                                        </Menu>
+                                    }
+                                >
+                                    <Button size="large">
+                                        <SettingOutlined />
+                                    </Button>
+                                </Dropdown>
+                            ]}
                         />
                         <div className="py-2">
                             <div className="row">
@@ -168,25 +191,13 @@ const Collection = ({ history, match }) => {
                                 <div className="col">
                                     <Title>{collectionInfo.name}</Title>
                                     <p>{collectionInfo.description}</p>
-                                    <div>
-                                        <Button style={{ background: "#050D1B", color: "#ffffff" }} onClick={() => modalVisible(true)}>Edit</Button>
-                                    &emsp;
-                                    <Button onClick={() => (history.push(`/collections/${collectionInfo.slug}`))}>View</Button>
-                                    </div>
                                 </div>
                             </div>
                             <Divider />
-                            <div className="py-2">
-                                <div className="row">
-                                    <div className="col-1">
-                                        <span><h3>Items</h3></span>
-                                    </div>
-                                    <div className="col">
-                                        <button className="px-3 mx-3 py-2" onClick={mintNewNFT} style={buttonStyle1}>Mint New NFT</button>
-                                    </div>
-                                </div>
+                            <div className="my-2">
+                                <span><h3>Items In Collection</h3></span>
                             </div>
-                            <div className="row py-4">
+                            <div className="row py-2">
                                 {collectionAssetsInfo.map((asset) => (
                                     <div className="col-sm-4">
                                         <Card key={asset._id} hoverable style={{ width: "100%", margin: "auto" }}
