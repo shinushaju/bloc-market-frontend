@@ -31,6 +31,7 @@ import SellItem from './pages/SellItem';
 
 //  user route component
 import UserRoute from "./components/routes/UserRoute";
+import PageNotFound from './pages/PageNotFound';
 
 
 const App = () => {
@@ -82,6 +83,7 @@ const App = () => {
           <Route exact path="/activity" component={Activity} />
           <Route exact path="/:username/profile" component={PublicProfile} />
           <Route exact path="/collections/:collection" component={CollectionProfile} />
+          <Route path='*' exact={true} component={PageNotFound} />
 
           {/* authorized user routes*/}
           <UserRoute exact path="/notifications" component={Notifications} />
