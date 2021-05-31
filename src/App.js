@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Navbar from './components/navigation/Navbar';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { Layout } from 'antd';
 import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
@@ -83,7 +83,10 @@ const App = () => {
           <Route exact path="/activity" component={Activity} />
           <Route exact path="/:username/profile" component={PublicProfile} />
           <Route exact path="/collections/:collection" component={CollectionProfile} />
-          <Route path='*' exact={true} component={PageNotFound} />
+          {/*
+          <Route path="/404" component={PageNotFound} />
+          <Redirect to="/404" />
+          */}
 
           {/* authorized user routes*/}
           <UserRoute exact path="/notifications" component={Notifications} />
