@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Tabs, Avatar, message, Tag, Row, Col, Statistic, Card, Divider } from 'antd';
+import { Tabs, Avatar, message, Button, Tag, Row, Col, Statistic, Card, Divider } from 'antd';
 import { LoadingOutlined, HeartOutlined } from '@ant-design/icons';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Helmet } from 'react-helmet';
+import illustration from '../images/empty.png';
 
 // api functions
 import { getUserInfo } from '../helpers/users';
@@ -16,7 +17,7 @@ const { Meta } = Card;
 const PublicProfile = () => {
 
     const path = useParams();
-    const [user, setUser] = useState("");
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
     const [collections, setCollections] = useState([]);
     const [assets, setAssets] = useState([]);
@@ -33,13 +34,15 @@ const PublicProfile = () => {
     const loadUserInfo = () => {
         getUserInfo(path.username)
             .then((res) => {
-                setUser(res.data);
-                setFavourites(res.data.favourites);
-                loadUserCollectionsAndAssets(res.data._id);
-                setTimeout(() => {
-                    setLoading(true);
-                }, 2000);
+                if (res.data) {
+                    setUser(res.data);
+                    setFavourites(res.data.favourites);
+                    loadUserCollectionsAndAssets(res.data._id);
+                }
             })
+        setTimeout(() => {
+            setLoading(true);
+        }, 2000);
     }
 
 
@@ -64,7 +67,18 @@ const PublicProfile = () => {
                     </div>
                 </div>
             }
-            {loading &&
+            {loading && !user &&
+                <div className="container-fluid py-5">
+                    <div className="my-5" style={{ textAlign: "center", position: 'absolute', top: '5%', fontSize: "300%", fontWeight: "bold", left: '40%', msTransform: 'translateY(-50%)', transform: 'transalateY(-50%)' }}>
+                        <img src={illustration} height="400px" width="auto" alt="Page Not Found" />
+                        <h4>Profile Not Found!</h4>
+                        <Link to="/">
+                            <Button type="primary" size="large">Redirect to Home</Button>
+                        </Link>
+                    </div>
+                </div>
+            }
+            {loading && user &&
                 <>
                     <Helmet>
                         <title>{user.name} | Bloc | Market</title>
@@ -169,8 +183,8 @@ const PublicProfile = () => {
                                                         }
                                                     >
                                                         <Meta
-                                                                style={{ marginTop: "-24px" }}
-                                                                title={<div style={{ fontSize: "130%" }}>{asset.name}</div>}
+                                                            style={{ marginTop: "-24px" }}
+                                                            title={<div style={{ fontSize: "130%" }}>{asset.name}</div>}
                                                             description={
                                                                 <>
                                                                     <span style={{ fontSize: "75%" }}>List price</span>
