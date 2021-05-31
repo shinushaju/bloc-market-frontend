@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Layout, Menu, Avatar, Breadcrumb, Button, message } from 'antd';
+import { Layout, Menu, Avatar, Breadcrumb, Modal, Button, message, Divider } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet';
 
@@ -104,6 +104,47 @@ const AccountSettings = () => {
         )
     }
 
+    const deleteAccount = () => {
+        Modal.confirm({
+            centered: true,
+            title: <h5>Delete Your Account</h5>,
+            content: <>
+                <p>Are you sure you want to delete your account?</p>
+                <h6>Once you confirm, all your account data, collections and NFTs will be permanently deleted!</h6>
+                <p>This action can't be undone!</p>
+            </>,
+            width: 500,
+            icon: '',
+            okText: 'Delete My Account',
+            okButtonProps: {
+                size: "large",
+                danger: true,
+                autoFocus: true
+            },
+            cancelButtonProps: {
+                size: "large"
+            },
+            cancelText: 'Nevermind',
+
+            onOk() {
+                return new Promise((resolve, reject) => {
+                    var status = '';
+                    /*
+                    rejectOffer(user._id, offer._id, user.token)
+                        .then((res) => {
+                            status = res.data;
+                            setTimeout(() => {
+                                loadAssetInfo();
+                                message.success("Offer Rejected", 5);
+                            }, 3000)
+                        })
+                        */
+                    setTimeout(status === '' ? resolve : reject, 3000);
+                }).catch(() => console.log('Error'));
+            },
+        });
+    }
+
     return (
         <>
             <Helmet>
@@ -151,6 +192,11 @@ const AccountSettings = () => {
                                     <div className="col-sm-8">
                                         <div className="container px-5">
                                             {accountSettingsForm()}
+                                            <Divider />
+                                            <div className="my-5">
+                                                <h6>Delete Your Account Permanently</h6>
+                                                <Button className="my-2" size="large" danger onClick={deleteAccount}>Delete Account</Button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
