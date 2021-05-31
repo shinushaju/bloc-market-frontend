@@ -4,16 +4,17 @@ import { Link } from 'react-router-dom';
 import { Layout, Menu, Avatar, Breadcrumb, Modal, Button, message, Divider } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet';
+import firebase from "firebase";
 
 // username validator
 import UsernameValidation from '../hooks/UsernameValidation';
 
 // api functions
-import { updateUsername } from '../helpers/users';
+import { updateUsername, deleteAccount } from '../helpers/users';
 
 const { Content } = Layout;
 
-const AccountSettings = () => {
+const AccountSettings = ({ history }) => {
 
     const dispatch = useDispatch();
     const { user } = useSelector((state) => ({ ...state }));
@@ -104,7 +105,7 @@ const AccountSettings = () => {
         )
     }
 
-    const deleteAccount = () => {
+    const handleDeleteAccount = () => {
         Modal.confirm({
             centered: true,
             title: <h5>Delete Your Account</h5>,
@@ -125,21 +126,22 @@ const AccountSettings = () => {
                 size: "large"
             },
             cancelText: 'Nevermind',
-
             onOk() {
                 return new Promise((resolve, reject) => {
                     var status = '';
-                    /*
-                    rejectOffer(user._id, offer._id, user.token)
+                    deleteAccount(user._id, user.token)
                         .then((res) => {
                             status = res.data;
                             setTimeout(() => {
-                                loadAssetInfo();
-                                message.success("Offer Rejected", 5);
-                            }, 3000)
+                                firebase.auth().signOut();
+                                history.push("/");
+                                dispatch({
+                                    type: "LOGOUT",
+                                    payload: null,
+                                });
+                            }, 5000)
                         })
-                        */
-                    setTimeout(status === '' ? resolve : reject, 3000);
+                    setTimeout(status === 'Account Deleted' ? resolve : reject, 3000);
                 }).catch(() => console.log('Error'));
             },
         });
@@ -195,7 +197,7 @@ const AccountSettings = () => {
                                             <Divider />
                                             <div className="my-5">
                                                 <h6>Delete Your Account Permanently</h6>
-                                                <Button className="my-2" size="large" danger onClick={deleteAccount}>Delete Account</Button>
+                                                <Button className="my-2" size="large" danger onClick={handleDeleteAccount}>Delete Account</Button>
                                             </div>
                                         </div>
                                     </div>

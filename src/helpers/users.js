@@ -68,3 +68,11 @@ export const removeFromFavourites = async (id, asset, authtoken) => {
     });
 }
 
+// delete user account and related data permanently
+export const deleteAccount = async (id, authtoken) => {
+    return await axios.delete(`${process.env.REACT_APP_API}/user/${id}/delete`, {
+        headers: {
+            authtoken
+        }
+    });
+}
