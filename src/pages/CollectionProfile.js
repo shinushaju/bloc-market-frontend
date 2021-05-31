@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 import { Link, useParams } from 'react-router-dom';
-import { Typography, Avatar, Card, Divider } from 'antd';
+import { Typography, Avatar, Card, Button, Divider } from 'antd';
 import { LoadingOutlined, HeartOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet';
+import illustration from '../images/empty.png';
 
 // api functions
 import { getUserInfoById } from '../helpers/users';
@@ -19,8 +20,8 @@ const CollectionProfile = () => {
     const { user } = useSelector((state) => ({ ...state }));
 
     // states
-    const [owner, setOwner] = useState("");
-    const [collection, setCollection] = useState("");
+    const [owner, setOwner] = useState(null);
+    const [collection, setCollection] = useState(null);
     const [loading, setLoading] = useState(false);
     const [assets, setAssets] = useState([]);
 
@@ -31,9 +32,11 @@ const CollectionProfile = () => {
     const loadCollectionInfo = () => {
         getCollection(path.collection)
             .then((res) => {
-                setCollection(res.data);
-                loadOwnerInfo(res.data.owner);
-                loadAssets(res.data.owner, res.data._id);
+                if (res.data !== null) {
+                    setCollection(res.data);
+                    loadOwnerInfo(res.data.owner);
+                    loadAssets(res.data.owner, res.data._id);
+                }
                 setTimeout(() => {
                     setLoading(true);
                 }, 2000);
@@ -64,7 +67,18 @@ const CollectionProfile = () => {
                     </div>
                 </div>
             }
-            {loading &&
+            {loading && !collection &&
+                <div className="container-fluid py-5">
+                    <div className="my-5" style={{ textAlign: "center", position: 'absolute', top: '5%', fontSize: "300%", fontWeight: "bold", left: '40%', msTransform: 'translateY(-50%)', transform: 'transalateY(-50%)' }}>
+                        <img src={illustration} height="400px" width="auto" alt="Page Not Found" />
+                        <h4>Collection Not Found!</h4>
+                        <Link to="/">
+                            <Button type="primary" size="large">Redirect to Home</Button>
+                        </Link>
+                    </div>
+                </div>
+            }
+            {loading && collection &&
                 <>
                     <Helmet>
                         <title>Collection - {collection.name} | Bloc | Market</title>
