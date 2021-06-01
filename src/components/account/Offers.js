@@ -4,7 +4,6 @@ import { Tabs, Card, Tag, Avatar, Modal, message } from 'antd';
 import { CloseCircleTwoTone } from '@ant-design/icons';
 import moment from 'moment';
 import { getOffersSent, withdrawOffer } from '../../helpers/offer';
-
 const { TabPane } = Tabs;
 
 const Offers = ({ user, offersSent, offersReceived }) => {
@@ -60,7 +59,6 @@ const Offers = ({ user, offersSent, offersReceived }) => {
             onOk() {
                 return new Promise((resolve, reject) => {
                     var status = '';
-
                     withdrawOffer(user._id, offer._id, user.token)
                         .then((res) => {
                             status = res.data;

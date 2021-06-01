@@ -1,42 +1,95 @@
-import React from 'react';
-import { Menu, Dropdown, Avatar, Button } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Menu, Dropdown, Avatar, Button, Badge, Empty } from 'antd';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
+import { createBrowserHistory } from 'history';
+import { useSelector } from 'react-redux';
+import { newNotifications, markNotificationsAsRead, markOneNotificationAsRead } from '../../helpers/notification';
 
 
 const Notifications = () => {
+
+    moment().format();
+    const history = createBrowserHistory();
+    const { user } = useSelector((state) => ({ ...state }));
+
+    const [notifications, setNotifications] = useState([]);
+    const [badge, setBadge] = useState(false);
+
+    useEffect(() => {
+        setInterval(() => {
+            newNotifications(user._id, user.token)
+                .then((res) => {
+                    setNotifications(res.data);
+                    if (res.data.length > 0) {
+                        setBadge(true);
+                    } else {
+                        setBadge(false);
+                    }
+                })
+        }, 5000)
+    }, [])
+
+    const handleMarkRead = () => {
+        markNotificationsAsRead(user._id, user.token);
+        setBadge(false);
+        setNotifications([]);
+    }
+
+    const handleItemClicked = (item) => {
+        history.push(`/assets/${item.asset_slug}`);
+        markOneNotificationAsRead(user._id, item._id, user.token);
+        window.location.reload();
+    }
+
     const menu = (
         <Menu>
             <div className="row p-3">
                 <div className="col-6">
-                    <h5>Notifications</h5>
+                    <h5 style={{ fontWeight: "400" }}>New Notifications</h5>
                 </div>
-                <div className="col">
-                    <Button style={{ float: "right" }}>Mark all as read</Button>
-                </div>
-            </div>
-            <Menu.Item key="0" className="mx-3 px-0 py-3">
-                <Link to="/assets/id">
-                    <div className="row">
-                        <div className="col-1" >
-                            <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                        </div>
-                        <div className="col-7 mx-2" style={{ whiteSpace: "break-spaces" }}>John Doe made an offer of 65 BLC on Googliness.</div>
-                        <div className="col-3">
-                            <span style={{ fontSize: "85%", float: "right", color: "#999999" }}>3 minutes ago</span>
-                        </div>
+                {notifications.length > 0 &&
+                    <div className="col">
+                        <Button style={{ float: "right" }} onClick={handleMarkRead}>Mark all as read</Button>
                     </div>
-                </Link>
-            </Menu.Item>
-            <Menu.Divider className="mx-3 px-0" />
-            <Menu.Item key="3" className="py-2" style={{ color: "#999999", textAlign: "center" }}>View All Notifications</Menu.Item>
+                }
+            </div>
+            {notifications.length === 0 &&
+                <div className="pb-4">
+                    <Empty description="No New Notifications" />
+                </div>
+            }
+            {notifications.length > 0 && notifications.slice(0, 10).map((item) =>
+                <>
+                    <Menu.Item key={item._id} onClick={() => handleItemClicked(item)} className="mx-3 px-0 py-2">
+                        <div className="row">
+                            <div className="col-1" >
+                                <Avatar size="default" src={item.sender_picture} />
+                            </div>
+                            <div className="col-8 mx-1" style={{ whiteSpace: "break-spaces", fontWeight: '500', color: item.is_read ? '#999999' : '#000000' }}>
+                                {item.notification}
+                            </div>
+                            <div className="col-2">
+                                <span style={{ fontSize: "86%", float: "right", color: "#999999" }}>
+                                    {moment.utc(item.createdAt).local().startOf('seconds').fromNow()}
+                                </span>
+                            </div>
+                        </div>
+                    </Menu.Item>
+                    <Menu.Divider className="mx-3 px-0" />
+                </>
+            )}
+            <Menu.Item disabled key="3" className="py-2" style={{ color: "#999999", textAlign: "center" }}>View All Notifications</Menu.Item>
         </Menu>
     );
 
     return (
-        <Dropdown arrow placement="bottomCenter" overlay={menu} overlayStyle={{ width: "400px" }} trigger={['click']}>
-            <a style={{ fontWeight: "400", fontSize: "medium" }} className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                Notifications
-            </a>
+        <Dropdown arrow placement="bottomCenter" overlay={menu} overlayStyle={{ width: "400px" }} trigger={['click']} >
+            <Badge dot size="small" style={{ display: !badge ? "none" : "block" }}>
+                <a style={{ fontWeight: "400", fontSize: "medium" }} className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                    Notifications
+                </a>
+            </Badge>
         </Dropdown>
     )
 }
