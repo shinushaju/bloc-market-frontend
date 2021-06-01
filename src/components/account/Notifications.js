@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, Dropdown, Avatar, Button, Badge, Empty } from 'antd';
+import { Menu, Dropdown, Avatar, Button, Badge, Tag, Empty } from 'antd';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { createBrowserHistory } from 'history';
@@ -42,6 +42,16 @@ const Notifications = () => {
         window.location.reload();
     }
 
+
+    const notificationType = (item) => {
+        if (item.event === 'Offer Made') {
+            return (
+                <div><Tag size="small" style={{ float: "left" }} color="green">New Offer</Tag></div>
+            )
+        }
+    }
+
+
     const menu = (
         <Menu>
             <div className="row p-3">
@@ -61,22 +71,22 @@ const Notifications = () => {
             }
             {notifications.length > 0 && notifications.slice(0, 10).map((item) =>
                 <>
-                    <Menu.Item key={item._id} onClick={() => handleItemClicked(item)} className="mx-3 px-0 py-2">
-                        <div className="row">
+                    <Menu.Item key={item._id} style={{ background: "#f4f9f9", borderRadius: "8px" }} onClick={() => handleItemClicked(item)} className="mx-3 my-2 px-0 py-2">
+                        <div className="row px-2">
                             <div className="col-1" >
                                 <Avatar size="default" src={item.sender_picture} />
                             </div>
-                            <div className="col-8 mx-1" style={{ whiteSpace: "break-spaces", fontWeight: '500', color: item.is_read ? '#999999' : '#000000' }}>
+                            <div className="col-7 mx-2" style={{ whiteSpace: "break-spaces", fontWeight: '400', color: item.is_read ? '#999999' : '#000000' }}>
                                 {item.notification}
-                            </div>
-                            <div className="col-2">
-                                <span style={{ fontSize: "86%", float: "right", color: "#999999" }}>
+                                <div style={{ fontSize: "86%", fontWeight: "normal", color: "#999999" }}>
                                     {moment.utc(item.createdAt).local().startOf('seconds').fromNow()}
-                                </span>
+                                </div>
+                            </div>
+                            <div className="col-3">
+                                {notificationType(item)}
                             </div>
                         </div>
                     </Menu.Item>
-                    <Menu.Divider className="mx-3 px-0" />
                 </>
             )}
             <Menu.Item disabled key="3" className="py-2" style={{ color: "#999999", textAlign: "center" }}>View All Notifications</Menu.Item>
