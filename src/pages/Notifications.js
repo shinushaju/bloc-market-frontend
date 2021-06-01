@@ -1,32 +1,21 @@
 import React, { useEffect } from 'react';
-import { Layout, Typography, Alert, Avatar } from 'antd';
+import { Layout, Typography, Alert, Avatar, Button } from 'antd';
 import { Link } from 'react-router-dom';
 const { Title } = Typography;
 
 const Notifications = () => {
 
     const notifications = [];
-
-    useEffect(() => {
-        for (let i = 0; i < 3; i++) {
-            notifications.push({
-                userImage: 'https://www.cryptokitties.co/profile/profile-19.png',
-                userName: 'johndoe',
-                event: 'accepted your offer for about $793 on',
-                item: 'orc',
-                date: '20 minutes ago'
-            },
-                {
-                    userImage: 'https://www.cryptokitties.co/profile/profile-20.png',
-                    userName: 'ronik',
-                    event: 'made an offer for about $8 on',
-                    item: 'meton',
-                    date: '50 minutes ago'
-                }
-            )
+    for (let i = 0; i < 3; i++) {
+        notifications.push({
+            userImage: 'https://www.cryptokitties.co/profile/profile-19.png',
+            userName: 'johndoe',
+            event: 'accepted your offer for about $793 on',
+            item: 'orc',
+            date: '20 minutes ago'
         }
-    })
-
+        )
+    }
     return (
         <Layout style={{ background: "#ffffff" }}>
             <div className="container-fluid my-5">
@@ -36,7 +25,7 @@ const Notifications = () => {
                         <div className="row" type="flex">
                             {notifications.map((item) =>
 
-                                <Alert closable className="my-2 align-items-center" style={{ width: "100%", border: "1px solid #B3D4FF", fontSize: "120%", background: "#f2f7ff", borderRadius: "16px" }}
+                                <Alert closable closeText={<Button>Mark as Read</Button>} className="my-2 align-items-center" style={{ width: "100%", border: "1px solid #B3D4FF", fontSize: "120%", background: "#f2f7ff", borderRadius: "16px" }}
                                     description={
                                         <div className="row">
                                             <div className="col-1 px-3">

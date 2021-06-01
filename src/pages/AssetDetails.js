@@ -13,6 +13,7 @@ import MakeOfferModal from '../components/modals/MakeOfferModal';
 // api functions
 import { getAssetInfo } from '../helpers/asset';
 import { getAllOffers, getOffer, updateMyOffer, rejectOffer, acceptOffer, withdrawOffer } from '../helpers/offer';
+import { makeOfferNotification } from '../helpers/notification';
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -283,9 +284,10 @@ const AssetDetails = ({ history, match }) => {
         setButtonUpdateLabel(<LoadingOutlined style={{ color: "#ffffff", fontSize: "larger" }} />);
 
         updateMyOffer(user._id, myOffer._id, { myOfferPrice }, user.token)
-            .then((res) => {
-                console.log(res.data);
+            .then(() => {
                 setTimeout(() => {
+                    // create notification
+                    makeOfferNotification({ sender: user._id, sender_name: user.name, sender_picture: user.picture, receiver: owner._id, offer: myOfferPrice, asset: asset.name, event: 'Offer Made', asset_slug: asset.slug }, user.token);
                     loadAssetInfo();
                     setButtonUpdateLabel('Update Offer');
                     setUpdateModalVisible(false);

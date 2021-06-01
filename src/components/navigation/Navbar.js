@@ -3,7 +3,8 @@ import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom"
 import {  } from 'react-router-dom';
-import logo from './bloc.svg'
+import logo from './bloc.svg';
+import Notifications from '../account/Notifications';
 import { Menu, Button, message, Avatar, Badge } from 'antd';
 import { UserOutlined, AppstoreAddOutlined, SettingOutlined, LogoutOutlined} from '@ant-design/icons';
 const { SubMenu } = Menu;
@@ -64,12 +65,8 @@ const Navbar = () => {
                 <Menu.Item key="login" className="float-right" style={{ fontWeight: "400", fontSize: "medium" }}><Link to="/login">Login</Link></Menu.Item>
             )}
             { user && (
-                <Menu.Item disabled key="notifications" className="float-right" onClick={notifications} >
-                    <Link to="/notifications">
-                        <span style={{ fontWeight: "400", fontSize: "medium" }}>Notifications</span>
-                        <Badge count={notificationsCount} dot>
-                        </Badge>
-                    </Link>
+                <Menu.Item key="notifications" className="float-right" onClick={notifications} >
+                        <Notifications />
                 </Menu.Item>
             )}
             <Menu.Item disabled key="activity" className="float-right" style={{ fontWeight: "400", fontSize: "medium" }}><Link to="/activity">Activity</Link></Menu.Item>

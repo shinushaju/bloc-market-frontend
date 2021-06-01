@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Divider, Modal, notification } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { makeOffer } from '../../helpers/offer';
+import { makeOfferNotification } from '../../helpers/notification';
 
 const MakeOfferModal = ({ assetData, highestOffer, ownerId, user, reload, modal, setModalVisible, inputStyle, modalButtonStyle, buttonLabel, setButtonLabel }) => {
 
@@ -38,6 +39,8 @@ const MakeOfferModal = ({ assetData, highestOffer, ownerId, user, reload, modal,
         makeOffer(user._id, assetData._id, { offer, owner }, user.token)
             .then((res) => {
                 setTimeout(() => {
+                    // create notification
+                    makeOfferNotification({ sender: user._id, sender_name: user.name, sender_picture: user.picture, receiver: owner, offer, asset: assetData.name, event: 'Offer Made', asset_slug: assetData.slug }, user.token);
                     reload();
                     setButtonLabel('Make Offer');
                     setModalVisible(false);
