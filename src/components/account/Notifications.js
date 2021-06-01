@@ -71,7 +71,7 @@ const Notifications = () => {
             }
             {notifications.length > 0 && notifications.slice(0, 10).map((item) =>
                 <>
-                    <Menu.Item key={item._id} style={{ background: "#f4f9f9", borderRadius: "8px" }} onClick={() => handleItemClicked(item)} className="mx-3 my-2 px-0 py-2">
+                    <Menu.Item key={item._id} style={{ background: "#ffffff", border: "1px solid #eeeeee", borderRadius: "8px" }} onClick={() => handleItemClicked(item)} className="mx-3 my-2 px-0 py-2">
                         <div className="row px-2">
                             <div className="col-1" >
                                 <Avatar size="default" src={item.sender_picture} />
