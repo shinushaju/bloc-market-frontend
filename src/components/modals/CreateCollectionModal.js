@@ -16,7 +16,7 @@ const CreateCollectionModal = ({ props, handleSubmit, handleImage }) => {
             maskClosable={false}
             onCancel={() => props.setModalVisible(false)}
         >
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={e => { e.preventDefault(); }}>
                 <div className="form-group ">
                     <label htmlFor="file-upload" className="px-4 py-3" style={labelStyle}>
                         Upload a Logo

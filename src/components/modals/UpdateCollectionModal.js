@@ -15,7 +15,7 @@ const UpdateCollectionModal = ({ props, handleSubmit, handleCoverImageUpdate }) 
             maskClosable={false}
             onCancel={() => props.setModalVisible(false)}
         >
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={e => { e.preventDefault(); }}>
                 <div className="row form-group">
                     <div className="col-3">
                         <img src={props.cover} style={{ borderRadius: "8px" }} alt={props.name} width="100%" />

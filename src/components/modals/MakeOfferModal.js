@@ -34,7 +34,8 @@ const MakeOfferModal = ({ assetData, highestOffer, ownerId, user, reload, modal,
         }
     }
 
-    const makeOfferHandle = () => {
+    const makeOfferHandle = (e) => {
+        e.preventDefault();
         setButtonLabel(<LoadingOutlined style={{ color: "#ffffff", fontSize: "larger" }} />);
         makeOffer(user._id, assetData._id, { offer, owner }, user.token)
             .then((res) => {
@@ -94,7 +95,7 @@ const MakeOfferModal = ({ assetData, highestOffer, ownerId, user, reload, modal,
                 </div>
             </div>
             <Divider />
-            <form>
+            <form onSubmit={e => { e.preventDefault(); }}>
                 <div className="form-group my-3">
                     <label>Your Offer (BLC)</label>
                     <input type="number" min="0" className="py-3 px-4 my-3" placeholder="Enter offer price here..." value={offer} onChange={inputOffer} style={inputStyle} />

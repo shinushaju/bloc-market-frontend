@@ -32,6 +32,14 @@ export const markOneNotificationAsRead = async (id, notification, authtoken) => 
     });
 }
 
+export const addFavouriteNotification = async (payload, authtoken) => {
+    return await axios.post(`${process.env.REACT_APP_API}/notification/add/favourite`, payload, {
+        headers: {
+            authtoken
+        }
+    });
+}
+
 export const makeOfferNotification = async (payload, authtoken) => {
     return await axios.post(`${process.env.REACT_APP_API}/notification/add/offer/made`, payload, {
         headers: {

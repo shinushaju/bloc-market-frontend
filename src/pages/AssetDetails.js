@@ -578,7 +578,7 @@ const AssetDetails = ({ history, match }) => {
                             </div>
                         </div>
                         <Divider />
-                        <form>
+                        <form onSubmit={e => { e.preventDefault(); }}>
                             <div className="form-group my-3">
                                 <label>Your Offer (BLC)</label>
                                 <input type="number" min="0" className="py-3 px-4 my-3" placeholder="Enter offer price here..." value={myOfferPrice} onChange={inputOffer} style={inputStyle} />
