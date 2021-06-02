@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom"
-import {  } from 'react-router-dom';
+import { } from 'react-router-dom';
 import logo from './bloc.svg';
 import Notifications from '../account/Notifications';
 import { Menu, Button, message, Avatar, Badge } from 'antd';
-import { UserOutlined, AppstoreAddOutlined, SettingOutlined, LogoutOutlined} from '@ant-design/icons';
+import { UserOutlined, AppstoreAddOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
 const { SubMenu } = Menu;
 
 const Navbar = () => {
@@ -16,14 +16,14 @@ const Navbar = () => {
     let history = useHistory();
     let dispatch = useDispatch();
     const { user } = useSelector((state) => ({ ...state }));
-    
+
     useEffect(() => {
         setCurrent(history.location.pathname.substring(1))
     }, [])
 
     const handleClick = (e) => {
         setCurrent(history.location.pathname.substring(1));
-      };
+    };
 
     const logout = () => {
         firebase.auth().signOut();
@@ -40,8 +40,8 @@ const Navbar = () => {
     }
 
     return (
-        <Menu theme="light" onClick={handleClick} selectedKeys={[current]} mode="horizontal" style={{ padding: "18px 80px", borderBottomColor: "transparent", position: 'fixed', zIndex: 50, width: '100%', background: "#ffffff"}}>
-           <Menu.Item key="/">
+        <Menu theme="light" onClick={handleClick} selectedKeys={[current]} mode="horizontal" style={{ padding: "18px 80px", borderBottomColor: "transparent", position: 'fixed', zIndex: 50, width: '100%', background: "#ffffff" }}>
+            <Menu.Item key="/">
                 <Link to="/">
                     <img src={logo} height="30px" width="auto" alt="Bloc Logo" />
                 </Link>
@@ -66,7 +66,7 @@ const Navbar = () => {
             )}
             { user && (
                 <Menu.Item key="notifications" className="float-right" onClick={notifications} >
-                        <Notifications />
+                    <Notifications />
                 </Menu.Item>
             )}
             <Menu.Item disabled key="activity" className="float-right" style={{ fontWeight: "400", fontSize: "medium" }}><Link to="/activity">Activity</Link></Menu.Item>
