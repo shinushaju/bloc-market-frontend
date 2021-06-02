@@ -1,5 +1,13 @@
 import axios from 'axios';
 
+export const getNotifications = async (id, authtoken) => {
+    return await axios.get(`${process.env.REACT_APP_API}/user/${id}/notifications`, {
+        headers: {
+            authtoken
+        }
+    });
+}
+
 export const newNotifications = async (id, authtoken) => {
     return await axios.get(`${process.env.REACT_APP_API}/user/${id}/notifications/new`, {
         headers: {
@@ -34,6 +42,15 @@ export const makeOfferNotification = async (payload, authtoken) => {
 
 export const rejectOfferNotification = async (payload, authtoken) => {
     return await axios.post(`${process.env.REACT_APP_API}/notification/add/offer/rejected`, payload, {
+        headers: {
+            authtoken
+        }
+    });
+}
+
+
+export const deleteAllNotificatons = async (id, authtoken) => {
+    return await axios.delete(`${process.env.REACT_APP_API}/user/${id}/notifications/delete`, {
         headers: {
             authtoken
         }

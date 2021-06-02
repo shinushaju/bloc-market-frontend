@@ -3,6 +3,7 @@ import { Menu, Dropdown, Avatar, Button, Badge, Tag, Empty } from 'antd';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { createBrowserHistory } from 'history';
+import { LoadingOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { newNotifications, markNotificationsAsRead, markOneNotificationAsRead } from '../../helpers/notification';
 
@@ -15,12 +16,14 @@ const Notifications = () => {
 
     const [notifications, setNotifications] = useState([]);
     const [badge, setBadge] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setInterval(() => {
             newNotifications(user._id, user.token)
                 .then((res) => {
                     setNotifications(res.data);
+                    setLoading(true);
                     if (res.data.length > 0) {
                         setBadge(true);
                     } else {
@@ -69,14 +72,21 @@ const Notifications = () => {
                     </div>
                 }
             </div>
-            {notifications.length === 0 &&
+            {!loading &&
+                <div className="container my-5 p-5">
+                    <div style={{ position: 'absolute', top: '45%', fontSize: "200%", fontWeight: "bold", left: '45%', msTransform: 'translateY(-50%)', transform: 'transalateY(-50%)' }}>
+                        <LoadingOutlined />
+                    </div>
+                </div>
+            }
+            {loading && notifications.length === 0 &&
                 <div className="pb-4">
                     <Empty description="No New Notifications" />
                 </div>
             }
-            {notifications.length > 0 && notifications.slice(0, 10).map((item) =>
+            {loading && notifications.length > 0 && notifications.slice(0, 10).map((item) =>
                 <>
-                    <Menu.Item key={item._id} style={{ background: "#ffffff"}} onClick={() => handleItemClicked(item)} className="mx-3 my-2 px-0">
+                    <Menu.Item key={item._id} style={{ background: "#ffffff" }} onClick={() => handleItemClicked(item)} className="mx-3 my-2 px-0">
                         <div className="row">
                             <div className="col-1" >
                                 <Avatar size="default" src={item.sender_picture} />
@@ -94,7 +104,7 @@ const Notifications = () => {
                     </Menu.Item>
                 </>
             )}
-            <Menu.Item disabled key="3" className="py-2" style={{ color: "#999999", textAlign: "center" }}>View All Notifications</Menu.Item>
+            <Menu.Item key="3" className="py-2" style={{ color: "#ddd", textAlign: "center" }}><Link to="/notifications">View All Notifications</Link></Menu.Item>
         </Menu>
     );
 

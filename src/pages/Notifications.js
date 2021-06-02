@@ -1,47 +1,109 @@
-import React, { useEffect } from 'react';
-import { Layout, Typography, Alert, Avatar, Button } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Layout, Typography, Alert, Empty, Avatar, Button, Divider, Tag } from 'antd';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
+import { getNotifications, markNotificationsAsRead, markOneNotificationAsRead, deleteAllNotificatons } from '../helpers/notification';
+import { LoadingOutlined } from '@ant-design/icons';
 const { Title } = Typography;
+const { Content } = Layout;
 
-const Notifications = () => {
+const Notifications = ({ history }) => {
 
-    const notifications = [];
-    for (let i = 0; i < 3; i++) {
-        notifications.push({
-            userImage: 'https://www.cryptokitties.co/profile/profile-19.png',
-            userName: 'johndoe',
-            event: 'accepted your offer for about $793 on',
-            item: 'orc',
-            date: '20 minutes ago'
+
+    moment().format();
+    const { user } = useSelector((state) => ({ ...state }));
+    const [notifications, setNotifications] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setInterval(() => {
+            getNotifications(user._id, user.token)
+                .then((res) => {
+                    setNotifications(res.data);
+                    setLoading(true);
+                })
+        }, 3500)
+    }, [])
+
+    const notificationType = (item) => {
+        if (item.event === 'Offer Made') {
+            return (
+                <div><Tag size="small" style={{ float: "right" }} color="green">New Offer</Tag></div>
+            )
         }
-        )
+        if (item.event === 'Offer Rejected') {
+            return (
+                <div><Tag size="small" style={{ float: "right" }} color="volcano">Offer Rejected</Tag></div>
+            )
+        }
     }
-    return (
-        <Layout style={{ background: "#ffffff" }}>
-            <div className="container-fluid my-5">
-                <div className="row p-5 my-2">
-                    <Title className="px-5 mx-2">Notifications</Title>
-                    <div className="container my-3">
-                        <div className="row" type="flex">
-                            {notifications.map((item) =>
 
-                                <Alert closable closeText={<Button>Mark as Read</Button>} className="my-2 align-items-center" style={{ width: "100%", border: "1px solid #B3D4FF", fontSize: "120%", background: "#f2f7ff", borderRadius: "16px" }}
-                                    description={
-                                        <div className="row">
-                                            <div className="col-1 px-3">
-                                                <Avatar size="large" src={item.userImage} />
-                                            </div>
-                                            <div className="col" style={{ fontSize: "120%" }}>
-                                                <Link href=""> {item.userName} </Link> {item.event} <Link href="activity"> {item.item} </Link>
-                                                <div style={{ fontSize: "60%", color: "#666666", textTransform: "uppercase" }}> {item.date}</div>
+    const handleMarkRead = () => {
+        markNotificationsAsRead(user._id, user.token);
+    }
+
+    const clearNotifications = () => {
+        deleteAllNotificatons(user._id, user.token);
+        setNotifications([]);
+    }
+
+    const handleItemClicked = (item) => {
+        history.push(`/assets/${item.asset_slug}`);
+        markOneNotificationAsRead(user._id, item._id, user.token);
+    }
+
+
+    return (
+        <Layout style={{ height: "100vh" }}>
+            <div className="container-fluid" style={{ display: "block", marginLeft: "26%" }}>
+                <Content style={{ top: "110px", width: "650px", position: "fixed", padding: '24px', background: "#ffffff", borderRadius: "12px" }}>
+                    <div className="row">
+                        <div className="col-6">
+                            <h3 style={{ fontWeight: "400" }}>Latest Notifications</h3>
+                        </div>
+                        {notifications.length > 0 &&
+                            <div className="col">
+                                <Button type="primary" style={{ float: "right" }} onClick={clearNotifications}>Clear All</Button>
+                                <Button className="mx-2" style={{ float: "right" }} onClick={handleMarkRead}>Mark all as read</Button>
+                            </div>
+                        }
+                    </div>
+                    {!loading &&
+                        <div className="container my-5 p-5">
+                            <div style={{ position: 'absolute', top: '48%', fontSize: "200%", fontWeight: "bold", left: '45%', msTransform: 'translateY(-50%)', transform: 'transalateY(-50%)' }}>
+                                <LoadingOutlined />
+                            </div>
+                        </div>
+                    }
+                    {loading && notifications.length === 0 &&
+                        <div className="p-5">
+                            <Empty description="You don't have any notifications!" />
+                        </div>
+                    }
+                    <div className="my-3 px-3">
+                        {loading && notifications.length > 0 && notifications.map((item) =>
+                            <div key={item._id} className="row py-3 px-0 my-2" onClick={() => handleItemClicked(item)} style={{ cursor: "pointer", background: item.is_read ? "#ffffff" : "#f4f9f9", borderRadius: "12px" }}>
+                                <div className="col-1" >
+                                    <Avatar size="default" src={item.sender_picture} />
+                                </div>
+                                <div className="col" style={{ whiteSpace: "break-spaces", fontWeight: item.is_read ? '400' : '450' }}>
+                                    <div className="row">
+                                        <div className="col-8">
+                                            {item.notification}
+                                            <div style={{ fontSize: "86%", fontWeight: "normal", color: "#999999" }}>
+                                                {moment.utc(item.createdAt).local().startOf('seconds').fromNow()}
                                             </div>
                                         </div>
-                                    }
-                                />
-                            )}
-                        </div>
+                                        <div className="col">
+                                            {notificationType(item)}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
-                </div>
+                </Content>
             </div>
         </Layout>
     )
