@@ -57,9 +57,9 @@ const Notifications = ({ history }) => {
 
 
     return (
-        <Layout style={{ height: "100vh" }}>
-            <div className="container-fluid" style={{ display: "block", marginLeft: "26%" }}>
-                <Content style={{ top: "110px", width: "650px", position: "fixed", padding: '24px', background: "#ffffff", borderRadius: "12px" }}>
+        <Layout style={{ minHeight: "100vh" }}>
+            <div className="container-fluid" style={{ top: "110px", display: "block", position: "fixed", marginLeft: "26%" }}>
+                <Content style={{  minHeight: "500px", width: "650px", padding: '24px', background: "#ffffff", borderRadius: "12px" }}>
                     <div className="row">
                         <div className="col-6">
                             <h3 style={{ fontWeight: "400" }}>Latest Notifications</h3>
@@ -79,7 +79,7 @@ const Notifications = ({ history }) => {
                         </div>
                     }
                     {loading && notifications.length === 0 &&
-                        <div className="p-5">
+                        <div className="p-5 my-5">
                             <Empty description="You don't have any notifications!" />
                         </div>
                     }
