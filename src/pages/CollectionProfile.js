@@ -121,8 +121,7 @@ const CollectionProfile = () => {
                             </div>
                             <div className="col" style={{ width: "100%", margin: "0" }}>
                                 <Title>Items</Title>
-                                <Divider />
-                                <div className="row">
+                                <div className="row my-3">
                                     {assets.map((asset) => (
                                         <div className="col-sm-4 my-2">
                                             <Card
