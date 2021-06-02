@@ -27,7 +27,7 @@ const Notifications = () => {
                         setBadge(false);
                     }
                 })
-        }, 5000)
+        }, 3500)
     }, [])
 
     const handleMarkRead = () => {
@@ -47,6 +47,11 @@ const Notifications = () => {
         if (item.event === 'Offer Made') {
             return (
                 <div><Tag size="small" style={{ float: "left" }} color="green">New Offer</Tag></div>
+            )
+        }
+        if (item.event === 'Offer Rejected') {
+            return (
+                <div><Tag size="small" style={{ float: "left" }} color="volcano">Rejected</Tag></div>
             )
         }
     }
@@ -71,12 +76,12 @@ const Notifications = () => {
             }
             {notifications.length > 0 && notifications.slice(0, 10).map((item) =>
                 <>
-                    <Menu.Item key={item._id} style={{ background: "#f1f6f9", borderRadius: "8px" }} onClick={() => handleItemClicked(item)} className="mx-3 my-2 px-0 py-2">
-                        <div className="row px-2">
+                    <Menu.Item key={item._id} style={{ background: "#ffffff"}} onClick={() => handleItemClicked(item)} className="mx-3 my-2 px-0">
+                        <div className="row">
                             <div className="col-1" >
                                 <Avatar size="default" src={item.sender_picture} />
                             </div>
-                            <div className="col-7 mx-2" style={{ whiteSpace: "break-spaces", fontWeight: '400', color: item.is_read ? '#999999' : '#000000' }}>
+                            <div className="col-7 mx-2" style={{ whiteSpace: "break-spaces", fontWeight: '450', color: item.is_read ? '#999999' : '#000000' }}>
                                 {item.notification}
                                 <div style={{ fontSize: "86%", fontWeight: "normal", color: "#999999" }}>
                                     {moment.utc(item.createdAt).local().startOf('seconds').fromNow()}

@@ -13,7 +13,7 @@ import MakeOfferModal from '../components/modals/MakeOfferModal';
 // api functions
 import { getAssetInfo } from '../helpers/asset';
 import { getAllOffers, getOffer, updateMyOffer, rejectOffer, acceptOffer, withdrawOffer } from '../helpers/offer';
-import { makeOfferNotification } from '../helpers/notification';
+import { makeOfferNotification, rejectOfferNotification } from '../helpers/notification';
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -204,6 +204,7 @@ const AssetDetails = ({ history, match }) => {
                     var status = '';
                     rejectOffer(user._id, offer._id, user.token)
                         .then((res) => {
+                            rejectOfferNotification({ sender: user._id, sender_name: user.name, sender_picture: user.picture, receiver: offer.offerer._id, offer: offer.offer, asset: offer.asset.name, event: 'Offer Rejected', asset_slug: offer.asset.slug }, user.token)
                             status = res.data;
                             setTimeout(() => {
                                 loadAssetInfo();

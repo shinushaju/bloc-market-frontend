@@ -31,3 +31,11 @@ export const makeOfferNotification = async (payload, authtoken) => {
         }
     });
 }
+
+export const rejectOfferNotification = async (payload, authtoken) => {
+    return await axios.post(`${process.env.REACT_APP_API}/notification/add/offer/rejected`, payload, {
+        headers: {
+            authtoken
+        }
+    });
+}
