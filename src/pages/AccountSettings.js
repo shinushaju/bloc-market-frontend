@@ -19,7 +19,7 @@ const AccountSettings = ({ history }) => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => ({ ...state }));
     var currentUser = firebase.auth().currentUser;
-    console.log("CURRENT USER",currentUser);
+    console.log("CURRENT USER", currentUser);
 
     // states
     const [buttonLabel, setButtonLabel] = useState("Save");
@@ -166,7 +166,9 @@ const AccountSettings = ({ history }) => {
                                 <div className="col-11">
                                     <Breadcrumb style={{ fontSize: "150%" }}>
                                         <Breadcrumb.Item>
-                                            <span style={{ color: "#050D1B" }}><b>{user.name}</b></span>
+                                            <Link to="/account">
+                                                <span style={{ color: "#050D1B" }}><b>{user.name}</b></span>
+                                            </Link>
                                         </Breadcrumb.Item>
                                         <Breadcrumb.Item>
                                             <span><b>Account Settings</b></span>

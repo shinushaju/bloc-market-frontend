@@ -5,6 +5,7 @@ import { LoadingOutlined, HeartOutlined } from '@ant-design/icons';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Helmet } from 'react-helmet';
 import illustration from '../images/empty.png';
+import FollowButton from '../components/micro-components/FollowButton';
 
 // api functions
 import { getUserInfo } from '../helpers/users';
@@ -85,18 +86,19 @@ const PublicProfile = () => {
                     </Helmet>
                     <div className="container-fluid my-5">
                         <div className="row p-4 m-4">
-                            <div className="col-3">
+                            <div className="col-4">
                                 <div className="px-1">
                                     <div className="m-3">
-                                        <Avatar
-                                            src={user.picture}
-                                            size={100}
-                                        />
+                                        <Avatar src={user.picture} size={100}/>
+                                        <div className="my-2">
+                                        <CopyToClipboard text={`${user._id}`} onCopy={onCopyText}>
+                                            <Tag style={{ cursor: "pointer", borderRadius: "100px", border: "1px solid #ffffff", background: "#FFFFFF", padding: "8px 18px", color: "#050D1B", fontSize: "100%", boxShadow: "rgba(0, 0, 0, 0.1) -4px 9px 25px -6px" }}>Copy address</Tag>
+                                        </CopyToClipboard>
+                                        </div>
                                         <div style={{ fontSize: "220%", fontWeight: "bold", marginTop: 16 }}>{user.name}</div>
                                         <div style={{ color: "#666666" }}>@{user.username}</div>
-                                        <CopyToClipboard text={`${user._id}`} onCopy={onCopyText}>
-                                            <Tag style={{ marginTop: 8, cursor: "pointer", borderRadius: "100px", border: "1px solid #050D1B", background: "#FFFFFF", padding: "4px 12px", color: "#050D1B", fontSize: "75%" }}>Copy address</Tag>
-                                        </CopyToClipboard>
+                                        <h6>20 Followers</h6>
+                                        <FollowButton />
                                         <Divider />
                                         <Row gutter={16}>
                                             <Col span={12}>

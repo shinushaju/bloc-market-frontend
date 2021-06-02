@@ -142,7 +142,7 @@ const EditProfile = () => {
                                 <div className="col-11">
                                     <Breadcrumb style={{ fontSize: "150%" }}>
                                         <Breadcrumb.Item>
-                                            <Link to="/profile">
+                                            <Link to="/account">
                                                 <span style={{ color: "#050D1B" }}><b>{user.name}</b></span>
                                             </Link>
                                         </Breadcrumb.Item>
