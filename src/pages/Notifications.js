@@ -45,7 +45,9 @@ const Notifications = ({ history }) => {
 
     const clearNotifications = () => {
         deleteAllNotificatons(user._id, user.token);
-        setNotifications([]);
+        setTimeout(() => {
+            setNotifications([]);
+        }, 1500)
     }
 
     const handleItemClicked = (item) => {
