@@ -73,7 +73,7 @@ const Notifications = ({ history }) => {
                     </div>
                     {!loading &&
                         <div className="container my-5 p-5">
-                            <div style={{ position: 'absolute', top: '48%', fontSize: "200%", fontWeight: "bold", left: '45%', msTransform: 'translateY(-50%)', transform: 'transalateY(-50%)' }}>
+                            <div style={{ position: 'absolute', top: '48%', fontSize: "200%", fontWeight: "bold", left: '23%', msTransform: 'translateY(-50%)', transform: 'transalateY(-50%)' }}>
                                 <LoadingOutlined />
                             </div>
                         </div>

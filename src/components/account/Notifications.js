@@ -109,7 +109,7 @@ const Notifications = () => {
     );
 
     return (
-        <Dropdown arrow placement="bottomCenter" overlay={menu} overlayStyle={{ width: "400px" }} trigger={['click']} >
+        <Dropdown arrow placement="bottomCenter" overlay={menu} overlayStyle={{ width: "400px" }}>
             <Badge dot size="small" style={{ display: !badge ? "none" : "block" }}>
                 <a style={{ fontWeight: "400", fontSize: "medium" }} className="ant-dropdown-link" onClick={e => e.preventDefault()}>
                     Notifications
