@@ -119,7 +119,7 @@ const PublicProfile = () => {
                     </Helmet>
                     <div className="container-fluid my-5">
                         <div className="row p-4 m-4">
-                            <div className="col-4">
+                            <div className="col-3">
                                 <div className="px-1">
                                     <div className="m-3">
                                         <Avatar src={userInfo.picture} size={130} />
@@ -144,7 +144,7 @@ const PublicProfile = () => {
                                         }
 
                                         <div className="row my-4">
-                                            <div className="col-4">
+                                            <div className="col-6">
                                                 <div onClick={followingListModal} style={{ cursor: "pointer" }}>
                                                     <div style={{ fontSize: "200%", margin: "0", fontWeight: "700", color: "#050D1B" }}>{followingList.length}</div>
                                                     <div style={{ fontSize: "120%", color: "#666666", fontWeight: "500", marginTop: "-8px" }}>Following</div>
