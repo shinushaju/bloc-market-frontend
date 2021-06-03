@@ -68,6 +68,41 @@ export const removeFromFavourites = async (id, asset, authtoken) => {
     });
 }
 
+// user follow
+export const addFollowingHandler = async (id, userId, authtoken) => {
+    return await axios.put(`${process.env.REACT_APP_API}/user/${id}/add/following`, { userId }, {
+        headers: {
+            authtoken
+        }
+    });
+}
+
+export const addFollowerHandler = async (id, userId, authtoken) => {
+    return await axios.put(`${process.env.REACT_APP_API}/user/${id}/add/follower`, { userId }, {
+        headers: {
+            authtoken
+        }
+    });
+}
+
+// user unfollow
+export const removeFollowingHandler = async (id, userId, authtoken) => {
+    return await axios.put(`${process.env.REACT_APP_API}/user/${id}/remove/following`, { userId }, {
+        headers: {
+            authtoken
+        }
+    });
+}
+
+export const removeFollowerHandler = async (id, userId, authtoken) => {
+    return await axios.put(`${process.env.REACT_APP_API}/user/${id}/remove/follower`, { userId }, {
+        headers: {
+            authtoken
+        }
+    });
+}
+
+
 // delete user account and related data permanently
 export const deleteAccount = async (id, authtoken) => {
     return await axios.delete(`${process.env.REACT_APP_API}/user/${id}/delete`, {

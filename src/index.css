@@ -265,3 +265,21 @@ input[type="file"] {
     left: -100%;
   }
 }
+
+.scrollbar::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0);
+	background-color: #ffffff;
+}
+
+.scrollbar::-webkit-scrollbar
+{
+	width: 2px;
+	background-color: #ffffff;
+}
+
+.scrollbar::-webkit-scrollbar-thumb
+{
+	background-color: #000000;
+  border-radius: 10px;
+}

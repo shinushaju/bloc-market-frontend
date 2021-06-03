@@ -1,11 +1,50 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import { useSelector } from 'react-redux';
 import { Button } from 'antd';
+import { addFollowerHandler, addFollowingHandler, removeFollowerHandler, removeFollowingHandler } from '../../helpers/users';
 
-const FollowButton = () => {
+const FollowButton = ({ following, profile, reload }) => {
+
+    const { user } = useSelector((state) => ({ ...state }));
+    const [isFollowing, setIsFollowing] = useState(false);
+
+    useEffect(() => {
+        setIsFollowing(following);
+    }, [])
+
+    const handleFollow = () => {
+        addFollowingHandler(user._id, profile._id, user.token)
+            .then(() => {
+                reload();
+            });
+        addFollowerHandler(user._id, profile._id, user.token)
+            .then(() => {
+                reload();
+                setIsFollowing(true);
+            });
+    }
+
+    const handleUnfollow = () => {
+        removeFollowingHandler(user._id, profile._id, user.token)
+            .then(() => {
+                reload();
+            });
+        removeFollowerHandler(user._id, profile._id, user.token)
+            .then(() => {
+                reload();
+                setIsFollowing(false);
+            });
+    }
     return (
-        <div className="my-3">
-            <Button type="primary">Follow</Button>
-        </div>
+        <Button
+            className="px-5"
+            size="large"
+            shape="round"
+            style={{ border: "1px solid #050D1B", color: isFollowing ? '#ffffff' : '#050D1B', background: isFollowing ? '#050D1B' : '#ffffff' }}
+            onClick={isFollowing ? handleUnfollow : handleFollow}
+        >
+            {isFollowing ? 'Following' : 'Follow'}
+        </Button>
     )
 }
 
