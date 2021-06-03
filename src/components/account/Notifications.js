@@ -40,7 +40,12 @@ const Notifications = () => {
     }
 
     const handleItemClicked = (item) => {
-        history.push(`/assets/${item.asset_slug}`);
+        if (item.event === 'Offer Made' || item.event === 'Offer Accepted' || item.event === 'Offer Rejected') {
+            history.push(`/assets/${item.asset_slug}`);
+        }
+        if (item.event === 'New Follow') {
+            history.push(`/${item.sender_username}/profile`);
+        }
         markOneNotificationAsRead(user._id, item._id, user.token);
         window.location.reload();
     }

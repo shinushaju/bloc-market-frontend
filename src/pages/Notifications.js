@@ -24,6 +24,8 @@ const Notifications = ({ history }) => {
                     setLoading(true);
                 })
         }, 3500)
+
+        console.log(notifications)
     }, [])
 
     const notificationType = (item) => {
@@ -51,7 +53,12 @@ const Notifications = ({ history }) => {
     }
 
     const handleItemClicked = (item) => {
-        history.push(`/assets/${item.asset_slug}`);
+        if (item.event === 'Offer Made' || item.event === 'Offer Accepted' || item.event === 'Offer Rejected') {
+            history.push(`/assets/${item.asset_slug}`);
+        }
+        if (item.event === 'New Follow') {
+            history.push(`/${item.sender_username}/profile`);
+        }
         markOneNotificationAsRead(user._id, item._id, user.token);
     }
 
@@ -59,7 +66,7 @@ const Notifications = ({ history }) => {
     return (
         <Layout style={{ minHeight: "100vh" }}>
             <div className="container-fluid" style={{ top: "110px", display: "block", position: "fixed", marginLeft: "26%" }}>
-                <Content style={{  minHeight: "500px", width: "650px", padding: '24px', background: "#ffffff", borderRadius: "12px" }}>
+                <Content style={{ minHeight: "500px", width: "650px", padding: '24px', background: "#ffffff", borderRadius: "12px" }}>
                     <div className="row">
                         <div className="col-6">
                             <h3 style={{ fontWeight: "400" }}>Latest Notifications</h3>
