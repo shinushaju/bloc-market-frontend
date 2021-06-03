@@ -39,7 +39,7 @@ const FollowButton = ({ following, profile, reload }) => {
     }
     return (
         <Button
-            className="px-4"
+            className="px-5"
             size="large"
             shape="round"
             style={{ border: "1px solid #050D1B", color: isFollowing ? '#ffffff' : '#050D1B', background: isFollowing ? '#050D1B' : '#ffffff' }}

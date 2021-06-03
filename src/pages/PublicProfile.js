@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Tabs, Avatar, message, Button, Card } from 'antd';
+import { Tabs, Avatar, message, Tag, Button, Card } from 'antd';
 import { LoadingOutlined, HeartOutlined } from '@ant-design/icons';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Helmet } from 'react-helmet';
@@ -134,12 +134,15 @@ const PublicProfile = () => {
                                             </Button>
                                         </div>
                                         <div style={{ fontSize: "220%", fontWeight: "bold", marginTop: "14px" }}>{userInfo.name.substring(0, 14)}</div>
-                                        <div style={{ fontSize: "larger" }}>@{userInfo.username.substring(0, 14)}</div>
+                                        <span style={{ fontSize: "larger" }}>@{userInfo.username.substring(0, 14)}</span>&ensp;
+
+                                        {user && user.token && user._id !== userInfo._id &&
+                                            <Tag color="geekblue" style={{ padding: "2px 4px", borderRadius: "4px", display: follower ? 'inline' : 'none' }}>Follows you</Tag>
+                                        }
 
                                         {user && user.token && user._id !== userInfo._id &&
                                             <div className="my-3">
                                                 <FollowButton following={following} profile={userInfo} reload={loadUserInfo} />
-                                                <span className="mx-2" style={{ color: "#666666", display: follower ? 'inline' : 'none' }}>Follows You</span>
                                             </div>
                                         }
 
