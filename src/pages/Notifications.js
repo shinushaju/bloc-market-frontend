@@ -91,7 +91,7 @@ const Notifications = ({ history }) => {
                         </div>
                     }
                     <div className="my-3 px-3">
-                        {loading && notifications.length > 0 && notifications.map((item) =>
+                        {loading && notifications.length > 0 && notifications.sort((a, b) => (a.is_read < b.is_read) ? -1 : 1).map((item) =>
                             <div key={item._id} className="row py-3 px-0 my-2" onClick={() => handleItemClicked(item)} style={{ cursor: "pointer", background: item.is_read ? "#ffffff" : "#f4f9f9", borderRadius: "12px" }}>
                                 <div className="col-1" >
                                     <Avatar size="default" src={item.sender_picture} />
