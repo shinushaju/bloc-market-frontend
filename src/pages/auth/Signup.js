@@ -88,6 +88,8 @@ const Signup = ({ history }) => {
                                 picture: res.data.picture,
                                 _id: res.data._id,
                                 token: idTokenResult.token,
+                                address: res.data.address,
+                                privateKey: res.data.privateKey
                             },
                         });
                     })

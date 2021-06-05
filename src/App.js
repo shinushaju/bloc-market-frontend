@@ -53,6 +53,8 @@ const App = () => {
                 username: res.data.username,
                 picture: res.data.picture,
                 _id: res.data._id,
+                address: res.data.address,
+                privateKey: res.data.privateKey,
                 token: idTokenResult.token,
               }
             });
