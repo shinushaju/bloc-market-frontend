@@ -125,8 +125,8 @@ const PublicProfile = () => {
                                         <Avatar src={userInfo.picture} size={130} />
                                         <div style={{ marginTop: "18px" }}>
                                             <Button size="large" shape="round" style={{ opacity: 1, background: "#ffffff", border: "none", color: "#050D1B", boxShadow: "rgba(0, 0, 0, 0.1) -4px 7px 25px -6px" }}>
-                                                0x{userInfo._id.substring(0, 6) + '...' + userInfo._id.substring(18, 24)} &emsp;
-                                                <CopyToClipboard text={`0x${userInfo._id}`} onCopy={onCopyText}>
+                                                {userInfo.address.substring(0, 6) + '...' + userInfo.address.substring(36, 42)} &emsp;
+                                                <CopyToClipboard text={`0x${userInfo.address}`} onCopy={onCopyText}>
                                                     <span style={{ marginTop: "-8px", background: "#050D1B", position: "absolute", height: "40px", width: "64px", marginLeft: "-12px", border: "none", color: "#ffffff", borderRadius: "100px" }}>
                                                         <div style={{ marginTop: "6px" }}>Copy</div>
                                                     </span>
