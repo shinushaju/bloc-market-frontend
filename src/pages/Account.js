@@ -60,7 +60,7 @@ const Account = () => {
                                 tab={
                                     <span>
                                         <DropboxOutlined />
-                                        <span>Owned Items ({assets.length})</span>
+                                        <span>Owned ({assets.length})</span>
                                     </span>
                                 }
                                 key="2"

@@ -227,7 +227,7 @@ const PublicProfile = () => {
                                     </TabPane>
                                     <TabPane
                                         tab={
-                                            <span style={{ fontSize: "120%", fontWeight: "450" }}>Owned Items ({assets.length})</span>
+                                            <span style={{ fontSize: "120%", fontWeight: "450" }}>Owned ({assets.length})</span>
                                         }
                                         key="2"
                                     >
