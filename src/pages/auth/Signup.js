@@ -94,9 +94,14 @@ const Signup = ({ history }) => {
                         });
                     })
                     .catch((error) => console.log(error.message));
-
-                message.success('Sign-in Success! ', 3)
-                    .then(() => history.push('/'));
+                message.loading('Signing up in progress..', 2)
+                    .then(() => message.success('Sign-up Success! ', 3))
+                    .then(() => {
+                        message.loading('Redirecting..', 4)
+                        setTimeout(() => {
+                            history.push('/')
+                        }, 7000)
+                    });
             })
             .catch((error) => {
                 message.error(error.message);

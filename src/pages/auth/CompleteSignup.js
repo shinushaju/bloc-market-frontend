@@ -132,7 +132,12 @@ const CompleteSignup = ({ history }) => {
                     });
                 message.loading('Signing up in progress..', 2)
                     .then(() => message.success('Sign-up Success! ', 3))
-                    .then(() => history.push('/'));
+                    .then(() => {
+                        message.loading('Redirecting..', 4)
+                        setTimeout(() => {
+                            history.push('/')
+                        }, 7000)
+                    });
             }
         }
         catch (error) {
