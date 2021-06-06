@@ -27,6 +27,7 @@ const AssetDetails = ({ history, match }) => {
     // states
     const [dataFetched, setDataFetched] = useState(false);
     const [asset, setAsset] = useState("");
+    const [creator, setCreator] = useState("");
     const [owner, setOwner] = useState("");
     const [collection, setCollection] = useState([]);
     const [offers, setOffers] = useState([]);
@@ -74,6 +75,7 @@ const AssetDetails = ({ history, match }) => {
                         setDataFetched(true);
                     }, 1500);
                 }
+                setCreator(res.data.creator);
                 setOwner(res.data.owner);
                 setCollection(res.data.collectionId);
                 getAllOffers(res.data._id)
@@ -384,24 +386,46 @@ const AssetDetails = ({ history, match }) => {
 
                             </div>
                             <div className="col-sm-4 px-5">
-                                <Link to={`/${owner.username}/profile`}>
+                                <Link to={`/${creator.username}/profile`}>
                                     <div className="row my-4">
+                                        <div className="col-3">
+                                            <Avatar size="large" src={creator.picture} />
+                                        </div>
+                                        <div className="col-9">
+                                            <div className="mx-3">
+                                                {user && (
+                                                    <div style={{ color: "#000000", fontSize: "120%", fontWeight: "500", marginLeft: "2px", marginTop: "-4px", marginBottom: 0 }}>
+                                                        { creator._id === user._id ? "You" : creator.username}
+                                                    </div>
+                                                )}
+                                                {!user && (
+                                                    <div style={{ color: "#000000", fontSize: "120%", fontWeight: "500", marginLeft: "2px", marginTop: "-4px", marginBottom: 0 }}>
+                                                        {creator.username}
+                                                    </div>
+                                                )}
+                                                <span style={{ color: "#666666", fontSize: "90%", }}>Creator</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Link>
+                                <Link to={`/${owner.username}/profile`}>
+                                    <div className="row my-5">
                                         <div className="col-3">
                                             <Avatar size="large" src={owner.picture} />
                                         </div>
                                         <div className="col-9">
                                             <div className="mx-3">
                                                 {user && (
-                                                    <div style={{ color: "#000000", marginLeft: "2px", marginBottom: 0 }}>
-                                                        { owner._id === user._id ? "you" : owner.username}
+                                                    <div style={{ color: "#000000", fontSize: "120%", fontWeight: "500", marginLeft: "2px", marginTop: "-4px", marginBottom: 0 }}>
+                                                        { owner._id === user._id ? "You" : owner.username}
                                                     </div>
                                                 )}
                                                 {!user && (
-                                                    <div style={{ color: "#000000", marginLeft: "2px", marginBottom: 0 }}>
+                                                    <div style={{ color: "#000000", fontSize: "120%", fontWeight: "500", marginLeft: "2px", marginTop: "-4px", marginBottom: 0 }}>
                                                         {owner.username}
                                                     </div>
                                                 )}
-                                                <span style={{ fontSize: "50%", border: "1px solid #00875A", background: "#E3FCEF", color: "#00875A", padding: "2px 8px", borderRadius: "100px" }}>OWNER</span>
+                                                <span style={{ color: "#666666", fontSize: "90%", }}>Owner</span>
                                             </div>
                                         </div>
                                     </div>
@@ -413,10 +437,10 @@ const AssetDetails = ({ history, match }) => {
                                         </div>
                                         <div className="col-9">
                                             <div className="mx-3">
-                                                <div style={{ color: "#000000", marginLeft: "2px", marginBottom: 0 }}>
+                                                <div style={{ color: "#000000", fontSize: "120%", fontWeight: "500", marginLeft: "2px", marginTop: "-4px", marginBottom: 0 }}>
                                                     {collection.name}
                                                 </div>
-                                                <span style={{ fontSize: "50%", border: "1px solid #0065ff", background: "#DEEBFF", color: "#0065ff", padding: "2px 8px", borderRadius: "100px" }}>COLLECTION</span>
+                                                <span style={{ color: "#666666", fontSize: "90%", }}>Collection</span>
                                             </div>
                                         </div>
                                     </div>
@@ -514,12 +538,12 @@ const AssetDetails = ({ history, match }) => {
                                                             </div>
                                                             <div className="col" style={{ fontSize: "120%" }}>
                                                                 {user && (
-                                                                    <>Created by <Link to={`/${owner.username}/profile`}>
+                                                                    <>Minted by <Link to={`/${owner.username}/profile`}>
                                                                         {owner._id === user._id ? "You" : owner.name}
                                                                     </Link>.</>
                                                                 )}
                                                                 {!user && (
-                                                                    <>Created by <Link to={`/${owner.username}/profile`}>
+                                                                    <>Minted by <Link to={`/${owner.username}/profile`}>
                                                                         {owner.name}
                                                                     </Link>.</>
                                                                 )}

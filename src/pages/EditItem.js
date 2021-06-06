@@ -9,7 +9,7 @@ import { PaperClipOutlined, LoadingOutlined } from '@ant-design/icons';
 import UserProfile from '../components/account/Profile';
 
 // api functions
-import { createAsset, getAssetInfo } from '../helpers/asset';
+import { getAssetInfo } from '../helpers/asset';
 
 
 const EditItem = ({ history }) => {
@@ -18,7 +18,7 @@ const EditItem = ({ history }) => {
     const path = useParams();
 
     // states
-    const [buttonLabel, setButtonLabel] = useState("Mint Your NFT");
+    const [buttonLabel, setButtonLabel] = useState("Edit Your NFT");
     const [item, setItem] = useState("");
     const [asset, setAsset] = useState("");
     const [assetFile, setAssetFile] = useState("");
@@ -74,27 +74,19 @@ const EditItem = ({ history }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        /*
         setButtonLabel(<LoadingOutlined style={{ color: "#ffffff", fontSize: "large" }} />);
-        Resizer.imageFileResizer(assetFile, 300, 300, 'JPEG', 100, 0, (uri) => {
-            createAsset(user._id, { name, description, assetFile: uri, owner: user._id, collectionId: collection }, user.token)
+            editAsset(user._id, { name, description }, user.token)
                 .then((res) => {
-                    console.log("New Asset Item", res.data);
-                    setName('');
-                    setAssetFile('');
-                    setDescription('');
-                    setAsset('');
-                    setButtonLabel("Mint Your NFT");
+                    setButtonLabel("Edit Your NFT");
                     successNotification('success');
                     setTimeout(() => { history.goBack(); }, 3000);
 
                 })
                 .catch((error) => {
-                    setError("Category already exists!");
-                    setButtonLabel("Mint Your NFT");
+                    setButtonLabel("Edit Your NFT");
                 });
-        }, "base64", 300, 300);
-
-
+                */
     }
 
     const addNewItemForm = () => {
@@ -136,7 +128,7 @@ const EditItem = ({ history }) => {
                         </div>
                     </div>
                     <div className="row my-3">
-                        <button type="button" className="px-5 py-3 m-3" style={buttonStyle} onClick={handleSubmit} disabled>{buttonLabel}</button>
+                        <button type="button" className="px-5 py-3 m-3" style={buttonStyle} onClick={handleSubmit} disabled={ !item || !name || !description}>{buttonLabel}</button>
                     </div>
                 </form>
             </div >
