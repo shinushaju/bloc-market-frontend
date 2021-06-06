@@ -6,7 +6,7 @@ import { } from 'react-router-dom';
 import logo from './bloc.svg';
 import Notifications from '../account/Notifications';
 import { Menu, Button, message, Avatar, Badge } from 'antd';
-import { UserOutlined, AppstoreAddOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
+import { UserOutlined, AppstoreAddOutlined, SettingOutlined, LogoutOutlined, WalletFilled } from '@ant-design/icons';
 const { SubMenu } = Menu;
 
 const Navbar = () => {
@@ -51,6 +51,7 @@ const Navbar = () => {
                 <SubMenu className="float-right" selectedKeys={[current]} key="SubMenu" title={<Avatar size="large" src={user.picture} />}>
                     <Menu.Item key="store" style={{ fontWeight: "400" }}><Link to="/store"><AppstoreAddOutlined /> My Store</Link></Menu.Item>
                     <Menu.Item key="account" style={{ fontWeight: "400" }}><Link to="/account"><UserOutlined /> My Account</Link></Menu.Item>
+                    <Menu.Item key="wallet" style={{ fontWeight: "400" }}><Link to="/wallet"><WalletFilled /> My Wallet</Link></Menu.Item>
                     <Menu.Item key="settings" style={{ fontWeight: "400" }}><Link to="/settings/account/profile/edit"><SettingOutlined /> Settings</Link></Menu.Item>
                     <hr></hr>
                     <Menu.Item key="logout" style={{ fontWeight: "400" }} onClick={logout}><LogoutOutlined /> Log Out</Menu.Item>

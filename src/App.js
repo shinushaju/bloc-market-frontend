@@ -32,6 +32,7 @@ import SellItem from './pages/SellItem';
 //  user route component
 import UserRoute from "./components/routes/UserRoute";
 import PageNotFound from './pages/PageNotFound';
+import Wallet from './pages/Wallet';
 
 
 const App = () => {
@@ -94,6 +95,7 @@ const App = () => {
           <UserRoute exact path="/notifications" component={Notifications} />
           <UserRoute exact path="/store" component={Store} />
           <UserRoute exact path="/account" component={Account} />
+          <UserRoute exact path="/wallet" component={Wallet} />
           <UserRoute exact path="/store/:collection/assets" component={Collection} />
           <UserRoute exact path="/store/:collection/assets/mint" component={AddItem} />
           <UserRoute exact path="/store/:collection/assets/:asset/edit" component={EditItem} />
