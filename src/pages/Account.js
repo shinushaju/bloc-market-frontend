@@ -67,6 +67,7 @@ const Account = () => {
                             >
                                 <OwnedItems />
                             </TabPane>
+                            {/*
                             <TabPane 
                                 disabled
                                 tab={
@@ -79,6 +80,7 @@ const Account = () => {
                             >
                                 <Activity />
                             </TabPane>
+                            */}
                             <TabPane
                                 tab={
                                     <span>
