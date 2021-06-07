@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Tabs, Typography } from 'antd';
-import { DropboxOutlined, ClockCircleOutlined, HeartOutlined } from '@ant-design/icons';
+import { DropboxOutlined, HighlightOutlined, ShoppingOutlined, HeartOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet';
 
 // components
 import Favourites from '../components/account/Favourites';
 import UserProfile from '../components/account/Profile';
-import Activity from '../components/account/Activity';
+//import Activity from '../components/account/Activity';
 import OwnedItems from '../components/account/OwnedItems';
-
+import CreatedItems from '../components/account/CreatedItems';
 // api functions
-import { getMyAssets } from '../helpers/asset';
+import { getMyAssets, getMyCreatedAssets } from '../helpers/asset';
 import { getFavourites } from '../helpers/users';
 
 const { TabPane } = Tabs;
@@ -23,6 +23,7 @@ const Account = () => {
 
     // states
     const [assets, setAssets] = useState([]);
+    const [createdAssets, setCreatedAssets] = useState([]);
     const [favourites, setFavourites] = useState([]);
 
     useEffect(() => {
@@ -34,7 +35,10 @@ const Account = () => {
             .then((res) => {
                 setAssets(res.data);
             })
-
+        getMyCreatedAssets(user._id)
+            .then((res) => {
+                setCreatedAssets(res.data);
+            })
         getFavourites(user._id)
             .then((res) => {
                 setFavourites(res.data.favourites);
@@ -63,9 +67,20 @@ const Account = () => {
                                         <span>Owned ({assets.length})</span>
                                     </span>
                                 }
-                                key="2"
+                                key="owned"
                             >
                                 <OwnedItems />
+                            </TabPane>
+                            <TabPane
+                                tab={
+                                    <span>
+                                        <HighlightOutlined />
+                                        <span>Created ({createdAssets.length})</span>
+                                    </span>
+                                }
+                                key="created"
+                            >
+                                <CreatedItems />
                             </TabPane>
                             {/*
                             <TabPane 
@@ -76,11 +91,12 @@ const Account = () => {
                                         <span>Activity</span>
                                     </span>
                                 }
-                                key="3"
+                                key="activity"
                             >
                                 <Activity />
                             </TabPane>
                             */}
+
                             <TabPane
                                 tab={
                                     <span>
@@ -88,7 +104,7 @@ const Account = () => {
                                         <span>Favourites ({favourites.length})</span>
                                     </span>
                                 }
-                                key="5"
+                                key="favourites"
                             >
                                 <Favourites favourites={favourites} />
                             </TabPane>

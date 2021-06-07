@@ -430,6 +430,7 @@ const AssetDetails = ({ history, match }) => {
                                         </div>
                                     </div>
                                 </Link>
+                                {collection &&
                                 <Link to={`/collections/${collection.slug}`}>
                                     <div className="row my-5">
                                         <div className="col-3">
@@ -445,6 +446,7 @@ const AssetDetails = ({ history, match }) => {
                                         </div>
                                     </div>
                                 </Link>
+                                }
                                 <div className="row my-5">
                                     <FavButton />
                                 </div>

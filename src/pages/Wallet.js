@@ -53,7 +53,7 @@ const Store = () => {
                                 </div>
                             </div>
                             <div className="col-sm-4">
-                                <div className="m-2" style={{ height: "345px", textAlign: "center", color: "#666666", borderRadius: "36px", background: "#F4F5F7", color: "#666666" }}>
+                                <div className="m-2" style={{ height: "345px", textAlign: "center", color: "#666666", borderRadius: "36px", background: "#F4F5F7" }}>
                                     <div style={{ position: "absolute", top: "36%", left: "19%" }}>
                                         Deposit Tokens
                                         <button size="large" block type="primary" className="mt-4 px-5 py-3" style={modalButtonStyle} onClick={depositTokens}>Deposit Tokens</button>
@@ -61,7 +61,7 @@ const Store = () => {
                                 </div>
                             </div>
                             <div className="col-sm-4">
-                                <div className="m-2" style={{ height: "345px", textAlign: "center", color: "#666666", borderRadius: "36px", background: "#F4F5F7", color: "#666666" }}>
+                                <div className="m-2" style={{ height: "345px", textAlign: "center", color: "#666666", borderRadius: "36px", background: "#F4F5F7" }}>
                                     <div style={{ position: "absolute", top: "36%", left: "17%" }}>
                                         Withdraw Tokens
                                         <button disabled size="large" block className="mt-4 px-5 py-3" style={modalButtonStyle} >Withdraw Tokens</button>

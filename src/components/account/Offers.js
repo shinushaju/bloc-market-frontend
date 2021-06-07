@@ -89,7 +89,7 @@ const Offers = ({ user, offersSent, offersReceived }) => {
     }
 
     return (
-        <div className="col" style={{ width: "100%", margin: "0" }}>
+        <div className="col my-2" style={{ width: "100%", margin: "0" }}>
             <Tabs size="large" type="card" tabBarGutter={8}>
                 <TabPane tab={<div className="px-5 py-2">Offers Received ({received.length})</div>} key="1">
                     {received.length <= 0 &&

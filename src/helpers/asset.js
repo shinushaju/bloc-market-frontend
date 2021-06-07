@@ -13,7 +13,11 @@ export const getAssetInfoById = async (id) => {
 }
 
 export const getMyAssets = async (id) => {
-    return await axios.get(`${process.env.REACT_APP_API}/user/${id}/assets`);
+    return await axios.get(`${process.env.REACT_APP_API}/user/${id}/assets/owned`);
+}
+
+export const getMyCreatedAssets = async (id) => {
+    return await axios.get(`${process.env.REACT_APP_API}/user/${id}/assets/created`);
 }
 
 export const getMyAssetsOnSale = async (id, authtoken) => {

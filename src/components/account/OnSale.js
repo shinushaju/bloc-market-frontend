@@ -28,7 +28,7 @@ const OnSale = ({ onSaleItems }) => {
                 )}
 
                 {assets.map((asset) =>
-                    <div className="col-sm-4 my-3">
+                    <div className="col-sm-4">
                         <Card
                             key={asset._id}
                             bordered

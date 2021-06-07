@@ -12,7 +12,7 @@ import FollowListModal from '../components/modals/FollowListModal';
 // api functions
 import { getUserInfo } from '../helpers/users';
 import { getMyCollections } from '../helpers/collection';
-import { getMyAssets } from '../helpers/asset';
+import { getMyAssets, getMyCreatedAssets } from '../helpers/asset';
 
 const { TabPane } = Tabs;
 const { Meta } = Card;
@@ -26,6 +26,7 @@ const PublicProfile = () => {
     const [loading, setLoading] = useState(false);
     const [collections, setCollections] = useState([]);
     const [assets, setAssets] = useState([]);
+    const [createdAssets, setCreatedAssets] = useState([]);
     const [favourites, setFavourites] = useState([]);
     const [following, setFollowing] = useState(false);
     const [follower, setFollower] = useState(false);
@@ -78,7 +79,13 @@ const PublicProfile = () => {
 
         getMyAssets(id)
             .then((res) => {
-                setAssets(res.data)
+                setAssets(res.data);
+            })
+
+        getMyCreatedAssets(id)
+            .then((res) => {
+                setCreatedAssets(res.data);
+                console.log("CREATED", res.data)
             })
     }
 
@@ -192,9 +199,9 @@ const PublicProfile = () => {
                                 <Tabs size="large">
                                     <TabPane
                                         tab={
-                                            <span style={{ fontSize: "120%", fontWeight: "450" }}>Collections ({collections.length})</span>
+                                            <span>Collections ({collections.length})</span>
                                         }
-                                        key="1"
+                                        key="collections"
                                     >
                                         <div className="row">
                                             {collections.length <= 0 && (
@@ -227,9 +234,9 @@ const PublicProfile = () => {
                                     </TabPane>
                                     <TabPane
                                         tab={
-                                            <span style={{ fontSize: "120%", fontWeight: "450" }}>Owned ({assets.length})</span>
+                                            <span>Owned ({assets.length})</span>
                                         }
-                                        key="2"
+                                        key="owned"
                                     >
                                         <div className="row">
                                             {assets.length <= 0 && (
@@ -285,9 +292,67 @@ const PublicProfile = () => {
 
                                     <TabPane
                                         tab={
-                                            <span style={{ fontSize: "120%", fontWeight: "450" }}>Favourites</span>
+                                            <span>Created ({createdAssets.length})</span>
                                         }
-                                        key="5"
+                                        key="created"
+                                    >
+                                        <div className="row">
+                                            {createdAssets.length <= 0 && (
+                                                <div className="py-5" style={{ display: "flex", margin: "auto" }}>
+                                                    <h3>No Items Yet!</h3>
+                                                </div>
+                                            )}
+
+                                            {createdAssets.map((asset) => (
+                                                <div key={asset._id} className="col-sm-4 my-2">
+                                                    <Card
+                                                        bordered
+                                                        style={{ width: "100%" }}
+                                                        cover={
+                                                            <Link to={`/assets/${asset.slug}`}>
+                                                                <img
+                                                                    width="100%"
+                                                                    className="p-3"
+                                                                    style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover", borderRadius: "24px" }} height="auto"
+                                                                    alt={asset.name}
+                                                                    src={asset.assetFile}
+                                                                />
+                                                            </Link>
+                                                        }
+                                                    >
+                                                        <Meta
+                                                            style={{ marginTop: "-24px" }}
+                                                            title={<div style={{ fontSize: "130%" }}>{asset.name}</div>}
+                                                            description={
+                                                                <>
+                                                                    <span style={{ fontSize: "75%" }}>List price</span>
+                                                                    <div className="row">
+                                                                        <div className="col">
+                                                                            {!asset.isListed && <>--</>}
+                                                                            {asset.isListed &&
+                                                                                <div style={{ fontSize: "120%", color: "#000000", fontWeight: "700" }}>
+                                                                                    {asset.price} BLC
+                                                </div>
+                                                                            }
+                                                                        </div>
+                                                                        <div className="col">
+                                                                            <b style={{ float: "right", color: "#333333" }}><HeartOutlined /> {asset.favourites}</b>
+                                                                        </div>
+                                                                    </div>
+                                                                </>
+                                                            }
+                                                        />
+                                                    </Card>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </TabPane>
+
+                                    <TabPane
+                                        tab={
+                                            <span>Favourites</span>
+                                        }
+                                        key="favourites"
                                     >
                                         <div className="row">
                                             {favourites.length <= 0 && (
@@ -295,8 +360,6 @@ const PublicProfile = () => {
                                                     <h3>No Favourites Yet!</h3>
                                                 </div>
                                             )}
-
-
                                             {favourites.map((asset) =>
                                                 <div key={asset._id} className="col-sm-4 my-2">
                                                     <Card
@@ -314,7 +377,6 @@ const PublicProfile = () => {
                                                                 />
                                                             </Link>
                                                         }
-
                                                     >
                                                         <Meta
                                                             style={{ marginTop: "-24px" }}
