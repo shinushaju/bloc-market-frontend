@@ -128,7 +128,7 @@ const PublicProfile = () => {
                                                 {userInfo.address.substring(0, 6) + '...' + userInfo.address.substring(36, 42)} &emsp;
                                                 <CopyToClipboard text={`0x${userInfo.address}`} onCopy={onCopyText}>
                                                     <span style={{ marginTop: "-8px", background: "#050D1B", position: "absolute", height: "40px", width: "64px", marginLeft: "-12px", border: "none", color: "#ffffff", borderRadius: "100px" }}>
-                                                        <div style={{ marginTop: "6px" }}>Copy</div>
+                                                        <div style={{ marginTop: "8px" }}>Copy</div>
                                                     </span>
                                                 </CopyToClipboard>
                                             </Button>
