@@ -124,7 +124,7 @@ const Explore = () => {
                     <div className="my-5 mx-2">
                         <div className="p-5 m-5">
                             <h2>Latest Items&#128293;</h2>
-                            <div className="my-5">
+                            <div className="my-2">
                                 <div type="flex" className="row my-2" >
                                     {items()}
                                 </div>
