@@ -22,7 +22,7 @@ const AssetDetails = ({ history, match }) => {
 
     moment().format();
     const dispatch = useDispatch();
-    const { user } = useSelector((state) => ({ ...state }));
+    const { user, wallet } = useSelector((state) => ({ ...state }));
 
     // states
     const [dataFetched, setDataFetched] = useState(false);
@@ -40,6 +40,7 @@ const AssetDetails = ({ history, match }) => {
     const [buttonUpdateLabel, setButtonUpdateLabel] = useState("Update Offer");
     const [myOfferPrice, setMyOfferPrice] = useState("");
     const [disabled, setDisabled] = useState(false);
+    const [balance, setBalance] = useState('');
     const [minPriceValidity, setMinPriceValidity] = useState('');
     const [minBalanceValidity, setBalanceValidity] = useState('');
 
@@ -51,7 +52,11 @@ const AssetDetails = ({ history, match }) => {
     const buttonStyle2 = { cursor: "pointer", border: "1px solid #050D1B", borderRadius: "100px", fontWeight: "500", fontSize: "medium", backgroundColor: "#FFFFFF", color: "#050D1B" }
 
     useEffect(() => {
-        loadAssetInfo()
+        loadAssetInfo();
+        {
+            wallet &&
+            setBalance(wallet.balance);
+        }
     }, []);
 
     const loadAssetInfo = () => {
@@ -264,15 +269,15 @@ const AssetDetails = ({ history, match }) => {
     const inputOffer = (e) => {
         e.preventDefault();
 
-        if (e.target.value < asset.minPrice) {
+        if (e.target.value > balance) {
+            setBalanceValidity(<p style={{ color: "red" }}>No sufficient balance.</p>);
+            setMyOfferPrice(e.target.value);
+            setDisabled(true);
+        }
+        else if (e.target.value < asset.minPrice) {
             setMinPriceValidity(<p style={{ color: "red" }}>Please enter an offer greater than or equal to minimum offer price.</p>);
             setMyOfferPrice(e.target.value);
             console.log(myOfferPrice);
-            setDisabled(true);
-        }
-        else if (e.target.value > 100) {
-            setBalanceValidity(<p style={{ color: "red" }}>No sufficient balance.</p>);
-            setMyOfferPrice(e.target.value);
             setDisabled(true);
         }
         else {
@@ -431,21 +436,21 @@ const AssetDetails = ({ history, match }) => {
                                     </div>
                                 </Link>
                                 {collection &&
-                                <Link to={`/collections/${collection.slug}`}>
-                                    <div className="row my-5">
-                                        <div className="col-3">
-                                            <Avatar size="large" src={collection.cover} />
-                                        </div>
-                                        <div className="col-9">
-                                            <div className="mx-3">
-                                                <div style={{ color: "#000000", fontSize: "120%", fontWeight: "500", marginLeft: "2px", marginTop: "-4px", marginBottom: 0 }}>
-                                                    {collection.name}
+                                    <Link to={`/collections/${collection.slug}`}>
+                                        <div className="row my-5">
+                                            <div className="col-3">
+                                                <Avatar size="large" src={collection.cover} />
+                                            </div>
+                                            <div className="col-9">
+                                                <div className="mx-3">
+                                                    <div style={{ color: "#000000", fontSize: "120%", fontWeight: "500", marginLeft: "2px", marginTop: "-4px", marginBottom: 0 }}>
+                                                        {collection.name}
+                                                    </div>
+                                                    <span style={{ color: "#666666", fontSize: "90%", }}>Collection</span>
                                                 </div>
-                                                <span style={{ color: "#666666", fontSize: "90%", }}>Collection</span>
                                             </div>
                                         </div>
-                                    </div>
-                                </Link>
+                                    </Link>
                                 }
                                 <div className="row my-5">
                                     <FavButton />
@@ -582,7 +587,7 @@ const AssetDetails = ({ history, match }) => {
                         </div>
                     </div>
 
-                    <MakeOfferModal assetData={asset} highestOffer={highestOffer} ownerId={owner._id} user={user} reload={loadAssetInfo} modal={modal} setModalVisible={setModalVisible} inputStyle={inputStyle} modalButtonStyle={modalButtonStyle} buttonLabel={buttonLabel} setButtonLabel={setButtonLabel} />
+                    <MakeOfferModal assetData={asset} highestOffer={highestOffer} ownerId={owner._id} user={user} wallet={wallet} reload={loadAssetInfo} modal={modal} setModalVisible={setModalVisible} inputStyle={inputStyle} modalButtonStyle={modalButtonStyle} buttonLabel={buttonLabel} setButtonLabel={setButtonLabel} />
 
                     <Modal
                         title={<h5><b>Update Offer</b></h5>}
@@ -600,7 +605,7 @@ const AssetDetails = ({ history, match }) => {
                                 Minimum Offer Price: <b>{asset.minPrice} BLC</b><br />
                                 Highest Offer: <b>{highestOffer} BLC</b>
                                 <Divider />
-                                Your Balance: <b>100 BLC</b>
+                                Your Balance: <b>{balance}</b>
                             </div>
                         </div>
                         <Divider />

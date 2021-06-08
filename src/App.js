@@ -33,6 +33,7 @@ import SellItem from './pages/SellItem';
 import UserRoute from "./components/routes/UserRoute";
 import PageNotFound from './pages/PageNotFound';
 import Wallet from './pages/Wallet';
+import { fetchWalletBalance } from './helpers/wallet';
 
 
 const App = () => {
@@ -59,6 +60,15 @@ const App = () => {
                 token: idTokenResult.token,
               }
             });
+            fetchWalletBalance(res.data.address, idTokenResult.token)
+              .then((res) => {
+                dispatch({
+                  type: "WALLET_BALANCE",
+                  payload: {
+                    balance: res.data
+                  }
+                });
+              })
           })
           .catch((error) => console.log(error.message));
       }

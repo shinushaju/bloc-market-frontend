@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography, Modal, Divider } from 'antd';
+import { useSelector } from 'react-redux';
 import UserProfile from '../components/account/Profile';
 import { Helmet } from 'react-helmet';
+import { fetchWalletBalance } from '../helpers/wallet';
 
 const { Title } = Typography;
 
 const Store = () => {
+
+    const { user, wallet } = useSelector((state) => ({ ...state }));
 
     const [balance, setBalance] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
@@ -17,6 +21,16 @@ const Store = () => {
     const depositTokens = () => {
         setModalVisible(true);
     }
+
+    useEffect(() => {
+        setBalance(wallet.balance)
+        /*
+        fetchWalletBalance(user.address, user.token)
+        .then((res) => {
+            setBalance(res.data);
+        })
+        */
+    }, [])
 
     const handleDeposit = () => {
         setModalVisible(false);
@@ -53,10 +67,10 @@ const Store = () => {
                                 </div>
                             </div>
                             <div className="col-sm-4">
-                                <div className="m-2" style={{ height: "345px", textAlign: "center", color: "#666666", borderRadius: "36px", background: "#F4F5F7" }}>
+                                <div className="m-2" style={{ height: "345px", textAlign: "center", color: "#666666", borderRadius: "36px", border: "1px dashed #cccccc", background: "#FFFFFF" }}>
                                     <div style={{ position: "absolute", top: "36%", left: "19%" }}>
                                         Deposit Tokens
-                                        <button size="large" block type="primary" className="mt-4 px-5 py-3" style={modalButtonStyle} onClick={depositTokens}>Deposit Tokens</button>
+                                        <button size="large" type="primary" className="mt-4 px-5 py-3" style={modalButtonStyle} onClick={depositTokens}>Deposit Tokens</button>
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +78,7 @@ const Store = () => {
                                 <div className="m-2" style={{ height: "345px", textAlign: "center", color: "#666666", borderRadius: "36px", background: "#F4F5F7" }}>
                                     <div style={{ position: "absolute", top: "36%", left: "17%" }}>
                                         Withdraw Tokens
-                                        <button disabled size="large" block className="mt-4 px-5 py-3" style={modalButtonStyle} >Withdraw Tokens</button>
+                                        <button disabled size="large" className="mt-4 px-5 py-3" style={modalButtonStyle} >Withdraw Tokens</button>
                                     </div>
                                 </div>
                             </div>
