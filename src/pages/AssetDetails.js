@@ -55,7 +55,7 @@ const AssetDetails = ({ history, match }) => {
         loadAssetInfo();
         {
             wallet &&
-            setBalance(wallet.balance);
+            setBalance(parseInt(wallet.balance));
         }
     }, []);
 
@@ -277,7 +277,6 @@ const AssetDetails = ({ history, match }) => {
         else if (e.target.value < asset.minPrice) {
             setMinPriceValidity(<p style={{ color: "red" }}>Please enter an offer greater than or equal to minimum offer price.</p>);
             setMyOfferPrice(e.target.value);
-            console.log(myOfferPrice);
             setDisabled(true);
         }
         else {
@@ -587,7 +586,7 @@ const AssetDetails = ({ history, match }) => {
                         </div>
                     </div>
 
-                    <MakeOfferModal assetData={asset} highestOffer={highestOffer} ownerId={owner._id} user={user} wallet={wallet} reload={loadAssetInfo} modal={modal} setModalVisible={setModalVisible} inputStyle={inputStyle} modalButtonStyle={modalButtonStyle} buttonLabel={buttonLabel} setButtonLabel={setButtonLabel} />
+                    <MakeOfferModal assetData={asset} highestOffer={highestOffer} ownerId={owner._id} reload={loadAssetInfo} modal={modal} setModalVisible={setModalVisible} inputStyle={inputStyle} modalButtonStyle={modalButtonStyle} buttonLabel={buttonLabel} setButtonLabel={setButtonLabel} />
 
                     <Modal
                         title={<h5><b>Update Offer</b></h5>}

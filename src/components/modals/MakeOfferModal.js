@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Divider, Modal, notification } from 'antd';
+import { useSelector } from "react-redux";
 import { LoadingOutlined } from '@ant-design/icons';
 import { makeOffer } from '../../helpers/offer';
 import { makeOfferNotification } from '../../helpers/notification';
 
-const MakeOfferModal = ({ assetData, highestOffer, ownerId, user, wallet, reload, modal, setModalVisible, inputStyle, modalButtonStyle, buttonLabel, setButtonLabel }) => {
+const MakeOfferModal = ({ assetData, highestOffer, ownerId, reload, modal, setModalVisible, inputStyle, modalButtonStyle, buttonLabel, setButtonLabel }) => {
 
     var owner = ownerId;
+    const { user, wallet } = useSelector((state) => ({ ...state }));
 
     const [offer, setOffer] = useState();
     const [disabled, setDisabled] = useState(false);
@@ -15,11 +17,12 @@ const MakeOfferModal = ({ assetData, highestOffer, ownerId, user, wallet, reload
     const [minBalanceValidity, setBalanceValidity] = useState('');
 
     useEffect(() => {
-        setBalance(wallet.balance);
+        setBalance(parseInt(wallet.balance));
     }, []);
 
     const inputOffer = (e) => {
         e.preventDefault();
+
 
         if (e.target.value > balance) {
             setBalanceValidity(<p style={{ color: "red" }}>No sufficient balance.</p>);
@@ -30,13 +33,15 @@ const MakeOfferModal = ({ assetData, highestOffer, ownerId, user, wallet, reload
             setMinPriceValidity(<p style={{ color: "red" }}>Please enter an offer greater than or equal to minimum offer price.</p>);
             setOffer(e.target.value);
             setDisabled(true);
-        }
+        } 
         else {
             setMinPriceValidity('');
             setBalanceValidity('');
             setOffer(e.target.value);
             setDisabled(false);
         }
+
+
     }
 
     const makeOfferHandle = (e) => {

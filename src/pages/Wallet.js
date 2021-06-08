@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Modal, Divider } from 'antd';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import UserProfile from '../components/account/Profile';
 import { Helmet } from 'react-helmet';
-import { fetchWalletBalance } from '../helpers/wallet';
+import { depositBlocCoins, fetchWalletBalance } from '../helpers/wallet';
 
 const { Title } = Typography;
 
 const Store = () => {
 
+    const dispatch = useDispatch();
+
     const { user, wallet } = useSelector((state) => ({ ...state }));
 
     const [balance, setBalance] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
-    const [deposit, setDeposit] = useState(null);
+    const [amount, setAmount] = useState('');
 
     const inputStyle = { border: "none", borderRadius: "8px", width: "100%", fontWeight: "500", fontSize: "larger", backgroundColor: "#F4F5F7", color: "#666666" }
     const modalButtonStyle = { display: "block", width: "100%", margin: "auto", cursor: "pointer", border: "none", borderRadius: "100px", fontWeight: "500", fontSize: "medium", backgroundColor: "#050D1B", color: "#ffffff" }
@@ -23,23 +25,33 @@ const Store = () => {
     }
 
     useEffect(() => {
-        setBalance(wallet.balance)
-        /*
-        fetchWalletBalance(user.address, user.token)
-        .then((res) => {
-            setBalance(res.data);
-        })
-        */
+        setBalance(wallet.balance);
     }, [])
 
     const handleDeposit = () => {
-        setModalVisible(false);
-        setDeposit(null);
+        depositBlocCoins(user.address, { amount }, user.token)
+            .then((res) => {
+                fetchWalletBalance(user.address, user.token)
+                    .then((res) => {
+                        setBalance(res.data);
+                        dispatch({
+                            type: "UPDATE_WALLET_BALANCE",
+                            payload: {
+                                balance: res.data
+                            }
+                        });
+                    })
+                setModalVisible(false);
+                setAmount('');
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     const closeModal = () => {
         setModalVisible(false);
-        setDeposit(null);
+        setAmount('');
     }
 
     return (
@@ -59,9 +71,9 @@ const Store = () => {
                                 <div className="m-2" style={{ height: "345px", textAlign: "center", borderRadius: "36px", background: "#0065ff", color: "#ffffff" }}>
                                     <div style={{ position: "absolute", top: "30%", left: "30%" }}>
                                         Your Wallet Balance
-                                <div style={{ fontSize: "200%", color: "#ffffff" }} className="mt-3">
-                                            <h1 style={{ color: "#ffffff" }}>{balance}</h1>
-                                            <div>BLC</div>
+                                <div style={{ color: "#ffffff" }}>
+                                            <div style={{ color: "#ffffff", fontWeight: "500", fontSize: "400%" }}>{balance}</div>
+                                            <div style={{fontSize: "150%"}}>BLC</div>
                                         </div>
                                     </div>
                                 </div>
@@ -107,9 +119,9 @@ const Store = () => {
                 <form onSubmit={e => { e.preventDefault(); }}>
                     <div className="form-group my-3">
                         <label>Deposit Amount (BLC)</label>
-                        <input type="number" min="0" className="py-3 px-4 my-3" placeholder="Enter deposit amount..." value={deposit} onChange={(e) => setDeposit(e.target.value)} style={inputStyle} />
+                        <input type="number" min="0" className="py-3 px-4 my-3" placeholder="Enter deposit amount..." value={amount} onChange={(e) => setAmount(e.target.value)} style={inputStyle} />
                     </div>
-                    <button type="button" className="px-5 py-3 my-2" style={modalButtonStyle} onClick={handleDeposit} disabled={!deposit}>Deposit Amount</button>
+                    <button type="button" className="px-5 py-3 my-2" style={modalButtonStyle} onClick={handleDeposit} disabled={!amount}>Deposit Amount</button>
                 </form>
             </Modal>
         </>
