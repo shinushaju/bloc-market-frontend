@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { PageHeader, Card, Divider, Button, Avatar, Modal, Typography, Dropdown, Menu, notification, message } from 'antd';
-import { EditOutlined, LoadingOutlined, DeleteOutlined, SettingOutlined, HeartOutlined } from '@ant-design/icons';
+import { PageHeader, Card, Divider, Button, Radio, Space, Avatar, Modal, Typography, Dropdown, Menu, notification, message } from 'antd';
+import { EditOutlined, LoadingOutlined, DeleteOutlined, RetweetOutlined, SettingOutlined, HeartOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import Resizer from 'react-image-file-resizer';
 import { Helmet } from 'react-helmet';
@@ -13,7 +13,8 @@ import UpdateCollectionModal from '../components/modals/UpdateCollectionModal';
 
 // api functions
 import { deleteCollection, getCollection, updateCollection } from '../helpers/collection';
-import { getMyAssetsByCollection } from '../helpers/asset';
+import { getMyAssetsByCollection, changeAssetCollection, removeFromCollection } from '../helpers/asset';
+import { getMyCollections } from '../helpers/collection';
 
 const { Title } = Typography;
 const { Meta } = Card;
@@ -26,17 +27,23 @@ const Collection = ({ history, match }) => {
     const [buttonLabel, setButtonLabel] = useState("Update Collection");
     const [logoButtonLabel, setLogoButtonLabel] = useState("Add New Logo");
     const [collectionInfo, setCollectionInfo] = useState("");
+    const [collections, setCollections] = useState([]);
     const [collectionAssetsInfo, setCollectionAssetsInfo] = useState([]);
     const [modal, setModalVisible] = useState(false);
     const [cover, setCover] = useState("");
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [coverId, setCoverId] = useState("");
+    const [changeModalVisible, setChangeModalVisible] = useState(false);
+    const [selectedCollection, setSelectedCollection] = useState("");
+    const [currentAsset, setCurrentAsset] = useState("");
+    const [currentCollection, setCurrentCollection] = useState("");
 
     // styles
     const buttonStyle1 = { cursor: "pointer", border: "none", borderRadius: "8px", fontWeight: "500", fontSize: "medium", backgroundColor: "#0065FF", color: "#ffffff" }
     const buttonStyle2 = { display: "block", width: "100%", margin: "auto", cursor: "pointer", border: "none", borderRadius: "100px", fontWeight: "400", fontSize: "medium", backgroundColor: "#0065FF", color: "#ffffff" }
     const inputStyle = { border: "none", borderRadius: "8px", width: "100%", fontWeight: "400", fontSize: "larger", backgroundColor: "#F4F5F7", color: "#666666" }
+    const radioStyle = { border: "1px solid #F4F5F7", borderRadius: "8px", minWidth: "100%" }
 
     const modalProps = {
         modal,
@@ -65,6 +72,10 @@ const Collection = ({ history, match }) => {
                 setCover(res.data.cover);
                 setCoverId(res.data.coverId);
                 loadCollectionAssetsInfo(res.data._id);
+            })
+        getMyCollections(user._id)
+            .then((res) => {
+                setCollections(res.data);
             })
     }
 
@@ -171,6 +182,48 @@ const Collection = ({ history, match }) => {
         });
     }
 
+    // change collection functions
+    const changeCollection = (asset) => {
+        setCurrentAsset(asset._id);
+        setSelectedCollection(asset.collectionId._id);
+        setCurrentCollection(asset.collectionId._id);
+        setChangeModalVisible(true);
+    }
+
+    const handleSelectCollection = (e) => {
+        setSelectedCollection(e.target.value)
+    }
+    const handleChangeCollection = () => {
+        {
+            user && user.token &&
+                changeAssetCollection(user._id, currentAsset, { collection_id: selectedCollection }, user.token)
+                    .then(() => {
+                        loadCollectionInfo();
+                    })
+        }
+        setChangeModalVisible(false);
+        setCurrentAsset('');
+        setSelectedCollection('');
+        setCurrentCollection('');
+    }
+
+    const closeChangeModal = () => {
+        setChangeModalVisible(false);
+        setCurrentAsset('');
+        setSelectedCollection('');
+        setCurrentCollection('');
+    }
+
+    // remove an asset from current collection
+    const handleRemoveCollection = (asset) => {
+        {
+            user && user.token &&
+                removeFromCollection(user._id, asset._id, user.token)
+                    .then(() => {
+                        loadCollectionInfo();
+                    })
+        }
+    }
 
     return (
         <>
@@ -232,9 +285,8 @@ const Collection = ({ history, match }) => {
                                     </div>
                                 )}
                                 {collectionAssetsInfo.map((asset) => (
-                                    <div className="col-sm-4 my-3">
+                                    <div key={asset._id} className="col-sm-4 my-3">
                                         <Card
-                                            key={asset._id}
                                             size="small"
                                             bordered
                                             style={{ width: "100%" }}
@@ -246,13 +298,16 @@ const Collection = ({ history, match }) => {
                                                     trigger={['click']}
                                                     overlay={
                                                         <Menu>
-                                                            <Menu.Item key="1">
+                                                            <Menu.Item key="1" onClick={() => changeCollection(asset)}>
+                                                                <RetweetOutlined /> Change Collection
+                                                            </Menu.Item>
+                                                            <Menu.Item key="2">
                                                                 <Link to={`/store/${collectionInfo.slug}/assets/${asset.slug}/edit`}>
-                                                                    <EditOutlined /> Edit Item
+                                                                    <EditOutlined /> Edit Item Info
                                                                 </Link>
                                                             </Menu.Item>
-                                                            <Menu.Item key="2" danger>
-                                                                <DeleteOutlined /> Delete Item
+                                                            <Menu.Item key="3" onClick={() => handleRemoveCollection(asset)}>
+                                                                <DeleteOutlined /> Remove From Collection
                                                             </Menu.Item>
                                                         </Menu>
                                                     }
@@ -305,6 +360,32 @@ const Collection = ({ history, match }) => {
                 </div>
             </div>
             <UpdateCollectionModal props={modalProps} handleSubmit={handleSubmit} handleCoverImageUpdate={handleCoverImageUpdate} />
+
+            <Modal
+                title={<h5>Change Collection</h5>}
+                visible={changeModalVisible}
+                closable
+                destroyOnClose={true}
+                onOk={handleChangeCollection}
+                okText="Save"
+                maskClosable={false}
+                width={300}
+                onCancel={closeChangeModal}
+            >
+                <h6 className="row my-2 px-3">Select a Collection</h6>
+                <div className="row p-3">
+                    <Radio.Group size="large" style={{ width: "100%" }} onChange={handleSelectCollection} value={selectedCollection}>
+                        <Space defaultChecked={currentCollection} direction="vertical" style={{ minWidth: "100%" }}>
+                            {collections.map((collection) =>
+                                <Radio key={collection._id} style={radioStyle} className="p-3" value={collection._id}>
+                                    <Avatar size="large" src={collection.cover} /> &ensp;
+                                    <span style={{ fontSize: "120%", fontWeight: "500" }}>{collection.name}</span>
+                                </Radio>
+                            )}
+                        </Space>
+                    </Radio.Group>
+                </div>
+            </Modal>
         </>
     )
 }

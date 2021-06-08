@@ -48,9 +48,32 @@ export const updateAsset = async (id, asset, payload, authtoken) => {
     });
 }
 
-
 export const updateAssetPrice = async (id, asset, payload, authtoken) => {
     return await axios.put(`${process.env.REACT_APP_API}/user/${id}/asset/update/${asset}/price`, payload, {
+        headers: {
+            authtoken
+        }
+    });
+}
+
+export const changeAssetCollection = async (id, asset, payload, authtoken) => {
+    return await axios.put(`${process.env.REACT_APP_API}/user/${id}/asset/${asset}/change/collection`, payload, {
+        headers: {
+            authtoken
+        }
+    });
+}
+
+export const removeFromCollection = async (id, asset, authtoken) => {
+    return await axios.put(`${process.env.REACT_APP_API}/user/${id}/asset/${asset}/remove/collection`, {}, {
+        headers: {
+            authtoken
+        }
+    });
+}
+
+export const addAssetToCollection = async (id, asset, payload, authtoken) => {
+    return await axios.put(`${process.env.REACT_APP_API}/user/${id}/asset/${asset}/add/collection`, payload, {
         headers: {
             authtoken
         }
