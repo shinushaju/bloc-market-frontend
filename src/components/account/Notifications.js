@@ -54,12 +54,22 @@ const Notifications = () => {
     const notificationType = (item) => {
         if (item.event === 'Offer Made') {
             return (
-                <div><Tag size="small" style={{ float: "left" }} color="green">New Offer</Tag></div>
+                <div><Tag size="small" style={{ float: "left" }} color="geekblue">New Offer</Tag></div>
             )
         }
         if (item.event === 'Offer Rejected') {
             return (
                 <div><Tag size="small" style={{ float: "left" }} color="volcano">Rejected</Tag></div>
+            )
+        }
+        if (item.event === 'Offer Accepted') {
+            return (
+                <div><Tag size="small" style={{ float: "left" }} color="green">Accepted</Tag></div>
+            )
+        }
+        if (item.event === 'Ownership Transferred') {
+            return (
+                <div><Tag size="small" style={{ float: "left" }} color="purple">Transferred</Tag></div>
             )
         }
     }
@@ -97,7 +107,7 @@ const Notifications = () => {
                                 <Avatar size="default" src={item.sender_picture} />
                             </div>
                             <div className="col-7 mx-2" style={{ whiteSpace: "break-spaces", fontWeight: '450', color: item.is_read ? '#999999' : '#000000' }}>
-                                {item.notification}
+                                {item.notification.length < 72 ? <>{item.notification}</> : <>{item.notification.substring(0, 72) + '...'}</>}
                                 <div style={{ fontSize: "86%", fontWeight: "normal", color: "#999999" }}>
                                     {moment.utc(item.createdAt).local().startOf('seconds').fromNow()}
                                 </div>

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Modal, Divider } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import UserProfile from '../components/account/Profile';
+import { LoadingOutlined } from '@ant-design/icons';
+
 import { Helmet } from 'react-helmet';
 import { depositBlocCoins, fetchWalletBalance } from '../helpers/wallet';
 
@@ -16,6 +18,7 @@ const Store = () => {
     const [balance, setBalance] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
     const [amount, setAmount] = useState('');
+    const [buttonLabel, setButtonLabel] = useState("Deposit");
 
     const inputStyle = { border: "none", borderRadius: "8px", width: "100%", fontWeight: "500", fontSize: "larger", backgroundColor: "#F4F5F7", color: "#666666" }
     const modalButtonStyle = { display: "block", width: "100%", margin: "auto", cursor: "pointer", border: "none", borderRadius: "100px", fontWeight: "500", fontSize: "medium", backgroundColor: "#050D1B", color: "#ffffff" }
@@ -29,6 +32,7 @@ const Store = () => {
     }, [])
 
     const handleDeposit = () => {
+        setButtonLabel(<LoadingOutlined style={{ color: "#ffffff", fontSize: "large" }} />);
         depositBlocCoins(user.address, { amount }, user.token)
             .then((res) => {
                 fetchWalletBalance(user.address, user.token)
@@ -42,16 +46,19 @@ const Store = () => {
                         });
                     })
                 setModalVisible(false);
+                setButtonLabel("Deposit")
                 setAmount('');
             })
             .catch((error) => {
                 console.log(error);
+                setButtonLabel("Deposit")
             })
     }
 
     const closeModal = () => {
         setModalVisible(false);
         setAmount('');
+        setButtonLabel("Deposit")
     }
 
     return (
@@ -73,7 +80,7 @@ const Store = () => {
                                         Your Wallet Balance
                                 <div style={{ color: "#ffffff" }}>
                                             <div style={{ color: "#ffffff", fontWeight: "500", fontSize: "400%" }}>{balance}</div>
-                                            <div style={{fontSize: "150%"}}>BLC</div>
+                                            <div style={{ fontSize: "150%" }}>BLC</div>
                                         </div>
                                     </div>
                                 </div>
@@ -121,7 +128,7 @@ const Store = () => {
                         <label>Deposit Amount (BLC)</label>
                         <input type="number" min="0" className="py-3 px-4 my-3" placeholder="Enter deposit amount..." value={amount} onChange={(e) => setAmount(e.target.value)} style={inputStyle} />
                     </div>
-                    <button type="button" className="px-5 py-3 my-2" style={modalButtonStyle} onClick={handleDeposit} disabled={!amount}>Deposit Amount</button>
+                    <button type="button" className="px-5 py-3 my-2" style={modalButtonStyle} onClick={handleDeposit} disabled={!amount}>{buttonLabel}</button>
                 </form>
             </Modal>
         </>

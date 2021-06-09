@@ -14,8 +14,8 @@ const SellItem = ({ history, match }) => {
     const [price, setPrice] = useState("");
     const [minPrice, setMinPrice] = useState("");
     const [isListed, setIsListed] = useState(true);
+    const [auctionStatus, setAuctionStatus] = useState('auction_in_progress');
 
-console.log(isListed)
     const inputStyle = { border: "none", borderRadius: "8px", width: "100%", fontWeight: "500", fontSize: "larger", backgroundColor: "#F4F5F7", color: "#666666" }
     const modalButtonStyle = { display: "block", width: "100%", margin: "auto", cursor: "pointer", border: "none", borderRadius: "100px", fontWeight: "500", fontSize: "medium", backgroundColor: "#050D1B", color: "#ffffff" }
 
@@ -32,6 +32,7 @@ console.log(isListed)
                     setPrice(res.data.price);
                     setMinPrice(res.data.minPrice);
                     setIsListed(res.data.isListed);
+                    setAuctionStatus(res.data.auction_status);
                 }
             })
     }
@@ -39,15 +40,17 @@ console.log(isListed)
     const handleSwitch = () => {
         if(!isListed) {
             setIsListed(true);
+            setAuctionStatus('auction_in_progress');
         }
         else {
             setIsListed(false);
+            setAuctionStatus('not_on_auction');
         }
     }
 
     const sellItem = () => {
         setButtonLabel(<LoadingOutlined style={{ color: "#ffffff", fontSize: "large" }} />);
-        updateAssetPrice(user._id, asset.slug, { price, minPrice, isListed }, user.token)
+        updateAssetPrice(user._id, asset.slug, { price, minPrice, isListed, auctionStatus }, user.token)
             .then((res) => {
                 notificationMessage('success', 15);
                 setTimeout(() => {

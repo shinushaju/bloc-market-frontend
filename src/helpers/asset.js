@@ -56,6 +56,16 @@ export const updateAssetPrice = async (id, asset, payload, authtoken) => {
     });
 }
 
+export const transferAsset = async (id, payload, authtoken) => {
+    console.log(payload)
+    return await axios.put(`${process.env.REACT_APP_API}/asset/${id}/transfer`, payload, {
+        headers: {
+            authtoken
+        }
+    });
+}
+
+
 export const changeAssetCollection = async (id, asset, payload, authtoken) => {
     return await axios.put(`${process.env.REACT_APP_API}/user/${id}/asset/${asset}/change/collection`, payload, {
         headers: {

@@ -11,9 +11,9 @@ import FavButton from '../components/micro-components/FavButton';
 import MakeOfferModal from '../components/modals/MakeOfferModal';
 
 // api functions
-import { getAssetInfo } from '../helpers/asset';
-import { getAllOffers, getOffer, updateMyOffer, rejectOffer, acceptOffer, withdrawOffer } from '../helpers/offer';
-import { makeOfferNotification, rejectOfferNotification } from '../helpers/notification';
+import { getAssetInfo, transferAsset } from '../helpers/asset';
+import { getAllOffers, getOffer, updateMyOffer, rejectOffer, acceptOffer, withdrawOffer, cancelTxn } from '../helpers/offer';
+import { makeOfferNotification, rejectOfferNotification, acceptOfferNotification, assetTransferNotification } from '../helpers/notification';
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -49,13 +49,14 @@ const AssetDetails = ({ history, match }) => {
     const modalButtonStyle = { display: "block", width: "100%", margin: "auto", cursor: "pointer", border: "none", borderRadius: "100px", fontWeight: "500", fontSize: "medium", backgroundColor: "#050D1B", color: "#ffffff" }
     const sellButtonStyle = { cursor: "pointer", border: "none", borderRadius: "100px", fontWeight: "500", fontSize: "medium", backgroundColor: "#0065ff", color: "#ffffff" }
     const buttonStyle = { cursor: "pointer", border: "none", borderRadius: "100px", fontWeight: "500", fontSize: "medium", backgroundColor: "#050D1B", color: "#ffffff" }
+    const buttonStyle1 = { cursor: "pointer", border: "none", borderRadius: "100px", fontWeight: "500", fontSize: "medium", backgroundColor: "#0065ff", color: "#ffffff" }
     const buttonStyle2 = { cursor: "pointer", border: "1px solid #050D1B", borderRadius: "100px", fontWeight: "500", fontSize: "medium", backgroundColor: "#FFFFFF", color: "#050D1B" }
 
     useEffect(() => {
         loadAssetInfo();
         {
             wallet &&
-            setBalance(parseInt(wallet.balance));
+                setBalance(parseInt(wallet.balance));
         }
     }, []);
 
@@ -125,7 +126,18 @@ const AssetDetails = ({ history, match }) => {
 
     const updateOffer = () => {
         if (user && offerers.includes(user._id)) {
-            if (myOffer && myOffer.status !== 'Accepted') {
+            if (myOffer && myOffer.status === 'Pending') {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
+    const checkoutOffer = () => {
+        if (user && offerers.includes(user._id)) {
+            if (myOffer && myOffer.status === 'Accepted') {
                 return true;
             }
             else {
@@ -159,8 +171,10 @@ const AssetDetails = ({ history, match }) => {
 
     const handleOffer = () => {
         if (user && user.token) {
-            if (offerers.includes(user._id) && myOffer.status === 'Pending') {
-                confirmOfferWithdrawal();
+            if (offerers.includes(user._id) && myOffer.status) {
+                if (myOffer.status === 'Pending' || myOffer.status === 'Accepted') {
+                    confirmOfferWithdrawal();
+                }
             }
             else {
                 setModalVisible(true);
@@ -224,29 +238,94 @@ const AssetDetails = ({ history, match }) => {
         });
     }
 
+    const handleConfirmTxn = () => {
+        Modal.confirm({
+            centered: true,
+            title: <h5>Complete Payment</h5>,
+            content: <>
+                <p>Complete the payment by transferring the amount from your wallet to owner wallet.</p>
+                <div className="p-3 mb-3" style={{ textAlign: "center", background: "#ffffff", border: "1px dashed #cccccc", borderRadius: "16px" }}>
+                    Amount
+                            <div style={{ fontSize: "3rem", fontWeight: "500" }}>{myOffer.offer}</div>
+                    <b>BLC</b>
+                </div>
+                <p>Once the transaction is successfull the NFT ownership will be transferred to your address.</p>
+                        Click "Complete Payment" button to complete the transaction.
+            </>,
+            width: 350,
+            icon: '',
+            okText: 'Complete Payment',
+            cancelText: 'Cancel',
+            okButtonProps: { size: "large" },
+            cancelButtonProps: { size: "large" },
+            onOk() {
+                return new Promise((resolve, reject) => {
+                    var status = '';
+                    transferAsset(asset._id, { address: user.address, privateKey: user.privateKey, newOwnerId: user._id, toAddress: owner.address, amount: myOffer.offer, tokenId: asset.tokenId }, user.token)
+                        .then((res) => {
+                            console.log(res.data);
+                            status = res.data;
+                            assetTransferNotification({ sender: user._id, sender_name: user.name, sender_picture: user.picture, receiver: owner._id, offer: myOffer.offer, asset: asset.name, event: 'Ownership Transferred', asset_slug: asset.slug }, user.token)
+                            setTimeout(() => {
+                                history.push('/wallet');
+                                message.success("Payment Success!", 5);
+                            }, 3000);
+                        })
+                    setTimeout(status ? resolve : reject, 10000);
+                }).catch(() => console.log('Error'));
+            },
+        });
+    }
+
+    const handleCancelTxn = () => {
+        Modal.confirm({
+            centered: true,
+            title: <h5>Withdraw Offer</h5>,
+            content: 'Are you sure you want to permanently withdraw your offer?',
+            width: 360,
+            icon: '',
+            okText: 'Yes, Withdraw!',
+            cancelText: 'Nevermind',
+            onOk() {
+                return new Promise((resolve, reject) => {
+                    var status = '';
+                    cancelTxn(user._id, asset._id, myOffer._id, user.token)
+                        .then((res) => {
+                            status = res.data;
+                            setTimeout(() => {
+                                loadAssetInfo();
+                                message.success("Offer Withdrawn", 5);
+                            }, 3000);
+                        })
+                    setTimeout(status === 'Withdrawn' ? resolve : reject, 3000);
+                }).catch(() => console.log('Error'));
+            },
+        });
+    }
+
+
     const handleAcceptOffer = (offer) => {
         Modal.confirm({
             centered: true,
             title: <h5>Accept Offer</h5>,
             content: <>
-                Are you sure you want to accept this offer?
+                Are you sure you want to accept this offer? New users cannot make new offers on this item after this.
                 <div className="my-3 p-3" style={{ backgroundColor: "#FFFAE6", border: "1px dashed #FFE380", borderRadius: "8px" }}>
-                    {`Ownership of your asset will be transferred to ${offer.offerer.name}.`}
+                    {`Once ${offer.offerer.name} confirms transaction, ownership of your asset will be transferred to ${offer.offerer.name}.`}
                     <Divider />
                     {`You will be receiving ${offer.offer} BLC in your wallet.`}
                 </div>
             </>,
             width: 360,
             icon: '',
-            okText: 'Accept Offer!',
+            okText: 'Accept Offer',
             cancelText: 'Nevermind',
             onOk() {
                 return new Promise((resolve, reject) => {
                     var status = '';
-                    console.log("Offer Accepted");
-
-                    acceptOffer(user._id, offer._id, user.token)
+                    acceptOffer(user._id, asset._id, offer._id, user.token)
                         .then((res) => {
+                            acceptOfferNotification({ sender: user._id, sender_name: user.name, sender_picture: user.picture, receiver: offer.offerer._id, offer: offer.offer, asset: offer.asset.name, event: 'Offer Accepted', asset_slug: offer.asset.slug }, user.token)
                             status = res.data;
                             setTimeout(() => {
                                 loadAssetInfo();
@@ -370,15 +449,39 @@ const AssetDetails = ({ history, match }) => {
                                         (!asset.price ?
                                             (<button className="my-4 px-5 py-3" style={sellButtonStyle} onClick={sellItem}>Sell Item</button>)
                                             :
-                                            (<button className="my-4 px-5 py-3" style={sellButtonStyle} onClick={sellItem}>Change Price</button>)
+                                            (asset.auction_status === 'auction_in_progress' || asset.auction_status === 'not_on_auction' ?
+                                                <button className="my-4 px-5 py-3" style={sellButtonStyle} onClick={sellItem}>Change Price</button> :
+                                                <div className="my-4">
+                                                    <Tag className="p-3" style={{ width: "100%" }} color="purple">
+                                                        Transaction in progress... <br /><br />
+                                                        Once the buyer confirms transaction and makes payment, ownership of<br /> your asset will be transferred to the buyer.
+                                                        <br /><br />
+                                                        You will be receiving the offer amount in your wallet.
+                                                    </Tag>
+                                                </div>
+                                            )
                                         ) :
                                         (asset.isListed &&
                                             <>
-                                                <button className="my-4 px-5 py-3" style={buttonStyle} onClick={handleOffer} dangerouslySetInnerHTML={{ __html: checkOfferer() }}></button>
+                                                {checkoutOffer() &&
+                                                    <>
+                                                        <button className="my-4 px-5 py-3" style={buttonStyle1} onClick={handleConfirmTxn}>Buy Now</button>
+                                                        <button className="my-4 px-5 py-3 mx-2" style={buttonStyle} onClick={handleCancelTxn}>Withdraw Offer</button>
+                                                    </>
+                                                }
+
+                                                {asset && asset.auction_status !== 'auction_ended' &&
+                                                    <button className="my-4 px-5 py-3" style={buttonStyle} onClick={handleOffer} dangerouslySetInnerHTML={{ __html: checkOfferer() }}></button>
+                                                }
+
+                                                {asset && asset.auction_status === 'auction_ended' &&
+                                                    <div className="my-2"><Tag className="p-2" color="green">Auction Ended</Tag></div>
+                                                }
 
                                                 {updateOffer() &&
                                                     <button className="my-4 px-5 py-3 mx-2" style={buttonStyle2} onClick={() => setUpdateModalVisible(true)}>Update Offer</button>
                                                 }
+
                                             </>
                                         )
                                     )
@@ -478,7 +581,7 @@ const AssetDetails = ({ history, match }) => {
                                                                     <Avatar size="large" src={offer.offerer.picture} />
                                                                 </div>
                                                                 <div className="col" style={{ fontSize: "120%" }}>
-                                                                    {user && (offerers.includes(user._id) &&
+                                                                    {user && (offerers.includes(user._id) && owner._id !== user._id &&
                                                                         offerStatus(offer)
                                                                     )}
                                                                     {user && (owner._id === user._id &&
@@ -503,7 +606,7 @@ const AssetDetails = ({ history, match }) => {
                                                                     {user && (
                                                                         user._id === owner._id && offer.status === 'Pending' && (
                                                                             <div className="my-3">
-                                                                                <button type="button" className="px-5 py-2" style={{ cursor: "pointer", border: "none", borderRadius: "100px", fontWeight: "500", fontSize: "medium", backgroundColor: "#050D1B", color: "#ffffff" }} onClick={() => { handleAcceptOffer(offer) }} disabled>Accept</button>
+                                                                                <button type="button" className="px-5 py-2" style={{ cursor: "pointer", border: "none", borderRadius: "100px", fontWeight: "500", fontSize: "medium", backgroundColor: "#050D1B", color: "#ffffff" }} onClick={() => { handleAcceptOffer(offer) }}>Accept</button>
                                                                                 <button type="button" className="px-5 py-2 mx-2" style={{ cursor: "pointer", border: "1px solid #505F79", borderRadius: "100px", fontWeight: "500", fontSize: "medium", backgroundColor: "#ffffff", color: "#505F79" }} onClick={() => { handleRejectOffer(offer) }}>Reject</button>
                                                                             </div>
                                                                         ))

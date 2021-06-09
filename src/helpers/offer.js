@@ -45,15 +45,15 @@ export const updateMyOffer = async (id, offer, payload, authtoken) => {
 }
 
 export const rejectOffer = async (id, offer, authtoken) => {
-    return await axios.put(`${process.env.REACT_APP_API}/user/${id}/offer/${offer}/reject`, {
+    return await axios.put(`${process.env.REACT_APP_API}/user/${id}/offer/${offer}/reject`, {}, {
         headers: {
             authtoken
         }
     });
 }
 
-export const acceptOffer = async (id, offer, authtoken) => {
-    return await axios.put(`${process.env.REACT_APP_API}/user/${id}/offer/${offer}/accept`, {
+export const acceptOffer = async (id, asset, offer, authtoken) => {
+    return await axios.put(`${process.env.REACT_APP_API}/user/${id}/offer/${offer}/accept`, { asset }, {
         headers: {
             authtoken
         }
@@ -62,6 +62,14 @@ export const acceptOffer = async (id, offer, authtoken) => {
 
 export const withdrawOffer = async (id, offer, authtoken) => {
     return await axios.delete(`${process.env.REACT_APP_API}/user/${id}/offer/${offer}/withdraw`, {
+        headers: {
+            authtoken
+        }
+    });
+}
+
+export const cancelTxn = async (id, asset, offer, authtoken) => {
+    return await axios.put(`${process.env.REACT_APP_API}/user/${id}/offer/${offer}/cancel`, { asset }, {
         headers: {
             authtoken
         }

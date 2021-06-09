@@ -64,6 +64,21 @@ export const rejectOfferNotification = async (payload, authtoken) => {
     });
 }
 
+export const acceptOfferNotification = async (payload, authtoken) => {
+    return await axios.post(`${process.env.REACT_APP_API}/notification/add/offer/accepted`, payload, {
+        headers: {
+            authtoken
+        }
+    });
+}
+
+export const assetTransferNotification = async (payload, authtoken) => {
+    return await axios.post(`${process.env.REACT_APP_API}/notification/add/asset/transfer`, payload, {
+        headers: {
+            authtoken
+        }
+    });
+}
 
 export const deleteAllNotificatons = async (id, authtoken) => {
     return await axios.delete(`${process.env.REACT_APP_API}/user/${id}/notifications/delete`, {

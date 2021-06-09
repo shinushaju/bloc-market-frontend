@@ -31,12 +31,22 @@ const Notifications = ({ history }) => {
     const notificationType = (item) => {
         if (item.event === 'Offer Made') {
             return (
-                <div><Tag size="small" style={{ float: "right" }} color="green">New Offer</Tag></div>
+                <div><Tag size="small" style={{ float: "right" }} color="geekblue">New Offer</Tag></div>
             )
         }
         if (item.event === 'Offer Rejected') {
             return (
                 <div><Tag size="small" style={{ float: "right" }} color="volcano">Offer Rejected</Tag></div>
+            )
+        }
+        if (item.event === 'Offer Accepted') {
+            return (
+                <div><Tag size="small" style={{ float: "right" }} color="green">Accepted</Tag></div>
+            )
+        }
+        if (item.event === 'Ownership Transferred') {
+            return (
+                <div><Tag size="small" style={{ float: "right" }} color="purple">Transferred</Tag></div>
             )
         }
     }
@@ -58,6 +68,9 @@ const Notifications = ({ history }) => {
         }
         if (item.event === 'New Follow') {
             history.push(`/${item.sender_username}/profile`);
+        }
+        if (item.event === 'Ownership Transferred' && user && user.token) {
+            history.push(`/wallet`);
         }
         markOneNotificationAsRead(user._id, item._id, user.token);
     }
