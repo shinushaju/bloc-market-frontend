@@ -17,7 +17,10 @@ const MakeOfferModal = ({ assetData, highestOffer, ownerId, reload, modal, setMo
     const [minBalanceValidity, setBalanceValidity] = useState('');
 
     useEffect(() => {
-        setBalance(parseInt(wallet.balance));
+        {
+            wallet &&
+                setBalance(parseInt(wallet.balance));
+        }
     }, []);
 
     const inputOffer = (e) => {

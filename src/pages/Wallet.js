@@ -28,7 +28,10 @@ const Store = () => {
     }
 
     useEffect(() => {
-        setBalance(wallet.balance);
+        {
+            wallet &&
+                setBalance(parseInt(wallet.balance));
+        }
     }, [])
 
     const handleDeposit = () => {
