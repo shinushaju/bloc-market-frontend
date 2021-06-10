@@ -261,7 +261,7 @@ const AssetDetails = ({ history, match }) => {
             onOk() {
                 return new Promise((resolve, reject) => {
                     var status = '';
-                    transferAsset(asset._id, { address: user.address, privateKey: user.privateKey, newOwnerId: user._id, toAddress: owner.address, amount: myOffer.offer, tokenId: asset.tokenId }, user.token)
+                    transferAsset(asset._id, { address: user.address, privateKey: user.privateKey, newOwnerId: user._id, toAddress: owner.address, toPrivateKey: owner.privateKey, amount: myOffer.offer, tokenId: asset.tokenId }, user.token)
                         .then((res) => {
                             console.log(res.data);
                             status = res.data;
