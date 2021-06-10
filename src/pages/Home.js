@@ -69,7 +69,7 @@ const Home = ({ history }) => {
                                 <>
                                     <div className="blurred-box">
                                         <Link to={`/assets/${asset.slug}`}>
-                                            <img style={{ display: 'block', width: "100%", maxHeight: "auto", borderRadius: "16px" }} src={asset.assetFile} alt={asset.name}/>
+                                            <img style={{height: "336px", width: "100%", objectFit: "cover", backgroundSize: "cover", borderRadius: "16px" }} src={asset.assetFile} alt={asset.name}/>
                                         </Link>
                                     </div>
                                     <div className="blurred-box my-1">
