@@ -67,7 +67,7 @@ const AddItem = ({ history }) => {
         e.preventDefault();
         setButtonLabel(<LoadingOutlined style={{ color: "#ffffff", fontSize: "large" }} />);
         Resizer.imageFileResizer(assetFile, 300, 300, 'JPEG', 100, 0, (uri) => {
-            createAsset(user._id, { name, description, assetFile: uri, creator: user._id, owner: user._id, collectionId: collection, address: user.address, privateKey: user.privateKey, commission: 0, tokenURI: name}, user.token)
+            createAsset(user._id, { name, description, assetFile: uri, creator: user._id, owner: user._id, collectionId: collection, address: user.address, privateKey: user.privateKey, commission: 0}, user.token)
                 .then((res) => {
                     console.log("New Asset Item", res.data);
                     setName('');

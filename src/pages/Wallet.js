@@ -10,6 +10,7 @@ import { depositBlocCoins, fetchWalletBalance } from "../helpers/wallet";
 const { Title } = Typography;
 
 const Store = () => {
+
   const dispatch = useDispatch();
 
   const { user, wallet } = useSelector((state) => ({ ...state }));
@@ -18,6 +19,7 @@ const Store = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [amount, setAmount] = useState("");
   const [buttonLabel, setButtonLabel] = useState("Deposit");
+  const [fetchingBalance, setFetchingBalance] = useState(true);
 
   const inputStyle = {
     border: "none",
@@ -46,7 +48,16 @@ const Store = () => {
   };
 
   useEffect(() => {
-    wallet && setBalance(parseInt(wallet.balance));
+    fetchWalletBalance(user.address, user.token).then((res) => {
+      setBalance(res.data);
+      setFetchingBalance(false);
+      dispatch({
+        type: "UPDATE_WALLET_BALANCE",
+        payload: {
+          balance: res.data,
+        },
+      });
+    });
   }, []);
 
   const handleDeposit = () => {
@@ -109,15 +120,20 @@ const Store = () => {
                   >
                     Your Wallet Balance
                     <div style={{ color: "#ffffff" }}>
-                      <div
-                        style={{
-                          color: "#ffffff",
-                          fontWeight: "500",
-                          fontSize: "400%",
-                        }}
-                      >
-                        {balance}
-                      </div>
+
+                      {fetchingBalance && <div style={{ lineHeight: "96px", opacity: "0.7" }}>Fetching Balance...</div>}
+                      {!fetchingBalance &&
+                        <div
+                          style={{
+                            color: "#ffffff",
+                            fontWeight: "500",
+                            fontSize: "400%",
+                          }}
+                        >
+                          {balance}
+                        </div>
+                      }
+
                       <div style={{ fontSize: "150%" }}>BLC</div>
                     </div>
                   </div>

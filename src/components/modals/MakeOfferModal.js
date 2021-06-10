@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Divider, Modal, notification } from "antd";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { LoadingOutlined } from "@ant-design/icons";
 import { makeOffer } from "../../helpers/offer";
 import { makeOfferNotification } from "../../helpers/notification";
+import { fetchWalletBalance } from "../../helpers/wallet";
 
 const MakeOfferModal = ({
   assetData,
@@ -17,6 +18,9 @@ const MakeOfferModal = ({
   buttonLabel,
   setButtonLabel,
 }) => {
+
+  const dispatch = useDispatch();
+
   var owner = ownerId;
   const { user, wallet } = useSelector((state) => ({ ...state }));
 
@@ -27,7 +31,15 @@ const MakeOfferModal = ({
   const [minBalanceValidity, setBalanceValidity] = useState("");
 
   useEffect(() => {
-    wallet && setBalance(parseInt(wallet.balance));
+    fetchWalletBalance(user.address, user.token).then((res) => {
+      setBalance(res.data);
+      dispatch({
+        type: "UPDATE_WALLET_BALANCE",
+        payload: {
+          balance: res.data,
+        },
+      });
+    });
   }, []);
 
   const inputOffer = (e) => {
