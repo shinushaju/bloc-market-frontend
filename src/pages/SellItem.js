@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Divider, Layout, Avatar, Switch, notification } from 'antd';
 import { LeftOutlined, LoadingOutlined } from '@ant-design/icons';
 import { getAssetInfo, updateAssetPrice } from '../helpers/asset';
+import { listedNFT } from '../helpers/activity';
 
 const SellItem = ({ history, match }) => {
 
@@ -38,7 +39,7 @@ const SellItem = ({ history, match }) => {
     }
 
     const handleSwitch = () => {
-        if(!isListed) {
+        if (!isListed) {
             setIsListed(true);
             setAuctionStatus('auction_in_progress');
         }
@@ -52,6 +53,10 @@ const SellItem = ({ history, match }) => {
         setButtonLabel(<LoadingOutlined style={{ color: "#ffffff", fontSize: "large" }} />);
         updateAssetPrice(user._id, asset.slug, { price, minPrice, isListed, auctionStatus }, user.token)
             .then((res) => {
+                // logs activity
+                if (buttonLabel === 'Sell Item Now') {
+                    listedNFT({ event: "Listed NFT", from: user._id, nft: asset._id }, user.token);
+                }
                 notificationMessage('success', 15);
                 setTimeout(() => {
                     setButtonLabel("Sell Item Now");
@@ -80,7 +85,7 @@ const SellItem = ({ history, match }) => {
                     <input type="number" min="0" className="py-3 px-4" placeholder="Enter amount here..." value={minPrice} onChange={(e) => { e.preventDefault(); setMinPrice(e.target.value) }} style={inputStyle} />
                 </div>
                 <div className="form-group my-4">
-                    <label>List Item For Sale</label> <Switch size="large" style={{float: "right"}} onChange={handleSwitch} checked={isListed}/>
+                    <label>List Item For Sale</label> <Switch size="large" style={{ float: "right" }} onChange={handleSwitch} checked={isListed} />
                 </div>
                 <button type="button" className="px-5 py-3 my-5" style={modalButtonStyle} onClick={sellItem} disabled={!price || !minPrice}>{buttonLabel}</button>
             </form>

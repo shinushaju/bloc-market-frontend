@@ -9,6 +9,7 @@ import UserProfile from '../components/account/Profile';
 
 // api functions
 import { createAsset } from '../helpers/asset';
+import { mintedNFT } from '../helpers/activity';
 
 
 const AddItem = ({ history }) => {
@@ -67,9 +68,10 @@ const AddItem = ({ history }) => {
         e.preventDefault();
         setButtonLabel(<LoadingOutlined style={{ color: "#ffffff", fontSize: "large" }} />);
         Resizer.imageFileResizer(assetFile, 300, 300, 'JPEG', 100, 0, (uri) => {
-            createAsset(user._id, { name, description, assetFile: uri, creator: user._id, owner: user._id, collectionId: collection, address: user.address, privateKey: user.privateKey, commission: 0}, user.token)
+            createAsset(user._id, { name, description, assetFile: uri, creator: user._id, owner: user._id, collectionId: collection, address: user.address, privateKey: user.privateKey, commission: 0 }, user.token)
                 .then((res) => {
-                    console.log("New Asset Item", res.data);
+                    // logs activity
+                    mintedNFT({ event: "Minted NFT", from: res.data.creator, nft: res.data._id }, user.token);
                     setName('');
                     setAssetFile('');
                     setDescription('');
@@ -80,7 +82,7 @@ const AddItem = ({ history }) => {
 
                 })
                 .catch((error) => {
-                    setError("Category already exists!");
+                    setError("Couldn't create NFT!");
                     setButtonLabel("Mint Your NFT");
                 });
         }, "base64", 300, 300);

@@ -74,7 +74,7 @@ const Navbar = () => {
                     <Notifications />
                 </Menu.Item>
             )}
-            {/*<Menu.Item disabled key="activity" className="float-right" style={{ fontWeight: "400", fontSize: "medium" }}><Link to="/activity">Activity</Link></Menu.Item>*/}
+            {<Menu.Item key="activity" className="float-right" style={{ fontWeight: "400", fontSize: "medium" }}><Link to="/activity">Activity</Link></Menu.Item>}
             <Menu.Item key="assets" className="float-right" style={{ fontWeight: "400", fontSize: "medium" }}><Link to="/assets">Explore</Link></Menu.Item>
         </Menu>
     )

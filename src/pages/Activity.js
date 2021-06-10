@@ -1,58 +1,105 @@
-import React, { useEffect } from 'react';
-import { Layout, Typography, Card, Avatar } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Layout, Typography, Card, Avatar, Timeline } from 'antd';
 import { Link } from 'react-router-dom';
+import { ExperimentTwoTone, TagTwoTone, InteractionTwoTone } from '@ant-design/icons';
+import { getActivity } from '../helpers/activity';
+import moment from 'moment';
+
 const { Title } = Typography;
 
 const Activity = () => {
 
-    const activities = [];
+    moment().format();
+
+    const [acitivities, setActivities] = useState();
 
     useEffect(() => {
-        for (let i = 0; i < 12; i++) {
-            activities.push({
-                userImage: 'https://www.cryptokitties.co/profile/profile-19.png',
-                userName: 'johndoe',
-                event: 'made an offer for about $793 on',
-                item: 'orc',
-                date: '20 minutes ago'
-            },
-                {
-                    userImage: 'https://www.cryptokitties.co/profile/profile-20.png',
-                    userName: 'ronik',
-                    event: 'created',
-                    item: 'meton',
-                    date: '50 minutes ago'
-                }
-            )
-        }
-    })
+        getActivity()
+            .then((res) => {
+                setActivities(res.data);
+            })
+    }, [])
 
     return (
         <Layout style={{ background: "#ffffff" }}>
             <div className="container-fluid my-5">
                 <div className="row p-5 my-2">
-                    <Title className="px-5 mx-2">Activity</Title>
-                    <div className="container my-3">
-                        <div className="row" type="flex">
-                            {activities.map((item) =>
+                    <div style={{ width: "100%", textAlign: "center" }} className="row px-5 mx-2">
+                        <div className="col-12">
+                            <Title>Activity</Title>
 
-                                <Card className="my-2 align-items-center" style={{ width: "100%", border: "1px solid #deebff", background: "#ffffff", borderRadius: "16px" }}>
-                                    <div className="row">
-                                        <div className="col-1 px-3">
-                                            <Avatar size="large" src={item.userImage} />
-                                        </div>
-                                        <div className="col" style={{ fontSize: "120%" }}>
-                                            <Link href=""> {item.userName} </Link> {item.event} <Link href="activity"> {item.item} </Link>
-                                            <div style={{ fontSize: "60%", color: "#666666", textTransform: "uppercase" }}> {item.date}</div>
-                                        </div>
-                                    </div>
-                                </Card>
-                            )}
                         </div>
+                    </div>
+
+                    <div className="container mt-5">
+
+                        <Timeline mode="alternate" className="p-3">
+                            {acitivities && acitivities.map((activity) =>
+                                <Timeline.Item
+
+                                    dot={
+                                        activity.event === 'Minted NFT' ? <Avatar size="large" icon={<ExperimentTwoTone twoToneColor="#3F2BE5" style={{ fontSize: "75%" }} />} style={{ backgroundColor: '#ebe9fc' }} />
+                                            : activity.event === 'Listed NFT' ? <Avatar size="large" icon={<TagTwoTone twoToneColor="#FF5733" style={{ fontSize: "75%" }} />} style={{ backgroundColor: '#ffeeea' }} />
+                                                : <Avatar size="large" icon={<InteractionTwoTone twoToneColor="#04aa49" style={{ fontSize: "75%" }} />} style={{ backgroundColor: '#e6f8ed' }} />
+                                    }
+                                >
+                                    <Card className="mx-3" style={{ border: "1px solid #deebff", background: "#ffffff", borderRadius: "16px" }}>
+                                        <div className="row">
+                                            <div className="col-2">
+                                                <Avatar size={48} shape="square" src={activity.nft.assetFile} />
+                                            </div>
+                                            <div className="col" style={{ fontSize: "120%" }}>
+
+                                                <div>
+                                                    {activity.event === 'Minted NFT' ?
+                                                        <p>
+                                                            <Link to={`/assets/${activity.nft.slug}`}>
+                                                                {activity.nft.name}
+                                                            </Link>
+                                                                     &ensp;was minted by&ensp;
+                                                                    <Link to={`/${activity.from.username}/profile`}>
+                                                                {activity.from.name}
+                                                            </Link>
+                                                            .</p>
+
+                                                        : activity.event === 'Listed NFT' ?
+                                                            <p>
+                                                                <Link to={`/assets/${activity.nft.slug}`}>
+                                                                    {activity.nft.name}
+                                                                </Link>
+                                                                 &ensp;was listed by&ensp;
+                                                                <Link to={`/${activity.from.username}/profile`}>
+                                                                    {activity.from.name}
+                                                                </Link>
+                                                        .</p>
+                                                            :
+                                                            <p>
+                                                                <Link to={`/assets/${activity.nft.slug}`}>
+                                                                    {activity.nft.name}
+                                                                </Link>
+                                                                     &ensp;was transferred to&ensp;
+                                                                    <Link to={`/${activity.to.username}/profile`}>
+                                                                    {activity.to.name}
+                                                                </Link> &ensp;by&ensp;
+                                                                <Link to={`/${activity.from.username}/profile`}>
+                                                                    {activity.from.name}
+                                                                </Link>
+                                                            .</p>
+                                                    }
+                                                </div>
+
+                                                <div style={{ fontSize: "90%", color: "#666666", fontWeight: "400", textTransform: "lowercase" }}>{activity.createdAt && moment.utc(activity.createdAt).local().startOf('seconds').fromNow()}</div>
+                                            </div>
+                                        </div>
+                                    </Card>
+                                </Timeline.Item>
+                            )}
+
+                        </Timeline>
                     </div>
                 </div>
             </div>
-        </Layout>
+        </Layout >
     )
 }
 

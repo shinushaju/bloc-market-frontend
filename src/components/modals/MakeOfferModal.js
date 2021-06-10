@@ -33,12 +33,10 @@ const MakeOfferModal = ({
   useEffect(() => {
     if (user && user.token) {
       fetchWalletBalance(user.address, user.token).then((res) => {
-        setBalance(res.data);
+        setBalance(parseInt(res.data));
         dispatch({
           type: "UPDATE_WALLET_BALANCE",
-          payload: {
-            balance: res.data,
-          },
+          payload: res.data
         });
       });
     }

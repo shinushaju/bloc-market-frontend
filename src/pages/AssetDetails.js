@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import { Layout, Tag, Card, Breadcrumb, notification, message, Modal, Typography, Tabs, Avatar, Divider } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined, ExperimentTwoTone, TagTwoTone, InteractionTwoTone } from '@ant-design/icons';
 import moment from 'moment';
 import { Helmet } from 'react-helmet';
 
@@ -15,6 +15,7 @@ import { getAssetInfo, transferAsset } from '../helpers/asset';
 import { fetchWalletBalance } from '../helpers/wallet';
 import { getAllOffers, getOffer, updateMyOffer, rejectOffer, acceptOffer, withdrawOffer, cancelTxn } from '../helpers/offer';
 import { makeOfferNotification, rejectOfferNotification, acceptOfferNotification, assetTransferNotification } from '../helpers/notification';
+import { getAssetHistory, transferredNFT } from '../helpers/activity';
 
 const { Title } = Typography;
 const { TabPane } = Tabs;
@@ -44,6 +45,7 @@ const AssetDetails = ({ history, match }) => {
     const [balance, setBalance] = useState('');
     const [minPriceValidity, setMinPriceValidity] = useState('');
     const [minBalanceValidity, setBalanceValidity] = useState('');
+    const [assetHistory, setAssetHistory] = useState([]);
 
     // styles
     const inputStyle = { border: "none", borderRadius: "8px", width: "100%", fontWeight: "500", fontSize: "larger", backgroundColor: "#F4F5F7", color: "#666666" }
@@ -57,12 +59,10 @@ const AssetDetails = ({ history, match }) => {
         loadAssetInfo();
         if (user && user.token) {
             fetchWalletBalance(user.address, user.token).then((res) => {
-                setBalance(res.data);
+                setBalance(parseInt(res.data));
                 dispatch({
                     type: "UPDATE_WALLET_BALANCE",
-                    payload: {
-                        balance: res.data,
-                    },
+                    payload: res.data
                 });
             });
         }
@@ -105,6 +105,11 @@ const AssetDetails = ({ history, match }) => {
                             setHighestOffer("No Offers Yet!")
                         }
                     });
+                getAssetHistory(res.data._id)
+                    .then((res) => {
+                        setAssetHistory(res.data);
+                        console.log("DATA", res.data)
+                    })
                 dispatch({
                     type: "LOADED_ASSET_DETAILS",
                     payload: res.data
@@ -274,6 +279,8 @@ const AssetDetails = ({ history, match }) => {
                             console.log(res.data);
                             status = res.data;
                             assetTransferNotification({ sender: user._id, sender_name: user.name, sender_picture: user.picture, receiver: owner._id, offer: myOffer.offer, asset: asset.name, event: 'Ownership Transferred', asset_slug: asset.slug }, user.token)
+                            // logs activity
+                            transferredNFT({ event: "Transferred NFT", from: owner._id, to: user._id, nft: asset._id }, user.token);
                             setTimeout(() => {
                                 history.push('/wallet');
                                 message.success("Payment Success!", 5);
@@ -628,46 +635,62 @@ const AssetDetails = ({ history, match }) => {
 
                                             <TabPane tab={<div className="px-5 py-2">History</div>} key="2">
                                                 <div className="my-2">
-                                                    <Card className="my-2 align-items-center" style={{ width: "100%", border: "1px solid #deebff", background: "#ffffff", borderRadius: "16px" }}>
-                                                        <div className="row">
-                                                            <div className="col-1 px-3">
-                                                                <Avatar size="large" src={owner.picture} />
+                                                    {assetHistory && assetHistory.map((event) =>
+
+                                                        <Card className="my-2 align-items-center" style={{ width: "100%", border: "1px solid #deebff", background: "#ffffff", borderRadius: "16px" }}>
+                                                            <div className="row">
+                                                                <div className="col-1 px-3">
+                                                                    {
+                                                                        event.event === 'Minted NFT' ? <Avatar size="large" icon={<ExperimentTwoTone twoToneColor="#3F2BE5" style={{ fontSize: "75%" }} />} style={{ backgroundColor: '#ebe9fc' }} />
+                                                                            : event.event === 'Listed NFT' ? <Avatar size="large" icon={<TagTwoTone twoToneColor="#FF5733" style={{ fontSize: "75%" }} />} style={{ backgroundColor: '#ffeeea' }} />
+                                                                                : <Avatar size="large" icon={<InteractionTwoTone twoToneColor="#04aa49" style={{ fontSize: "75%" }} />} style={{ backgroundColor: '#e6f8ed' }} />
+                                                                    }
+                                                                </div>
+                                                                <div className="col" style={{ fontSize: "120%" }}>
+                                                                    {user && (
+                                                                        <>
+                                                                            <span>
+                                                                                {event.event === 'Minted NFT' ? "Minted by "
+                                                                                    : event.event === 'Listed NFT' ? "Listed by "
+                                                                                        : "Transferred to "}
+                                                                            </span>
+
+                                                                            {event.event === 'Transferred NFT' ?
+                                                                                <Link to={`/${event.to.username}/profile`}>
+                                                                                    {event.to._id === user._id ? "You" : event.to.name}
+                                                                                </Link>
+                                                                                :
+                                                                                <Link to={`/${event.from.username}/profile`}>
+                                                                                    {event.from._id === user._id ? "You" : event.from.name}
+                                                                                </Link>
+                                                                            }.
+                                                                        </>
+                                                                    )}
+                                                                    {!user && (
+                                                                        <>
+                                                                            <span>
+                                                                                {event.event === 'Minted NFT' ? "Minted by"
+                                                                                    : event.event === 'Listed NFT' ? "Listed by"
+                                                                                        : "Transferred to"}
+                                                                            </span>
+
+                                                                            {event.event === 'Transferred NFT' ?
+                                                                                <Link to={`/${event.to.username}/profile`}>
+                                                                                    {event.to.name}
+                                                                                </Link>
+                                                                                :
+                                                                                <Link to={`/${event.from.username}/profile`}>
+                                                                                    {event.from.name}
+                                                                                </Link>
+                                                                            }.
+                                                                    </>
+                                                                    )}
+                                                                    <div style={{ fontSize: "75%", color: "#666666", fontWeight: "400", textTransform: "lowercase" }}>{event.createdAt && moment.utc(event.createdAt).local().startOf('seconds').fromNow()}</div>
+                                                                </div>
                                                             </div>
-                                                            <div className="col" style={{ fontSize: "120%" }}>
-                                                                {user && (
-                                                                    <>Listed by <Link to={`/${owner.username}/profile`}>
-                                                                        {owner._id === user._id ? "You" : owner.name}
-                                                                    </Link>.</>
-                                                                )}
-                                                                {!user && (
-                                                                    <>Listed by <Link to={`/${owner.username}/profile`}>
-                                                                        {owner.name}
-                                                                    </Link>.</>
-                                                                )}
-                                                                <div style={{ fontSize: "60%", color: "#666666", textTransform: "uppercase" }}>{moment.utc(asset.createdAt).local().startOf('seconds').fromNow()}</div>
-                                                            </div>
-                                                        </div>
-                                                    </Card>
-                                                    <Card className="my-2 align-items-center" style={{ width: "100%", border: "1px solid #deebff", background: "#ffffff", borderRadius: "16px" }}>
-                                                        <div className="row">
-                                                            <div className="col-1 px-3">
-                                                                <Avatar size="large" src={`${owner.picture}`} />
-                                                            </div>
-                                                            <div className="col" style={{ fontSize: "120%" }}>
-                                                                {user && (
-                                                                    <>Minted by <Link to={`/${owner.username}/profile`}>
-                                                                        {owner._id === user._id ? "You" : owner.name}
-                                                                    </Link>.</>
-                                                                )}
-                                                                {!user && (
-                                                                    <>Minted by <Link to={`/${owner.username}/profile`}>
-                                                                        {owner.name}
-                                                                    </Link>.</>
-                                                                )}
-                                                                <div style={{ fontSize: "60%", color: "#666666", textTransform: "uppercase" }}>{moment.utc(asset.createdAt).local().startOf('seconds').fromNow()}</div>
-                                                            </div>
-                                                        </div>
-                                                    </Card>
+                                                        </Card>
+
+                                                    )}
                                                 </div>
                                             </TabPane>
                                         </Tabs>
