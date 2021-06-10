@@ -55,15 +55,17 @@ const AssetDetails = ({ history, match }) => {
 
     useEffect(() => {
         loadAssetInfo();
-        fetchWalletBalance(user.address, user.token).then((res) => {
-            setBalance(res.data);
-            dispatch({
-                type: "UPDATE_WALLET_BALANCE",
-                payload: {
-                    balance: res.data,
-                },
+        if (user && user.token) {
+            fetchWalletBalance(user.address, user.token).then((res) => {
+                setBalance(res.data);
+                dispatch({
+                    type: "UPDATE_WALLET_BALANCE",
+                    payload: {
+                        balance: res.data,
+                    },
+                });
             });
-        });
+        }
     }, []);
 
     const loadAssetInfo = () => {

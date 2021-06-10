@@ -31,15 +31,17 @@ const MakeOfferModal = ({
   const [minBalanceValidity, setBalanceValidity] = useState("");
 
   useEffect(() => {
-    fetchWalletBalance(user.address, user.token).then((res) => {
-      setBalance(res.data);
-      dispatch({
-        type: "UPDATE_WALLET_BALANCE",
-        payload: {
-          balance: res.data,
-        },
+    if (user && user.token) {
+      fetchWalletBalance(user.address, user.token).then((res) => {
+        setBalance(res.data);
+        dispatch({
+          type: "UPDATE_WALLET_BALANCE",
+          payload: {
+            balance: res.data,
+          },
+        });
       });
-    });
+    }
   }, []);
 
   const inputOffer = (e) => {

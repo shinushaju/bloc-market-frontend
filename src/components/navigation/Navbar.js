@@ -31,6 +31,10 @@ const Navbar = () => {
             type: "LOGOUT",
             payload: null,
         });
+        dispatch({
+            type: "WALLET_BALANCE",
+            payload: null,
+        });
         history.push("/assets");
         message.info('Signed out!');
     };
