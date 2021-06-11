@@ -125,7 +125,7 @@ const Store = () => {
                           style={{
                             color: "#ffffff",
                             fontWeight: "500",
-                            fontSize: "400%",
+                            fontSize: "300%",
                           }}
                         >
                           {balance}
