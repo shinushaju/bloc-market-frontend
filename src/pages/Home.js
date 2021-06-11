@@ -64,7 +64,8 @@ const Home = ({ history }) => {
                 </div>
                 <div className="col-sm-6">
                     <div className="main-box">
-                        <div className="main-box-child">               
+                        <div className="main-box-child">  
+                            {asset &&             
                                 <>
                                     <div className="blurred-box">
                                         <Link to={`/assets/${asset.slug}`}>
@@ -84,6 +85,7 @@ const Home = ({ history }) => {
                                         </span>
                                     </div>
                                 </>
+                            }
                         </div>
                     </div>
                 </div>
