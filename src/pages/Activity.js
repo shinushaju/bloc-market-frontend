@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Typography, Card, Avatar, Timeline } from 'antd';
+import { Layout, Typography, Card, Avatar, Timeline, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import { ExperimentTwoTone, TagTwoTone, InteractionTwoTone } from '@ant-design/icons';
 import { getActivity } from '../helpers/activity';
@@ -24,13 +24,14 @@ const Activity = () => {
         <Layout style={{ background: "#ffffff" }}>
             <div className="container-fluid my-5">
                 <div className="row p-5 my-2">
+                    {/*
                     <div style={{ width: "100%", textAlign: "center" }} className="row px-5 mx-2">
                         <div className="col-12">
                             <Title>Activity</Title>
 
                         </div>
                     </div>
-
+                    */}
                     <div className="container mt-5">
 
                         <Timeline mode="alternate" className="p-3">
@@ -43,16 +44,20 @@ const Activity = () => {
                                                 : <Avatar size="large" icon={<InteractionTwoTone twoToneColor="#04aa49" style={{ fontSize: "75%" }} />} style={{ backgroundColor: '#e6f8ed' }} />
                                     }
                                 >
-                                    <Card className="mx-3" style={{ border: "1px solid #deebff", background: "#ffffff", borderRadius: "16px" }}>
+                                    <Card className="mx-3" style={{ border: "1px solid #F4F5F7", background: "#fafafa", borderRadius: "16px" }}>
                                         <div className="row">
                                             <div className="col-2">
-                                                <Avatar size={48} shape="square" src={activity.nft.assetFile} />
+                                                <Link to={`/assets/${activity.nft.slug}`}>
+                                                    <Avatar size={64} shape="square" src={activity.nft.assetFile} />
+                                                </Link>
                                             </div>
                                             <div className="col" style={{ fontSize: "120%" }}>
 
                                                 <div>
                                                     {activity.event === 'Minted NFT' ?
-                                                        <p>
+                                                        <div>
+                                                            <Tag style={{background: "#ebe9fc", color: "#3F2BE5"}}>{activity.event}</Tag>
+                                                            <br/>
                                                             <Link to={`/assets/${activity.nft.slug}`}>
                                                                 {activity.nft.name}
                                                             </Link>
@@ -60,10 +65,12 @@ const Activity = () => {
                                                                     <Link to={`/${activity.from.username}/profile`}>
                                                                 {activity.from.name}
                                                             </Link>
-                                                            .</p>
+                                                            .</div>
 
                                                         : activity.event === 'Listed NFT' ?
-                                                            <p>
+                                                            <div>
+                                                                <Tag style={{background: "#ffeeea", color: "#FF5733"}}>{activity.event}</Tag>
+                                                                <br/>
                                                                 <Link to={`/assets/${activity.nft.slug}`}>
                                                                     {activity.nft.name}
                                                                 </Link>
@@ -71,9 +78,11 @@ const Activity = () => {
                                                                 <Link to={`/${activity.from.username}/profile`}>
                                                                     {activity.from.name}
                                                                 </Link>
-                                                        .</p>
+                                                        .</div>
                                                             :
-                                                            <p>
+                                                            <div>
+                                                                <Tag style={{background: "#e6f8ed", color: "#04aa49"}}>{activity.event}</Tag>
+                                                                <br/>
                                                                 <Link to={`/assets/${activity.nft.slug}`}>
                                                                     {activity.nft.name}
                                                                 </Link>
@@ -84,11 +93,10 @@ const Activity = () => {
                                                                 <Link to={`/${activity.from.username}/profile`}>
                                                                     {activity.from.name}
                                                                 </Link>
-                                                            .</p>
+                                                            .</div>
                                                     }
+                                                    <label style={{ fontSize: "90%", color: "#666666", fontWeight: "400", textTransform: "lowercase" }}>{activity.createdAt && moment.utc(activity.createdAt).local().startOf('seconds').fromNow()}</label>
                                                 </div>
-
-                                                <div style={{ fontSize: "90%", color: "#666666", fontWeight: "400", textTransform: "lowercase" }}>{activity.createdAt && moment.utc(activity.createdAt).local().startOf('seconds').fromNow()}</div>
                                             </div>
                                         </div>
                                     </Card>

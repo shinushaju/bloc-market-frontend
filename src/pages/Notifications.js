@@ -29,6 +29,11 @@ const Notifications = ({ history }) => {
     }, [])
 
     const notificationType = (item) => {
+        if (item.event === 'New Follow') {
+            return (
+                <div><Tag size="small" style={{ float: "right" }} color="gold">New Follower</Tag></div>
+            )
+        }
         if (item.event === 'Offer Made') {
             return (
                 <div><Tag size="small" style={{ float: "right" }} color="geekblue">New Offer</Tag></div>
@@ -77,9 +82,9 @@ const Notifications = ({ history }) => {
 
 
     return (
-        <Layout style={{ minHeight: "100vh" }}>
-            <div className="container-fluid" style={{ top: "110px", display: "block", position: "fixed", marginLeft: "26%" }}>
-                <Content style={{ minHeight: "500px", width: "650px", padding: '24px', background: "#ffffff", borderRadius: "12px" }}>
+        <Layout>
+            <div className="container-fluid py-5 mt-5">
+                <Content className="my-4" style={{ display: "block", margin: "auto", minHeight: "500px", width: "650px", padding: '24px', background: "#ffffff", borderRadius: "12px" }}>
                     <div className="row">
                         <div className="col-6">
                             <h3 style={{ fontWeight: "400" }}>Latest Notifications</h3>
@@ -93,7 +98,7 @@ const Notifications = ({ history }) => {
                     </div>
                     {!loading &&
                         <div className="container my-5 p-5">
-                            <div style={{ position: 'absolute', top: '48%', fontSize: "200%", fontWeight: "bold", left: '23%', msTransform: 'translateY(-50%)', transform: 'transalateY(-50%)' }}>
+                            <div style={{ position: 'absolute', top: '50%', fontSize: "200%", fontWeight: "bold", left: '48%', msTransform: 'translateY(-50%)', transform: 'transalateY(-50%)' }}>
                                 <LoadingOutlined />
                             </div>
                         </div>

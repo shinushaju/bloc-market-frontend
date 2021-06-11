@@ -42,7 +42,7 @@ const Explore = () => {
                 <div className="col col-sm-3 my-3">
                     <Card
                         key={asset._id}
-                        
+
                         style={{ width: "100%", display: "block", margin: "auto" }}
                         cover={
                             <Link to={`assets/${asset.slug}`}>
@@ -126,18 +126,18 @@ const Explore = () => {
                             <h2>Latest Items&#128293;</h2>
                             <div className="my-2">
                                 <div type="flex" className="row my-2" >
-                                    {items()}
+
+                                    {assets.length <= 0 ?
+                                        <div className="py-5 my-5" style={{ display: "block", margin: "auto", textAlign: "center" }}>
+                                            <h4>No Items Found!</h4>
+                                        </div>
+                                         :
+                                         items() }
                                 </div>
                             </div>
                         </div>
                     </div>
                 </Layout >
-            }
-
-            {assets.length <= 0 &&
-                <div className="py-5 my-5" style={{ display: "block", margin: "auto", textAlign: "center" }}>
-                    <h4>No Items Found!</h4>
-                </div>
             }
 
         </>

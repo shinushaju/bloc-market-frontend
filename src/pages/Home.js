@@ -46,7 +46,7 @@ const Home = ({ history }) => {
 
     return (
         <div className="main-container">
-            {asset && <div className="blur-effect"></div>}
+            <div className="blur-effect"></div>
             <div className="row main-container-child">
                 <div className="col-sm-6" >
                     <div style={{ fontSize: "1.3em", marginBottom: "8px" }}>Create, sell and discover rare digital arts.</div>
@@ -64,8 +64,7 @@ const Home = ({ history }) => {
                 </div>
                 <div className="col-sm-6">
                     <div className="main-box">
-                        <div className="main-box-child">
-                            {asset ?
+                        <div className="main-box-child">               
                                 <>
                                     <div className="blurred-box">
                                         <Link to={`/assets/${asset.slug}`}>
@@ -85,9 +84,6 @@ const Home = ({ history }) => {
                                         </span>
                                     </div>
                                 </>
-                                :
-                                <img src={illustration} height="450px" width="450px"  alt="Illustration"/>
-                            }
                         </div>
                     </div>
                 </div>

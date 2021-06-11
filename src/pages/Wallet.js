@@ -119,7 +119,7 @@ const Store = () => {
                     Your Wallet Balance
                     <div style={{ color: "#ffffff" }}>
 
-                      {fetchingBalance && <div style={{ lineHeight: "96px", opacity: "0.7" }}>Fetching Balance...</div>}
+                      {fetchingBalance && <div style={{ lineHeight: "96px" }}><LoadingOutlined style={{ color: "#ffffff", fontSize: "200%", fontWeight: "700" }} /></div>}
                       {!fetchingBalance &&
                         <div
                           style={{
