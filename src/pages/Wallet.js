@@ -49,7 +49,7 @@ const Store = () => {
 
   useEffect(() => {
     fetchWalletBalance(user.address, user.token).then((res) => {
-      setBalance(parseInt(res.data));
+      setBalance(parseFloat(res.data));
       setFetchingBalance(false);
       dispatch({
         type: "UPDATE_WALLET_BALANCE",
@@ -65,7 +65,7 @@ const Store = () => {
     depositBlocCoins(user.address, { amount }, user.token)
       .then((res) => {
         fetchWalletBalance(user.address, user.token).then((res) => {
-          setBalance(parseInt(res.data));
+          setBalance(parseFloat(res.data));
           dispatch({
             type: "UPDATE_WALLET_BALANCE",
             payload: {
@@ -125,7 +125,7 @@ const Store = () => {
                           style={{
                             color: "#ffffff",
                             fontWeight: "500",
-                            fontSize: "400%",
+                            fontSize: "300%",
                           }}
                         >
                           {balance}
