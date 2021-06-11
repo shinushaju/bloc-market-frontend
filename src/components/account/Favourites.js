@@ -31,7 +31,7 @@ const Favourites = ({ favourites }) => {
                         <Card
                             key={asset._id}
                             bordered
-                            style={{ width: "96%" }}
+                            style={{ width: "100%" }}
 
                             cover={
                                 <Link to={`assets/${asset.slug}`}>
