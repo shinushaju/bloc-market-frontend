@@ -59,7 +59,7 @@ const AssetDetails = ({ history, match }) => {
         loadAssetInfo();
         if (user && user.token) {
             fetchWalletBalance(user.address, user.token).then((res) => {
-                setBalance(parseInt(res.data));
+                setBalance(parseFloat(res.data));
                 dispatch({
                     type: "UPDATE_WALLET_BALANCE",
                     payload: res.data
