@@ -4,6 +4,15 @@ export const getAllCollections = async () => {
     return await axios.get(`${process.env.REACT_APP_API}/collections`);
 }
 
+// get all collection names
+export const getCollectionNames = async (authtoken) => {
+    return await axios.get(`${process.env.REACT_APP_API}/collections/names`, {
+        headers: {
+            authtoken
+        }
+    });
+}
+
 export const getCollection = async (slug) => {
     return await axios.get(`${process.env.REACT_APP_API}/collection/${slug}`);
 }

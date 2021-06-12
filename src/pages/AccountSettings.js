@@ -19,7 +19,6 @@ const AccountSettings = ({ history }) => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => ({ ...state }));
     var currentUser = firebase.auth().currentUser;
-    console.log("CURRENT USER", currentUser);
 
     // states
     const [buttonLabel, setButtonLabel] = useState("Save");
