@@ -575,7 +575,7 @@ const AssetDetails = ({ history, match }) => {
                                 <div className="row my-5">
                                     <div className="col mx-2">
                                         <a href={`${asset.tokenURI}`} target="_blank">
-                                            <Button size="large" className="px-4" style={{ opacity: 1, border: "none", background: "#ffffff", color: "#050D1B", fontWeight: "500", boxShadow: "rgba(0, 0, 0, 0.12) -4px 7px 25px -6px" }}><InfoCircleOutlined size="small" />View Meta Data <ArrowRightOutlined /></Button>
+                                            <Button size="large" className="px-4" style={{ opacity: 1, border: "none", background: "#ffffff", color: "#050D1B", fontWeight: "500", boxShadow: "rgba(0, 0, 0, 0.12) -4px 7px 25px -6px" }}><InfoCircleOutlined size="small" />View NFT Metadata <ArrowRightOutlined /></Button>
                                         </a>
                                     </div>
                                 </div>
