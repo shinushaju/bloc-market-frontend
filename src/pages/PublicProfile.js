@@ -227,7 +227,7 @@ const PublicProfile = () => {
                                                     >
                                                         <Meta
                                                             title={<h5>{collection.name}</h5>}
-                                                            description={collection.description.substring(0,67) + " ..."}
+                                                            description={collection.description.substring(0,60) + " ..."}
                                                         />
                                                     </Card>
                                                 </div>
