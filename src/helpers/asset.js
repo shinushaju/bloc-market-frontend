@@ -4,6 +4,15 @@ export const getAllAssets = async () => {
     return await axios.get(`${process.env.REACT_APP_API}/assets`);
 }
 
+// get all assets names
+export const getAssetNames = async (authtoken) => {
+    return await axios.get(`${process.env.REACT_APP_API}/assets/names`, {
+        headers: {
+            authtoken
+        }
+    });
+}
+
 export const getAssetInfo = async (asset) => {
     return await axios.get(`${process.env.REACT_APP_API}/assets/${asset}`);
 }

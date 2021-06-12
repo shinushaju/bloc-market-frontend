@@ -14,9 +14,7 @@ const CreateCollectionModal = ({ props, handleSubmit, handleImage }) => {
 
     // collection name validation
     var nameAvailable;
-    if (isAvailable) {
-        nameAvailable = <div style={{ color: "green" }}>Collection name available.</div>;
-    }
+
     if (!isAvailable) {
         nameAvailable = <div style={{ color: "red" }}>Collection name taken.</div>;
     }

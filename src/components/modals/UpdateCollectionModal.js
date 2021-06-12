@@ -1,9 +1,24 @@
 import React from 'react';
 import { Modal } from 'antd';
 
+import CollectionNameValidation from '../../hooks/CollectionNameValidation';
+
 const UpdateCollectionModal = ({ props, handleSubmit, handleCoverImageUpdate }) => {
 
+    const name = props.name;
+
+    const [isAvailable] = CollectionNameValidation({ name });
+
     const labelStyle = { cursor: "pointer", border: "2px solid #050D1B", borderRadius: "8px", fontWeight: "400", fontSize: "medium", backgroundColor: "#050D1B", color: "#ffffff", textAlign: "center" }
+
+    // collection name validation
+    var nameAvailable;
+    if (isAvailable) {
+        nameAvailable = <div style={{ color: "green" }}>Collection name available.</div>;
+    }
+    if (!isAvailable) {
+        nameAvailable = <div style={{ color: "red" }}>Collection name taken.</div>;
+    }
 
     return (
         <Modal
@@ -32,6 +47,7 @@ const UpdateCollectionModal = ({ props, handleSubmit, handleCoverImageUpdate }) 
                 <div className="form-group my-4">
                     <label>Collection name</label>
                     <input type="text" className="py-3 px-4" placeholder="Example: Arcnet" value={props.name} onChange={(e) => props.setName(e.target.value)} style={props.inputStyle} />
+                    {props.name && <div className="my-2">{nameAvailable}</div>}
                 </div>
                 <div className="form-group my-3">
                     <label>Description</label>
