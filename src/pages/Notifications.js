@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { getNotifications, markNotificationsAsRead, markOneNotificationAsRead, deleteAllNotificatons } from '../helpers/notification';
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined, WalletTwoTone } from '@ant-design/icons';
 const { Title } = Typography;
 const { Content } = Layout;
 
@@ -74,8 +74,8 @@ const Notifications = ({ history }) => {
         if (item.event === 'New Follow') {
             history.push(`/${item.sender_username}/profile`);
         }
-        if (item.event === 'Ownership Transferred' && user && user.token) {
-            history.push(`/wallet`);
+        if (item.event === 'Ownership Transferred' || item.event === 'Token Deposited' && user ) {
+            history.push('/wallet');
         }
         markOneNotificationAsRead(user._id, item._id, user.token);
     }
@@ -112,7 +112,7 @@ const Notifications = ({ history }) => {
                         {loading && notifications.length > 0 && notifications.sort((a, b) => (a.is_read < b.is_read) ? -1 : 1).map((item) =>
                             <div key={item._id} className="row py-3 px-0 my-2" onClick={() => handleItemClicked(item)} style={{ cursor: "pointer", background: item.is_read ? "#ffffff" : "#f4f9f9", borderRadius: "12px" }}>
                                 <div className="col-1" >
-                                    <Avatar size="default" src={item.sender_picture} />
+                                <Avatar size="default" src={item.event === 'Token Deposited' ? <WalletTwoTone twoToneColor="#3F2BE5" style={{ fontSize: "100%" }} /> : item.sender_picture} style={{ backgroundColor: '#ebe9fc' }} />
                                 </div>
                                 <div className="col" style={{ whiteSpace: "break-spaces", fontWeight: item.is_read ? '400' : '450' }}>
                                     <div className="row">

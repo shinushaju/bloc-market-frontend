@@ -6,6 +6,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 
 import { Helmet } from "react-helmet";
 import { depositBlocCoins, fetchWalletBalance } from "../helpers/wallet";
+import { tokenDepositNotification } from "../helpers/notification";
 
 const { Title } = Typography;
 
@@ -13,7 +14,7 @@ const Store = () => {
 
   const dispatch = useDispatch();
 
-  const { user, wallet } = useSelector((state) => ({ ...state }));
+  const { user } = useSelector((state) => ({ ...state }));
 
   const [balance, setBalance] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
@@ -56,7 +57,7 @@ const Store = () => {
         payload: res.data
       });
     });
-  }, []);
+  }, [user.address, user.token, dispatch]);
 
   const handleDeposit = () => {
     setButtonLabel(
@@ -73,6 +74,7 @@ const Store = () => {
             },
           });
         });
+        tokenDepositNotification({ receiver: user._id, amount, event: "Token Deposited" }, user.token);
         setModalVisible(false);
         setButtonLabel("Deposit");
         setAmount("");
@@ -109,21 +111,23 @@ const Store = () => {
                     height: "345px",
                     textAlign: "center",
                     borderRadius: "36px",
-                    background: "#0065ff",
-                    color: "#ffffff",
+                    border: "1px solid #F4F5F7",
+                    background: "#ffffff",
+                    color: "#000000",
+                    boxShadow: "rgba(0, 0, 0, 0.1) 3px 5px 25px -6px"
                   }}
                 >
                   <div
-                    style={{ position: "absolute", top: "30%", left: "30%" }}
+                    style={{ position: "relative", top: "30%", textAlign: "center", color: "#666666" }}
                   >
-                    Your Wallet Balance
-                    <div style={{ color: "#ffffff" }}>
+                    Balance
+                    <div style={{ color: "#000000" }}>
 
-                      {fetchingBalance && <div style={{ lineHeight: "96px" }}><LoadingOutlined style={{ color: "#ffffff", fontSize: "200%", fontWeight: "700" }} /></div>}
+                      {fetchingBalance && <div style={{ lineHeight: "96px" }}><LoadingOutlined style={{ color: "#000000", fontSize: "200%", fontWeight: "700" }} /></div>}
                       {!fetchingBalance &&
                         <div
                           style={{
-                            color: "#ffffff",
+                            color: "#000000",
                             fontWeight: "500",
                             fontSize: "300%",
                           }}

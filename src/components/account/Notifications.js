@@ -3,7 +3,7 @@ import { Menu, Dropdown, Avatar, Button, Badge, Tag, Empty } from 'antd';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { createBrowserHistory } from 'history';
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined, WalletTwoTone } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { newNotifications, markNotificationsAsRead, markOneNotificationAsRead } from '../../helpers/notification';
 
@@ -45,6 +45,9 @@ const Notifications = () => {
         }
         if (item.event === 'New Follow') {
             history.push(`/${item.sender_username}/profile`);
+        }
+        if (item.event === 'Ownership Transferred' || item.event === 'Token Deposited' && user) {
+            history.push('/wallet');
         }
         markOneNotificationAsRead(user._id, item._id, user.token);
         window.location.reload();
@@ -104,7 +107,7 @@ const Notifications = () => {
                     <Menu.Item key={item._id} style={{ background: "#ffffff" }} onClick={() => handleItemClicked(item)} className="mx-3 my-2 px-0">
                         <div className="row">
                             <div className="col-1" >
-                                <Avatar size="default" src={item.sender_picture} />
+                                <Avatar size="default" src={item.event === 'Token Deposited' ? <WalletTwoTone twoToneColor="#3F2BE5" style={{ fontSize: "130%" }} /> : item.sender_picture} style={{ backgroundColor: '#ebe9fc' }} />
                             </div>
                             <div className="col-7 mx-2" style={{ whiteSpace: "break-spaces", fontWeight: '450', color: item.is_read ? '#999999' : '#000000' }}>
                                 {item.notification.length < 72 ? <>{item.notification}</> : <>{item.notification.substring(0, 72) + '...'}</>}

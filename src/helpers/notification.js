@@ -72,6 +72,14 @@ export const acceptOfferNotification = async (payload, authtoken) => {
     });
 }
 
+export const tokenDepositNotification = async (payload, authtoken) => {
+    return await axios.post(`${process.env.REACT_APP_API}/notification/add/deposit`, payload, {
+        headers: {
+            authtoken
+        }
+    });
+}
+
 export const assetTransferNotification = async (payload, authtoken) => {
     return await axios.post(`${process.env.REACT_APP_API}/notification/add/asset/transfer`, payload, {
         headers: {

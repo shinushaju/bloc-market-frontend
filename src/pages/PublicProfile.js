@@ -12,7 +12,7 @@ import FollowListModal from '../components/modals/FollowListModal';
 // api functions
 import { getUserInfo } from '../helpers/users';
 import { getMyCollections } from '../helpers/collection';
-import { getMyAssets, getMyCreatedAssets } from '../helpers/asset';
+import { getMyAssets, getMyCreatedAssets, getAssetsCountByCollection } from '../helpers/asset';
 
 const { TabPane } = Tabs;
 const { Meta } = Card;
@@ -85,7 +85,6 @@ const PublicProfile = () => {
         getMyCreatedAssets(id)
             .then((res) => {
                 setCreatedAssets(res.data);
-                console.log("CREATED", res.data)
             })
     }
 
@@ -226,7 +225,10 @@ const PublicProfile = () => {
                                                             </Link>
                                                         }
                                                     >
-                                                        <Meta title={<b>{collection.name}</b>} />
+                                                        <Meta
+                                                            title={<h5>{collection.name}</h5>}
+                                                            description={collection.description.substring(0,67) + " ..."}
+                                                        />
                                                     </Card>
                                                 </div>
                                             ))}

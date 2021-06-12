@@ -32,6 +32,10 @@ export const getMyAssetsByCollection = async (id, collection) => {
     return await axios.get(`${process.env.REACT_APP_API}/user/${id}/${collection}/assets`);
 }
 
+export const getAssetsCountByCollection = async (collection) => {
+    return await axios.get(`${process.env.REACT_APP_API}/collection/${collection}/assets/count`);
+}
+
 export const createAsset = async (id, payload, authtoken) => {
     return await axios.post(`${process.env.REACT_APP_API}/user/${id}/asset/create`, payload, {
         headers: {
