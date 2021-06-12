@@ -5,13 +5,17 @@ import { Link, useHistory } from "react-router-dom"
 import { } from 'react-router-dom';
 import logo from './bloc.svg';
 import Notifications from '../account/Notifications';
-import { Menu, Button, message, Avatar, Badge, Dropdown } from 'antd';
+import { Menu, Button, message, Avatar } from 'antd';
 import { UserOutlined, AppstoreAddOutlined, SettingOutlined, LogoutOutlined, WalletFilled } from '@ant-design/icons';
+import SearchBar from '../micro-components/SearchBar';
 
 const Navbar = () => {
 
     const [current, setCurrent] = useState("");
     const [notificationsCount, setNotificationsCount] = useState('6')
+    const [visible, setVisible] = useState(false);
+
+
     let history = useHistory();
     let dispatch = useDispatch();
     const { user } = useSelector((state) => ({ ...state }));
@@ -44,10 +48,14 @@ const Navbar = () => {
 
     return (
         <Menu theme="light" onClick={handleClick} selectedKeys={[current]} mode="horizontal" style={{ padding: "18px 80px", borderBottomColor: "transparent", position: 'fixed', zIndex: 50, width: '100%', background: "#ffffff" }}>
-            <Menu.Item key="/">
+            <Menu.Item key="home">
                 <Link to="/">
                     <img src={logo} height="30px" width="auto" alt="Bloc Logo" />
                 </Link>
+            </Menu.Item>
+
+            <Menu.Item key="search">
+                <SearchBar />
             </Menu.Item>
 
             {user && (
