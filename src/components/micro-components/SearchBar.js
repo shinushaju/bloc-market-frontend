@@ -11,6 +11,7 @@ const SearchBar = () => {
     const [assets, setAssets] = useState([]);
     const [collections, setCollections] = useState([]);
     const [artists, setArtists] = useState([]);
+    const [options, setOptions] = useState([]);
 
     useEffect(() => {
         getAllAssets()
@@ -120,29 +121,35 @@ const SearchBar = () => {
         ),
     });
 
-    const options = [
-        {
-            label: renderTitle('NFTs'),
-            options:
-                assets.filter(searched(keyword)).map((asset) =>
-                    renderAssets(asset)
-                ),
-        },
-        {
-            label: renderTitle('Collections'),
-            options:
-                collections.filter(searched(keyword)).map((collection) =>
-                    renderCollections(collection)
-                ),
-        },
-        {
-            label: renderTitle('Artists'),
-            options:
-                artists.filter(searched(keyword)).map((artist) =>
-                    renderArtists(artist)
-                ),
-        },
-    ];
+    const handleSearch = (value) => {
+        setOptions(
+          !value
+            ? []
+            : [
+                {
+                    label: renderTitle('NFTs'),
+                    options:
+                        assets.filter(searched(keyword)).map((asset) =>
+                            renderAssets(asset)
+                        ),
+                },
+                {
+                    label: renderTitle('Collections'),
+                    options:
+                        collections.filter(searched(keyword)).map((collection) =>
+                            renderCollections(collection)
+                        ),
+                },
+                {
+                    label: renderTitle('Artists'),
+                    options:
+                        artists.filter(searched(keyword)).map((artist) =>
+                            renderArtists(artist)
+                        ),
+                },
+              ],
+        );
+      };
 
     return (
         <AutoComplete
@@ -153,6 +160,7 @@ const SearchBar = () => {
             dropdownClassName="certain-category-search-dropdown"
             defaultActiveFirstOption={false}
             dropdownMatchSelectWidth={500}
+            onSearch={handleSearch}
             style={{
                 width: 500,
             }}
