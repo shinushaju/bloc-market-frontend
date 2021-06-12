@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InActiveFavButton from './heart-icon/InActiveHeart';
 import ActiveFavButton from './heart-icon/ActiveHeart';
 import { useSelector } from "react-redux";
@@ -12,7 +12,14 @@ const FavButton = () => {
 
     const [fav, setFav] = useState(false);
     const [count, setCount] = useState(0);
+    const [noUser, setNoUser] = useState(true);
+    const [onWait, setOnWait] = useState(false);
 
+    useEffect(() => {
+        if (user && user.token) {
+            setNoUser(false);
+        }
+    })
     getFavouriteCount(asset._id)
         .then((res) => {
             setCount(res.data.favourites);
@@ -37,20 +44,25 @@ const FavButton = () => {
 
 
     const handleFavButton = () => {
+
         if (!fav) {
+            setOnWait(true);
             incrementFavouriteCount(asset._id);
             addToFavourites(user._id, asset._id, user.token);
             setTimeout(() => {
                 setFav(true);
                 setCount(count + 1);
+                setOnWait(false);
             }, 500);
         }
         else {
+            setOnWait(true);
             decrementFavouriteCount(asset._id);
             removeFromFavourites(user._id, asset._id, user.token);
             setTimeout(() => {
                 setFav(false);
                 setCount(count - 1);
+                setOnWait(false);
             }, 500);
         }
     }
@@ -58,7 +70,7 @@ const FavButton = () => {
     return (
         <>
             <div className="col-3">
-                {fav ? <ActiveFavButton handleFavButton={handleFavButton} /> : <InActiveFavButton handleFavButton={handleFavButton} disabled={user ? false : true} />}
+                {fav ? <ActiveFavButton handleFavButton={handleFavButton} /> : <InActiveFavButton handleFavButton={handleFavButton} disabled={noUser || onWait} />}
             </div>
             <div className="col-9">
                 <div className="mx-3">
