@@ -47,7 +47,7 @@ const Navbar = () => {
                 </Link>
             </Menu.Item>
 
-            { current === '' || current === 'login' || current === 'sign-up' ? <></> :
+            { current === 'login' || current === 'sign-up' ? <></> :
                 <Menu.Item key="search">
                     <SearchBar />
                 </Menu.Item>
