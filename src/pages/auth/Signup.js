@@ -61,6 +61,7 @@ const Signup = ({ history }) => {
             handleCodeInApp: true,
         };
         await auth.sendSignInLinkToEmail(email, config);
+        console.log("Clicked")
         setVisible(true);
     }
 

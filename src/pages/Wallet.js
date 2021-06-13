@@ -22,7 +22,7 @@ const Store = () => {
   const [buttonLabel, setButtonLabel] = useState("Deposit");
   const [fetchingBalance, setFetchingBalance] = useState(true);
   const [disabled, setDisabled] = useState(false);
-  
+
   const inputStyle = {
     border: "none",
     borderRadius: "8px",
@@ -157,19 +157,22 @@ const Store = () => {
                     background: "#FFFFFF",
                   }}
                 >
-                  <div
-                    style={{ position: "absolute", top: "36%", left: "19%" }}
-                  >
-                    Deposit Tokens
-                    <button
-                      size="large"
-                      type="primary"
-                      className="mt-4 px-5 py-3"
-                      style={modalButtonStyle}
-                      onClick={depositTokens}
+                  <div style={{ position: "relative", top: "30%" }}>
+                    <div
+                      className="px-4"
+                      style={{ display: "block", margin: "auto" }}
                     >
                       Deposit Tokens
+                    <button
+                        size="large"
+                        type="primary"
+                        className="mt-4 px-5 py-3"
+                        style={modalButtonStyle}
+                        onClick={depositTokens}
+                      >
+                        Deposit Tokens
                     </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -184,18 +187,21 @@ const Store = () => {
                     background: "#F4F5F7",
                   }}
                 >
-                  <div
-                    style={{ position: "absolute", top: "36%", left: "17%" }}
-                  >
-                    Withdraw Tokens
-                    <button
-                      disabled
-                      size="large"
-                      className="mt-4 px-5 py-3"
-                      style={modalButtonStyle}
+                  <div style={{ position: "relative", top: "30%" }}>
+                    <div
+                      className="px-4"
+                      style={{ display: "block", margin: "auto" }}
                     >
                       Withdraw Tokens
+                    <button
+                        disabled
+                        size="large"
+                        className="mt-4 px-5 py-3"
+                        style={modalButtonStyle}
+                      >
+                        Withdraw Tokens
                     </button>
+                    </div>
                   </div>
                 </div>
               </div>

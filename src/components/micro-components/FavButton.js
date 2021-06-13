@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import InActiveFavButton from './heart-icon/InActiveHeart';
 import ActiveFavButton from './heart-icon/ActiveHeart';
 import { useSelector } from "react-redux";
+import { Layout, Avatar, Button } from 'antd';
+import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 
 import { decrementFavouriteCount, getFavouriteCount, incrementFavouriteCount } from '../../helpers/asset';
 import { addToFavourites, getFavourites, removeFromFavourites } from '../../helpers/users';
@@ -45,40 +47,35 @@ const FavButton = () => {
 
     const handleFavButton = () => {
         if (!fav) {
+            //setFav(true);
             setOnWait(true);
             incrementFavouriteCount(asset._id)
-                .then((res) => {
-                    addToFavourites(user._id, asset._id, user.token);
-                    setFav(true);
-                    setCount(res.data.favourites);
-                    setTimeout(() => {
-                        setOnWait(false);
-                    }, 500)
+                .then(() => {
+                    setCount(count + 1);
                 })
+            addToFavourites(user._id, asset._id, user.token);
+            setOnWait(false);
         }
         else {
+            //setFav(false);
             setOnWait(true);
             decrementFavouriteCount(asset._id)
-                .then((res) => {
-                    removeFromFavourites(user._id, asset._id, user.token);
-                    setFav(false);
-                    setCount(res.data.favourites);
-                    setTimeout(() => {
-                        setOnWait(false);
-                    }, 500)
+                .then(() => {
+                    setCount(count - 1);
                 })
-
+            removeFromFavourites(user._id, asset._id, user.token);
+            setOnWait(false);     
         }
     }
 
     return (
         <>
             <div className="col-3">
-                {fav ? <ActiveFavButton handleFavButton={handleFavButton} disabled={noUser || onWait} /> : <InActiveFavButton handleFavButton={handleFavButton} disabled={noUser || onWait} />}
+                {fav ? <Button style={{border: "none"}} shape="circle" icon={<HeartFilled size="large" style={{color: "#DE350B"}} color="#DE350B"/>} size="large"  onClick={handleFavButton} disabled={noUser || onWait} /> : <Button style={{border: "none"}} shape="circle" icon={<HeartOutlined size="large"/>} size="large"  onClick={handleFavButton} disabled={noUser || onWait} />}
             </div>
             <div className="col-9">
-                <div className="mx-3">
-                    <b style={{ fontSize: "175%" }}>{count}</b>
+                <div className="mx-3 my-1">
+                    <b style={{ fontSize: "150%" }}>{count}</b>
                     <div>Favourites</div>
                 </div>
             </div>
