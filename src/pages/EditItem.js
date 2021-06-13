@@ -128,7 +128,7 @@ const EditItem = ({ history }) => {
                         </div>
                     </div>
                     <div className="row my-3">
-                        <button type="button" className="px-5 py-3 m-3" style={buttonStyle} onClick={handleSubmit} disabled={ !item || !name || !description}>{buttonLabel}</button>
+                        <button type="button" className="px-5 py-3 m-3" style={buttonStyle} onClick={handleSubmit} disabled>{buttonLabel}</button>
                     </div>
                 </form>
             </div >

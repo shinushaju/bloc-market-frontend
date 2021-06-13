@@ -21,7 +21,8 @@ const Store = () => {
   const [amount, setAmount] = useState("");
   const [buttonLabel, setButtonLabel] = useState("Deposit");
   const [fetchingBalance, setFetchingBalance] = useState(true);
-
+  const [disabled, setDisabled] = useState(false);
+  
   const inputStyle = {
     border: "none",
     borderRadius: "8px",
@@ -60,6 +61,7 @@ const Store = () => {
   }, [user.address, user.token, dispatch]);
 
   const handleDeposit = () => {
+    setDisabled(true);
     setButtonLabel(
       <LoadingOutlined style={{ color: "#ffffff", fontSize: "large" }} />
     );
@@ -76,11 +78,13 @@ const Store = () => {
         });
         tokenDepositNotification({ receiver: user._id, amount, event: "Token Deposited" }, user.token);
         setModalVisible(false);
+        setDisabled(false);
         setButtonLabel("Deposit");
         setAmount("");
       })
       .catch((error) => {
         console.log(error);
+        setDisabled(false);
         setButtonLabel("Deposit");
       });
   };
@@ -241,7 +245,7 @@ const Store = () => {
             className="px-5 py-3 my-2"
             style={modalButtonStyle}
             onClick={handleDeposit}
-            disabled={!amount}
+            disabled={!amount || disabled}
           >
             {buttonLabel}
           </button>

@@ -7,7 +7,6 @@ import { LoadingOutlined, WalletTwoTone } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { newNotifications, markNotificationsAsRead, markOneNotificationAsRead } from '../../helpers/notification';
 
-
 const Notifications = () => {
 
     moment().format();
@@ -17,6 +16,7 @@ const Notifications = () => {
     const [notifications, setNotifications] = useState([]);
     const [badge, setBadge] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [count, setCount] = useState(0);
 
     useEffect(() => {
         setInterval(() => {
@@ -26,6 +26,7 @@ const Notifications = () => {
                     setLoading(true);
                     if (res.data.length > 0) {
                         setBadge(true);
+                        setCount(res.data.length);
                     } else {
                         setBadge(false);
                     }
@@ -35,6 +36,7 @@ const Notifications = () => {
 
     const handleMarkRead = () => {
         markNotificationsAsRead(user._id, user.token);
+        setCount(0);
         setBadge(false);
         setNotifications([]);
     }
@@ -76,7 +78,6 @@ const Notifications = () => {
             )
         }
     }
-
 
     const menu = (
         <Menu>
@@ -128,7 +129,7 @@ const Notifications = () => {
 
     return (
         <Dropdown arrow placement="bottomCenter" overlay={menu} overlayStyle={{ width: "400px" }}>
-            <Badge dot size="small" style={{ display: !badge ? "none" : "block" }}>
+            <Badge count={count} size="small" style={{ display: !badge ? "none" : "block" }}>
                 <a style={{ fontWeight: "400", fontSize: "medium" }} className="ant-dropdown-link" onClick={e => e.preventDefault()}>
                     Notifications
                 </a>

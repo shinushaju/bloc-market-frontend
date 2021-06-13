@@ -4,7 +4,7 @@ import Resizer from 'react-image-file-resizer';
 import { PageHeader, Alert, notification } from 'antd';
 import { PaperClipOutlined, LoadingOutlined } from '@ant-design/icons';
 
-import AssetNameValidation from '../hooks/AssetNameValidation';
+//import AssetNameValidation from '../hooks/AssetNameValidation';
 
 // User Profile Component
 import UserProfile from '../components/account/Profile';
@@ -29,18 +29,19 @@ const AddItem = ({ history }) => {
     const [loading, setLoading] = useState(false);
 
     // styles
-    const buttonStyle = { cursor: "pointer", border: "none", width: "47%", borderRadius: "100px", fontWeight: "400", fontSize: "large", backgroundColor: "#0065FF", color: "#ffffff" }
+    const buttonStyle = { cursor: "pointer", border: "none", borderRadius: "100px", width: "27%", fontWeight: "400", fontSize: "large", backgroundColor: "#0065FF", color: "#ffffff" }
+    const cancelButtonStyle = { cursor: "pointer", border: "1px solid #050D1B", borderRadius: "100px", fontWeight: "400", fontSize: "large", backgroundColor: "#ffffff", color: "#050D1B" }
     const inputStyle = { border: "none", borderRadius: "8px", width: "100%", fontWeight: "400", fontSize: "larger", backgroundColor: "#F4F5F7", color: "#666666" }
     const labelStyle = { cursor: "pointer", width: "100%", border: "2px solid #050D1B", borderRadius: "8px", fontWeight: "400", fontSize: "medium", backgroundColor: "#050D1B", color: "#ffffff", textAlign: "center" }
 
-    const [isAvailable] = AssetNameValidation({ name });
+    // const [isAvailable] = AssetNameValidation({ name });
 
     // collection name validation
-    var nameAvailable;
+    // var nameAvailable;
 
-    if (!isAvailable) {
-        nameAvailable = <div style={{ color: "red" }}>"{name}" is already taken.</div>;
-    }
+    // if (!isAvailable) {
+       // nameAvailable = <div style={{ color: "red" }}>"{name}" is already taken.</div>;
+    //}
 
     useEffect(() => {
         setCollecton(history.location.state.collection_id);
@@ -51,8 +52,10 @@ const AddItem = ({ history }) => {
 
 
     const cancelForm = () => {
-        setAssetFile("");
-        setAsset("");
+        setName('');
+        setAssetFile('');
+        setDescription('');
+        setAsset('');
         history.goBack();
     }
 
@@ -64,13 +67,15 @@ const AddItem = ({ history }) => {
     };
 
     const handleImage = (e) => {
-        setAssetFile(e.target.files[0]);
-        setAsset(e.target.files[0].name);
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            document.getElementById("image").src = e.target.result;
-        };
-        reader.readAsDataURL(e.target.files[0]);
+        if(e.target.files[0]) {
+            setAssetFile(e.target.files[0]);
+            setAsset(e.target.files[0].name);
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById("image").src = e.target.result;
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        }
 
     }
 
@@ -96,8 +101,6 @@ const AddItem = ({ history }) => {
                     setButtonLabel("Mint Your NFT");
                 });
         }, "base64", 300, 300);
-
-
     }
 
     const addNewItemForm = () => {
@@ -109,14 +112,14 @@ const AddItem = ({ history }) => {
                             <div className="form-group ">
                                 <label>Upload Your Art</label>
                                 <label htmlFor="file-upload" className="px-5 py-3" style={labelStyle}>
-                                    Add File
+                                {!assetFile ? 'Add File' : 'Change File'}
                         <input id="file-upload" type="file" accept="image/png,image/jpg,image/jpeg" multiple={false} onChange={handleImage} />
                                 </label>
                             </div>
                             <div className="form-group my-4">
                                 <label>Name of Your Art</label>
                                 <input type="text" className="py-3 px-4" placeholder="Example: Arcnet" value={name} onChange={(e) => setName(e.target.value)} style={inputStyle} />
-                                {name && <div className="my-2">{nameAvailable}</div>}
+                                {/*name && <div className="my-2">{nameAvailable}</div>*/}
                                 {error && <Alert className="my-2" message={error} type="error" showIcon closable onClose={() => setError("")} />}
                             </div>
                             <div className="form-group my-3">
@@ -125,7 +128,7 @@ const AddItem = ({ history }) => {
                             </div>
                         </div>
                         <div className="col-sm-6 px-5 ">
-                            {asset && <div><h6>Selected File:</h6><PaperClipOutlined style={{ color: "#0065FF" }} /> {asset}</div>}
+                            {assetFile && <div><h6>Selected File:</h6><PaperClipOutlined style={{ color: "#0065FF" }} /> {asset}</div>}
                             {assetFile &&
                                 < div className="foil-image my-4">
                                     <img id="image" className="img" src="#" width="100%" style={{ display: "block", margin: "auto", borderRadius: "16px" }} alt="" />
@@ -134,7 +137,8 @@ const AddItem = ({ history }) => {
                         </div>
                     </div>
                     <div className="row my-3">
-                        <button type="button" className="px-5 py-3 m-3" style={buttonStyle} onClick={handleSubmit} disabled={!name || !description || !assetFile || !isAvailable}>{buttonLabel}</button>
+                        <button type="button" className="px-5 py-3 m-3" style={buttonStyle} onClick={handleSubmit} disabled={!name || !description || !assetFile }>{buttonLabel}</button>
+                        <button type="button" className="px-5 py-3 m-3" style={cancelButtonStyle} onClick={cancelForm} >Cancel</button>
                     </div>
                 </form>
             </div >

@@ -12,9 +12,6 @@ import SearchBar from '../micro-components/SearchBar';
 const Navbar = () => {
 
     const [current, setCurrent] = useState("");
-    const [notificationsCount, setNotificationsCount] = useState('6')
-    const [visible, setVisible] = useState(false);
-
 
     let history = useHistory();
     let dispatch = useDispatch();
@@ -42,10 +39,6 @@ const Navbar = () => {
         message.info('Signed out!');
     };
 
-    const notifications = () => {
-        setNotificationsCount('0');
-    }
-
     return (
         <Menu theme="light" onClick={handleClick} selectedKeys={[current]} mode="horizontal" style={{ padding: "18px 80px", borderBottomColor: "transparent", position: 'fixed', zIndex: 50, width: '100%', background: "#ffffff" }}>
             <Menu.Item key="home">
@@ -54,9 +47,11 @@ const Navbar = () => {
                 </Link>
             </Menu.Item>
 
-            <Menu.Item key="search">
-                <SearchBar />
-            </Menu.Item>
+            { current === '' || current === 'login' || current === 'sign-up' ? <></> :
+                <Menu.Item key="search">
+                    <SearchBar />
+                </Menu.Item>
+            }
 
             {user && (
                 <Menu.SubMenu className="float-right" selectedKeys={[current]} key="SubMenu" title={<Avatar size="large" src={user.picture} />}>
@@ -77,7 +72,7 @@ const Navbar = () => {
                 <Menu.Item key="login" className="float-right" style={{ fontWeight: "400", fontSize: "medium" }}><Link to="/login">Login</Link></Menu.Item>
             )}
             { user && (
-                <Menu.Item key="notifications" className="float-right" onClick={notifications} >
+                <Menu.Item key="notifications" className="float-right" >
                     <Notifications />
                 </Menu.Item>
             )}

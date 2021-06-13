@@ -14,20 +14,22 @@ const SearchBar = () => {
     const [options, setOptions] = useState([]);
 
     useEffect(() => {
-        getAllAssets()
-            .then((res) => {
-                setAssets(res.data);
-            });
+        setInterval(() => {
+            getAllAssets()
+                .then((res) => {
+                    setAssets(res.data);
+                });
 
-        getAllCollections()
-            .then((res) => {
-                setCollections(res.data);
-            })
+            getAllCollections()
+                .then((res) => {
+                    setCollections(res.data);
+                })
 
-        getOwners()
-            .then((res) => {
-                setArtists(res.data);
-            })
+            getOwners()
+                .then((res) => {
+                    setArtists(res.data);
+                })
+        }, 3000);
     }, [])
 
     // searched keyword
@@ -47,7 +49,7 @@ const SearchBar = () => {
     );
 
     const renderAssets = (asset) => ({
-        value: asset.name,
+        value: asset.slug,
         label: (
             <a href={`/assets/${asset.slug}`}>
                 <div
@@ -73,7 +75,7 @@ const SearchBar = () => {
     });
 
     const renderCollections = (collection) => ({
-        value: collection.name,
+        value: collection.slug,
         label: (
             <a href={`/collections/${collection.slug}`}>
                 <div
@@ -99,7 +101,7 @@ const SearchBar = () => {
     });
 
     const renderArtists = (artist) => ({
-        value: artist.name,
+        value: artist.username,
         label: (
             <a href={`/${artist.username}/profile`}>
                 <div
@@ -123,33 +125,33 @@ const SearchBar = () => {
 
     const handleSearch = (value) => {
         setOptions(
-          !value
-            ? []
-            : [
-                {
-                    label: renderTitle('NFTs'),
-                    options:
-                        assets.filter(searched(keyword)).map((asset) =>
-                            renderAssets(asset)
-                        ),
-                },
-                {
-                    label: renderTitle('Collections'),
-                    options:
-                        collections.filter(searched(keyword)).map((collection) =>
-                            renderCollections(collection)
-                        ),
-                },
-                {
-                    label: renderTitle('Artists'),
-                    options:
-                        artists.filter(searched(keyword)).map((artist) =>
-                            renderArtists(artist)
-                        ),
-                },
-              ],
+            !value
+                ? []
+                : [
+                    {
+                        label: renderTitle('NFTs'),
+                        options:
+                            assets.filter(searched(keyword)).map((asset) =>
+                                renderAssets(asset)
+                            ),
+                    },
+                    {
+                        label: renderTitle('Collections'),
+                        options:
+                            collections.filter(searched(keyword)).map((collection) =>
+                                renderCollections(collection)
+                            ),
+                    },
+                    {
+                        label: renderTitle('Artists'),
+                        options:
+                            artists.filter(searched(keyword)).map((artist) =>
+                                renderArtists(artist)
+                            ),
+                    },
+                ],
         );
-      };
+    };
 
     return (
         <AutoComplete
@@ -173,7 +175,7 @@ const SearchBar = () => {
                 size="large"
                 value={keyword}
                 onChange={handleSearchChange}
-                placeholder="Search NFT, Collection, Artists..."
+                placeholder="Search NFTs, Collections, Artists..."
                 bordered={false}
             />
         </AutoComplete>

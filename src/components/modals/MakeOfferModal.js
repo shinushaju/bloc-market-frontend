@@ -22,7 +22,7 @@ const MakeOfferModal = ({
   const dispatch = useDispatch();
 
   var owner = ownerId;
-  const { user, wallet } = useSelector((state) => ({ ...state }));
+  const { user } = useSelector((state) => ({ ...state }));
 
   const [offer, setOffer] = useState();
   const [disabled, setDisabled] = useState(false);
@@ -69,6 +69,7 @@ const MakeOfferModal = ({
 
   const makeOfferHandle = (e) => {
     e.preventDefault();
+    setDisabled(true);
     setButtonLabel(
       <LoadingOutlined style={{ color: "#ffffff", fontSize: "larger" }} />
     );
@@ -90,6 +91,7 @@ const MakeOfferModal = ({
             user.token
           );
           reload();
+          setDisabled(false);
           setButtonLabel("Make Offer");
           setModalVisible(false);
           notificationMessage("success", 5);
@@ -99,6 +101,7 @@ const MakeOfferModal = ({
         }, 3000);
       })
       .catch((err) => {
+        setDisabled(false);
         setButtonLabel("Make Offer");
         setMinPriceValidity("");
         setBalanceValidity("");

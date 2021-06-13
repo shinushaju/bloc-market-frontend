@@ -38,6 +38,7 @@ const Collection = ({ history, match }) => {
     const [selectedCollection, setSelectedCollection] = useState("");
     const [currentAsset, setCurrentAsset] = useState("");
     const [currentCollection, setCurrentCollection] = useState("");
+    const [loading, setLoading] = useState(false);
 
     // styles
     const buttonStyle1 = { cursor: "pointer", border: "none", borderRadius: "8px", fontWeight: "500", fontSize: "medium", backgroundColor: "#0065FF", color: "#ffffff" }
@@ -61,6 +62,9 @@ const Collection = ({ history, match }) => {
 
     useEffect(() => {
         loadCollectionInfo();
+        setTimeout(() => {
+            setLoading(true);
+        }, 1500)
     }, []);
 
     const loadCollectionInfo = () => {
@@ -235,6 +239,14 @@ const Collection = ({ history, match }) => {
                     <div className="col-3">
                         <UserProfile />
                     </div>
+                    {!loading &&
+                    <div className="col container-fluid py-5">
+                        <div className="my-5" style={{ position: 'absolute', top: '45%', fontSize: "300%", fontWeight: "bold", left: '45%', msTransform: 'translateY(-50%)', transform: 'transalateY(-50%)' }}>
+                            <LoadingOutlined />
+                        </div>
+                    </div>
+                    }
+                    {loading &&
                     <div className="col py-4">
                         <PageHeader
                             style={{ paddingLeft: 0 }}
@@ -281,7 +293,7 @@ const Collection = ({ history, match }) => {
                             <div className="row">
                                 {collectionAssetsInfo.length <= 0 && (
                                     <div className="py-5" style={{ display: "flex", margin: "auto" }}>
-                                        <h3>No Items Yet!</h3>
+                                        <h4>No Items Yet!</h4>
                                     </div>
                                 )}
                                 {collectionAssetsInfo.map((asset) => (
@@ -301,7 +313,7 @@ const Collection = ({ history, match }) => {
                                                             <Menu.Item key="1" onClick={() => changeCollection(asset)}>
                                                                 <RetweetOutlined /> Change Collection
                                                             </Menu.Item>
-                                                            <Menu.Item key="2">
+                                                            <Menu.Item key="2" disabled>
                                                                 <Link to={`/store/${collectionInfo.slug}/assets/${asset.slug}/edit`}>
                                                                     <EditOutlined /> Edit Item Info
                                                                 </Link>
@@ -357,6 +369,7 @@ const Collection = ({ history, match }) => {
                             </div>
                         </div>
                     </div>
+                    }
                 </div>
             </div>
             <UpdateCollectionModal props={modalProps} handleSubmit={handleSubmit} handleCoverImageUpdate={handleCoverImageUpdate} />

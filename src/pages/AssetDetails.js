@@ -207,6 +207,8 @@ const AssetDetails = ({ history, match }) => {
             icon: '',
             okText: 'Yes, Withdraw!',
             cancelText: 'Nevermind',
+            okButtonProps: { size: "large" },
+            cancelButtonProps: { size: "large" },
             onOk() {
                 return new Promise((resolve, reject) => {
                     var status = '';
@@ -233,6 +235,8 @@ const AssetDetails = ({ history, match }) => {
             icon: '',
             okText: 'Yes, Reject!',
             cancelText: 'Nevermind',
+            okButtonProps: { size: "large" },
+            cancelButtonProps: { size: "large" },
             onOk() {
                 return new Promise((resolve, reject) => {
                     var status = '';
@@ -301,6 +305,8 @@ const AssetDetails = ({ history, match }) => {
             icon: '',
             okText: 'Yes, Withdraw!',
             cancelText: 'Nevermind',
+            okButtonProps: { size: "large" },
+            cancelButtonProps: { size: "large" },
             onOk() {
                 return new Promise((resolve, reject) => {
                     var status = '';
@@ -324,17 +330,20 @@ const AssetDetails = ({ history, match }) => {
             centered: true,
             title: <h5>Accept Offer</h5>,
             content: <>
-                Are you sure you want to accept this offer? New users cannot make new offers on this item after this.
+                Are you sure you want to accept this offer?<br/><br/>The action you're about to perform is irreversible. Future offers on this item will be disabled.
                 <div className="my-3 p-3" style={{ backgroundColor: "#FFFAE6", border: "1px dashed #FFE380", borderRadius: "8px" }}>
                     {`Once ${offer.offerer.name} confirms transaction, ownership of your asset will be transferred to ${offer.offerer.name}.`}
                     <Divider />
                     {`You will be receiving ${offer.offer} BLC in your wallet.`}
                 </div>
+                Do you wish to continue?
             </>,
             width: 360,
             icon: '',
             okText: 'Accept Offer',
             cancelText: 'Nevermind',
+            okButtonProps: {size: "large"},
+            cancelButtonProps: {size: "large"},
             onOk() {
                 return new Promise((resolve, reject) => {
                     var status = '';
@@ -382,14 +391,15 @@ const AssetDetails = ({ history, match }) => {
     }
 
     const updateOfferModal = () => {
+        setDisabled(true);
         setButtonUpdateLabel(<LoadingOutlined style={{ color: "#ffffff", fontSize: "larger" }} />);
-
         updateMyOffer(user._id, myOffer._id, { myOfferPrice }, user.token)
             .then(() => {
                 setTimeout(() => {
                     // create notification
                     makeOfferNotification({ sender: user._id, sender_name: user.name, sender_picture: user.picture, receiver: owner._id, offer: myOfferPrice, asset: asset.name, event: 'Offer Made', asset_slug: asset.slug }, user.token);
                     loadAssetInfo();
+                    setDisabled(false);
                     setButtonUpdateLabel('Update Offer');
                     setUpdateModalVisible(false);
                     updateOfferNotification('success', 5);
@@ -398,6 +408,7 @@ const AssetDetails = ({ history, match }) => {
                 }, 3000)
             })
             .catch((err) => {
+                setDisabled(false);
                 setButtonUpdateLabel('Update Offer');
                 setMinPriceValidity('');
                 setBalanceValidity('');

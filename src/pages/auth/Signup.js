@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { Divider, notification, message } from 'antd';
+import { Divider, notification, message, Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import googleIcon from './google-icon.svg';
 
@@ -21,11 +21,13 @@ const Signup = ({ history }) => {
     // states
     const [email, setEmail] = useState("");
     const [validEmail] = EmailValidation({ email });
+    const [visible, setVisible] = useState(false);
 
     // styles
     const inputStyle = { border: "none", borderRadius: "8px", width: "100%", fontWeight: "500", fontSize: "larger", backgroundColor: "#F4F5F7", color: "#666666" }
     const buttonStyle = { cursor: "pointer", border: "none", borderRadius: "8px", width: "100%", fontWeight: "500", fontSize: "medium", backgroundColor: "#0065FF", color: "#ffffff" }
     const googleAuthStyle = { boxShadow: "rgba(0, 0, 0, 0.08) 0px 1.5px 6px", cursor: "pointer", border: "none", borderRadius: "8px", width: "100%", fontWeight: "500", fontSize: "larger", backgroundColor: "#ffffff", color: "#666666" }
+    const buttonStyle2 = { display: "block", width: "50%", margin: "auto", cursor: "pointer", border: "none", borderRadius: "100px", fontWeight: "500", fontSize: "medium", backgroundColor: "#050D1B", color: "#ffffff" }
 
 
     useEffect(() => {
@@ -59,17 +61,8 @@ const Signup = ({ history }) => {
             handleCodeInApp: true,
         };
         await auth.sendSignInLinkToEmail(email, config);
-        emailSentNotification('success');
-        window.localStorage.setItem("emailForSignup", email);
-        setEmail('');
+        setVisible(true);
     }
-
-    const emailSentNotification = type => {
-        notification[type]({
-            description:
-                `Email has been sent to ${email}. Click the link to complete the registration.`,
-        });
-    };
 
     const googleSignup = () => {
         auth
@@ -108,25 +101,58 @@ const Signup = ({ history }) => {
             });
     };
 
-    return (
-        <div className="my-5">
-            <div className="row my-5 justify-content-center">
-                <div className="col-sm-4">
-                    <div className="container">
-                        <h2><b>Sign Up</b></h2>
-                        <p>Already have an account, <Link to="login" style={{ color: "#0065FF", fontWeight: "bold" }}>Login</Link></p>
-                        <div className="my-5">
 
-                            <button type="submit" className="py-3" style={googleAuthStyle} onClick={googleSignup}>
-                                <span><img src={googleIcon} height="24px" alt="Google Icon" /></span> &emsp; Sign up with Google
+    const closeModal = () => {
+        window.localStorage.setItem("emailForSignup", email);
+        setVisible(false);
+        setEmail('');
+        history.push("/login");
+    };
+
+    return (
+        <>
+            <div className="container mt-5">
+                <div className="row mt-5 justify-content-center">
+                    <div className="col-sm-4">
+                        <div className="mt-5" style={{ textAlign: "center" }}>
+                            <h2><b>Sign Up</b></h2>
+                            <p>Already have an account?  <Link to="login" style={{ color: "#0065FF", fontWeight: "bold" }}>Login</Link></p>
+                            <div className="mt-5">
+
+                                <button type="submit" className="py-3" style={googleAuthStyle} onClick={googleSignup}>
+                                    <span><img src={googleIcon} height="24px" alt="Google Icon" /></span> &emsp; Sign up with Google
                             </button>
-                            <Divider className="my-4"><span style={{ color: "#999999" }}>or</span></Divider>
-                            {signupForm()}
+                                <Divider className="my-4"><span style={{ color: "#999999" }}>or</span></Divider>
+                                {signupForm()}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div >
+            </div >
+
+            <Modal
+                visible={visible}
+                centered
+                closable={false}
+                destroyOnClose={true}
+                maskClosable={false}
+                footer={false}
+                width={360}
+            >
+                <div className="mt-4 px-2" style={{ textAlign: "center" }}>
+                    <h5>An email has been sent to <span style={{ color: "#0065ff" }}>{`${email}`}</span><br /><br />Click the link to complete the registration.</h5>
+                    <button
+                        type="button"
+                        className="px-5 py-3 mt-4"
+                        style={buttonStyle2}
+                        onClick={closeModal}
+                    >
+                        OK
+                    </button>
+                </div>
+                <Divider />
+            </Modal>
+        </>
     )
 }
 

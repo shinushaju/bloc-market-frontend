@@ -44,33 +44,37 @@ const FavButton = () => {
 
 
     const handleFavButton = () => {
-
         if (!fav) {
             setOnWait(true);
-            incrementFavouriteCount(asset._id);
-            addToFavourites(user._id, asset._id, user.token);
-            setTimeout(() => {
-                setFav(true);
-                setCount(count + 1);
-                setOnWait(false);
-            }, 500);
+            incrementFavouriteCount(asset._id)
+                .then((res) => {
+                    addToFavourites(user._id, asset._id, user.token);
+                    setFav(true);
+                    setCount(res.data.favourites);
+                    setTimeout(() => {
+                        setOnWait(false);
+                    }, 500)
+                })
         }
         else {
             setOnWait(true);
-            decrementFavouriteCount(asset._id);
-            removeFromFavourites(user._id, asset._id, user.token);
-            setTimeout(() => {
-                setFav(false);
-                setCount(count - 1);
-                setOnWait(false);
-            }, 500);
+            decrementFavouriteCount(asset._id)
+                .then((res) => {
+                    removeFromFavourites(user._id, asset._id, user.token);
+                    setFav(false);
+                    setCount(res.data.favourites);
+                    setTimeout(() => {
+                        setOnWait(false);
+                    }, 500)
+                })
+
         }
     }
 
     return (
         <>
             <div className="col-3">
-                {fav ? <ActiveFavButton handleFavButton={handleFavButton} /> : <InActiveFavButton handleFavButton={handleFavButton} disabled={noUser || onWait} />}
+                {fav ? <ActiveFavButton handleFavButton={handleFavButton} disabled={noUser || onWait} /> : <InActiveFavButton handleFavButton={handleFavButton} disabled={noUser || onWait} />}
             </div>
             <div className="col-9">
                 <div className="mx-3">

@@ -94,7 +94,7 @@ const EditProfile = () => {
                                 Upload new picture
                                 <input id="file-upload" type="file" accept="image/png,image/jpg,image/jpeg" multiple={false} onChange={handlePictureSubmit} />
                             </label>
-                            <button type="button" className="px-4 py-2 mx-2" style={{ cursor: "pointer", border: "none", borderRadius: "8px", fontWeight: "400", backgroundColor: "#E7E7E9", color: "#050D1B" }}>Delete</button>
+                            <button type="button" className="px-4 py-2 mx-1" style={{ cursor: "pointer", border: "none", borderRadius: "8px", fontWeight: "400", backgroundColor: "#E7E7E9", color: "#050D1B" }}>Delete Picture</button>
                         </div>
                     </div>
 

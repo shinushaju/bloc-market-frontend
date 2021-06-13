@@ -138,23 +138,25 @@ const Login = ({ history }) => {
 
 
     return (
-        <div className="my-5">
-            <div className="row my-5 justify-content-center">
-                <div className="col-sm-4">
-                    <div className="container">
-                        <h2><b>Login</b></h2>
-                        <p>Don't have an account, <Link to="sign-up" style={{ color: "#0065FF", fontWeight: "bold" }}>Sign up</Link></p>
-                        <div className="my-5">
-                            <button type="submit" className="py-3" style={googleAuthStyle} onClick={googleLogin}>
-                                <span><img src={googleIcon} height="24px" alt="Google Icon" /></span> &ensp; Sign in with Google
+        <>
+            <div className="container mt-5">
+                <div className="row mt-5 justify-content-center">
+                    <div className="col-sm-4">
+                        <div className="mt-3" style={{ textAlign: "center" }}>
+                            <h2><b>Login</b></h2>
+                            <p>Don't have an account? <Link to="sign-up" style={{ color: "#0065FF", fontWeight: "bold" }}>Sign up</Link></p>
+                            <div className="my-5">
+                                <button type="submit" className="py-3" style={googleAuthStyle} onClick={googleLogin}>
+                                    <span><img src={googleIcon} height="24px" alt="Google Icon" /></span> &ensp; Sign in with Google
                             </button>
-                            <Divider className="my-4"><span style={{ color: "#999999" }}>or</span></Divider>
-                            {loginForm()}
+                                <Divider className="my-4"><span style={{ color: "#999999" }}>or</span></Divider>
+                                {loginForm()}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 

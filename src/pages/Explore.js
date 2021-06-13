@@ -120,16 +120,15 @@ const Explore = () => {
             }
 
             {loading &&
-                <Layout>
+                <Layout style={{height: "100vh"}}>
                     <div className="my-5 mx-2">
                         <div className="p-5 m-5">
-                            <h2>Latest Items&#128293;</h2>
+                            {assets.length > 0 && <h2>Latest Items&#128293;</h2>}
                             <div className="my-2">
                                 <div type="flex" className="row my-2" >
-
                                     {assets.length <= 0 ?
-                                        <div className="py-5 my-5" style={{ display: "block", margin: "auto", textAlign: "center" }}>
-                                            <h4>No Items Found!</h4>
+                                        <div className="pt-5 mt-5" style={{ display: "block", margin: "auto", textAlign: "center" }}>
+                                            <h4 className="my-5 py-5">No Items Found!</h4>
                                         </div>
                                          :
                                          items() }
