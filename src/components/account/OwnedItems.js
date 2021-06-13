@@ -158,7 +158,15 @@ const OwnedItems = ({history}) => {
                 width={300}
                 onCancel={closeModal}
             >
-                <h6 className="row my-2 px-3">Select a Collection</h6>
+                <>
+                {collections.length === 0 && 
+                    <div style={{textAlign:"center"}}>
+                        You don't have any collection yet!
+                        <br/><br/>
+                        <Link to="/store"><Button type="primary" size="large" shape="round" style={{display: "block", margin: "auto"}}>Create a Collection</Button></Link>
+                    </div>
+                }
+                {collections.length > 0 && <h6 className="row my-2 px-3">Select a Collection</h6>}
                 <div className="row p-3">
                     <Radio.Group size="large" style={{ width: "100%" }} onChange={handleSelectCollection} value={selectedCollection}>
                         <Space direction="vertical" style={{ minWidth: "100%" }}>
@@ -171,6 +179,7 @@ const OwnedItems = ({history}) => {
                         </Space>
                     </Radio.Group>
                 </div>
+                </>
             </Modal>
         </>
     )
