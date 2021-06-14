@@ -695,9 +695,9 @@ const AssetDetails = ({ history, match }) => {
                                                                     {!user && (
                                                                         <>
                                                                             <span>
-                                                                                {event.event === 'Minted NFT' ? "Minted by"
-                                                                                    : event.event === 'Listed NFT' ? "Listed by"
-                                                                                        : "Transferred to"}
+                                                                                {event.event === 'Minted NFT' ? "Minted by "
+                                                                                    : event.event === 'Listed NFT' ? "Listed by "
+                                                                                        : "Transferred to "}
                                                                             </span>
 
                                                                             {event.event === 'Transferred NFT' ?
