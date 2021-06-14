@@ -100,12 +100,11 @@ const CreatedItems = ({ history }) => {
                                     title={<div style={{ fontSize: "130%" }}>{asset.name}</div>}
                                     description={
                                         <>
-                                            {!asset.collectionId &&
+                                            {!asset.collectionId && asset.owner._id === user._id &&
                                                 <div className="row my-2">
                                                     <Button type="primary" style={{ marginLeft: "16px" }} onClick={() => addToCollection(asset)}>Add to a Collection</Button>
                                                 </div>
-                                            }
-
+                                            }   
                                             {asset.collectionId &&
                                                 <Link to={`/store/${asset.collectionId.slug}/assets`}>
                                                     <div className="row my-2">

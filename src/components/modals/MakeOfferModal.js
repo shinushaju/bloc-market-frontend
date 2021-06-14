@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Divider, Modal, notification } from "antd";
+import { Divider, Modal, notification, Tooltip } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { LoadingOutlined } from "@ant-design/icons";
 import { makeOffer } from "../../helpers/offer";
@@ -151,7 +151,15 @@ const MakeOfferModal = ({
             </>
           )}
           <Divider />
-          Your Balance: <b>{balance} BLC</b>
+          Your Balance:
+          {balance &&
+            <h1>
+              <Tooltip title={balance+ " BLC"} color="#0065ff" placement="bottom">
+                {balance.toString().split('.')[0]}{balance.toString().split('.')[1] && "." + balance.toString().split('.')[1].substring(0, 3)}
+              </Tooltip>
+              <span style={{ color: "#666666", fontSize: "75%" }}> BLC</span>
+            </h1>
+          }
         </div>
       </div>
       <Divider />

@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { isMobile } from 'react-device-detect';
+
 import Navbar from './components/navigation/Navbar';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { Layout } from 'antd';
@@ -31,7 +33,7 @@ import SellItem from './pages/SellItem';
 
 //  user route component
 import UserRoute from "./components/routes/UserRoute";
-import PageNotFound from './pages/PageNotFound';
+//import PageNotFound from './pages/PageNotFound';
 import Wallet from './pages/Wallet';
 import { fetchWalletBalance } from './helpers/wallet';
 
@@ -39,7 +41,7 @@ import { fetchWalletBalance } from './helpers/wallet';
 const App = () => {
 
   const dispatch = useDispatch();
-
+  const mobile = isMobile;
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
@@ -77,46 +79,58 @@ const App = () => {
     return () => unsubscribe();
   }, [dispatch]);
 
-  return (
-    <>
 
-      <Helmet>
-        <title>Bloc | Market - Buy & Sell NFTs</title>
-      </Helmet>
-      <Layout style={{ backgroundColor: "#ffffff" }}>
-        <Navbar />
-        <Switch>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/sign-up" component={Signup} />
-          <Route exact path="/sign-up/complete" component={CompleteSignup} />
-          <Route exact path="/password/reset" component={ForgotPassword} />
-          <Route exact path="/" component={Home} />
-          <Route exact path="/assets" component={Explore} />
-          <Route exact path="/assets/:item" component={AssetDetails} />
-          <Route exact path="/activity" component={Activity} />
-          <Route exact path="/:username/profile" component={PublicProfile} />
-          <Route exact path="/collections/:collection" component={CollectionProfile} />
-          {/*
+  if (mobile) {
+    return (
+      <div style={{ minHeight: "100vh", backgroundColor: "#F5F6FA", display: "flex", color: "#050D1B", justifyContent: "center", alignItems: "center" }}>
+        <div style={{ textAlign: "center", fontSize: "150%" }}>
+          <h4>We're coming soon to mobile!</h4>
+          <p>&#128075; See you on a desktop!</p>
+          <span style={{ color: "#666666" }}>- Bloc Team</span>
+        </div>
+      </div>)
+  }
+  else {
+    return (
+      <>
+        <Helmet>
+          <title>Bloc | Market - Buy & Sell NFTs</title>
+        </Helmet>
+        <Layout style={{ backgroundColor: "#ffffff" }}>
+          <Navbar />
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/sign-up" component={Signup} />
+            <Route exact path="/sign-up/complete" component={CompleteSignup} />
+            <Route exact path="/password/reset" component={ForgotPassword} />
+            <Route exact path="/" component={Home} />
+            <Route exact path="/assets" component={Explore} />
+            <Route exact path="/assets/:item" component={AssetDetails} />
+            <Route exact path="/activity" component={Activity} />
+            <Route exact path="/:username/profile" component={PublicProfile} />
+            <Route exact path="/collections/:collection" component={CollectionProfile} />
+            {/*
           <Route path="/404" component={PageNotFound} />
           <Redirect to="/404" />
           */}
 
-          {/* authorized user routes*/}
-          <UserRoute exact path="/notifications" component={Notifications} />
-          <UserRoute exact path="/store" component={Store} />
-          <UserRoute exact path="/account" component={Account} />
-          <UserRoute exact path="/wallet" component={Wallet} />
-          <UserRoute exact path="/store/:collection/assets" component={Collection} />
-          <UserRoute exact path="/store/:collection/assets/mint" component={AddItem} />
-          <UserRoute exact path="/store/:collection/assets/:asset/edit" component={EditItem} />
-          <UserRoute exact path="/settings/account/profile/edit" component={EditProfile} />
-          <UserRoute exact path="/settings/account" component={AccountSettings} />
-          <UserRoute exact path="/password/change" component={ChangePassword} />
-          <UserRoute exact path="/assets/:item/sell" component={SellItem} />
-        </Switch>
-      </Layout>
-    </>
-  );
+            {/* authorized user routes*/}
+            <UserRoute exact path="/notifications" component={Notifications} />
+            <UserRoute exact path="/store" component={Store} />
+            <UserRoute exact path="/account" component={Account} />
+            <UserRoute exact path="/wallet" component={Wallet} />
+            <UserRoute exact path="/store/:collection/assets" component={Collection} />
+            <UserRoute exact path="/store/:collection/assets/mint" component={AddItem} />
+            <UserRoute exact path="/store/:collection/assets/:asset/edit" component={EditItem} />
+            <UserRoute exact path="/settings/account/profile/edit" component={EditProfile} />
+            <UserRoute exact path="/settings/account" component={AccountSettings} />
+            <UserRoute exact path="/password/change" component={ChangePassword} />
+            <UserRoute exact path="/assets/:item/sell" component={SellItem} />
+          </Switch>
+        </Layout>
+      </>
+    );
+  }
 }
 
 export default App;

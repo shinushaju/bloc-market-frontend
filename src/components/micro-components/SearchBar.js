@@ -49,7 +49,7 @@ const SearchBar = () => {
     );
 
     const renderAssets = (asset) => ({
-        value: asset.slug,
+        value: asset.name,
         label: (
             <a href={`/assets/${asset.slug}`}>
                 <div
@@ -75,7 +75,7 @@ const SearchBar = () => {
     });
 
     const renderCollections = (collection) => ({
-        value: collection.slug,
+        value: collection.name,
         label: (
             <a href={`/collections/${collection.slug}`}>
                 <div
@@ -101,7 +101,7 @@ const SearchBar = () => {
     });
 
     const renderArtists = (artist) => ({
-        value: artist.username,
+        value: artist.name,
         label: (
             <a href={`/${artist.username}/profile`}>
                 <div

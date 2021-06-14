@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
-import { Layout, Tag, Card, Breadcrumb, notification, Button, message, Modal, Typography, Tabs, Avatar, Divider } from 'antd';
+import { Layout, Tag, Card, Breadcrumb, notification, Button, message, Modal, Typography, Tabs, Avatar, Divider, Tooltip } from 'antd';
 import { LoadingOutlined, ExperimentTwoTone, TagTwoTone, InteractionTwoTone, ArrowRightOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { Helmet } from 'react-helmet';
@@ -330,7 +330,7 @@ const AssetDetails = ({ history, match }) => {
             centered: true,
             title: <h5>Accept Offer</h5>,
             content: <>
-                Are you sure you want to accept this offer?<br/><br/>The action you're about to perform is irreversible. Future offers on this item will be disabled.
+                Are you sure you want to accept this offer?<br /><br />The action you're about to perform is irreversible. Future offers on this item will be disabled.
                 <div className="my-3 p-3" style={{ backgroundColor: "#FFFAE6", border: "1px dashed #FFE380", borderRadius: "8px" }}>
                     {`Once ${offer.offerer.name} confirms transaction, ownership of your asset will be transferred to ${offer.offerer.name}.`}
                     <Divider />
@@ -342,8 +342,8 @@ const AssetDetails = ({ history, match }) => {
             icon: '',
             okText: 'Accept Offer',
             cancelText: 'Nevermind',
-            okButtonProps: {size: "large"},
-            cancelButtonProps: {size: "large"},
+            okButtonProps: { size: "large" },
+            cancelButtonProps: { size: "large" },
             onOk() {
                 return new Promise((resolve, reject) => {
                     var status = '';
@@ -755,7 +755,15 @@ const AssetDetails = ({ history, match }) => {
                                 Minimum Offer Price: <b>{asset.minPrice} BLC</b><br />
                                 Highest Offer: <b>{highestOffer} BLC</b>
                                 <Divider />
-                                Your Balance: <b>{balance}</b>
+                                Your Balance:
+                                {balance &&
+                                    <h1>
+                                        <Tooltip title={balance+ " BLC"} color="#0065ff" placement="bottom">
+                                            {balance.toString().split('.')[0]}{balance.toString().split('.')[1] && "." + balance.toString().split('.')[1].substring(0, 3)}
+                                        </Tooltip>
+                                        <span style={{ color: "#666666", fontSize: "75%" }}> BLC</span>
+                                    </h1>
+                                }
                             </div>
                         </div>
                         <Divider />

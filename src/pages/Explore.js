@@ -120,7 +120,7 @@ const Explore = () => {
             }
 
             {loading &&
-                <Layout style={{height: "100vh"}}>
+                <Layout style={{minHeight: "100vh"}}>
                     <div className="my-5 mx-2">
                         <div className="p-5 m-5">
                             {assets.length > 0 && <h2>Latest Items&#128293;</h2>}

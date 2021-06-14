@@ -43,16 +43,20 @@ const Notifications = () => {
 
     const handleItemClicked = (item) => {
         if (item.event === 'Offer Made' || item.event === 'Offer Accepted' || item.event === 'Offer Rejected') {
+            markOneNotificationAsRead(user._id, item._id, user.token);
             history.push(`/assets/${item.asset_slug}`);
         }
         if (item.event === 'New Follow') {
+            markOneNotificationAsRead(user._id, item._id, user.token);
             history.push(`/${item.sender_username}/profile`);
         }
         if (item.event === 'Ownership Transferred' || item.event === 'Token Deposited' && user) {
+            markOneNotificationAsRead(user._id, item._id, user.token);
             history.push('/wallet');
         }
-        markOneNotificationAsRead(user._id, item._id, user.token);
-        window.location.reload();
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000)
     }
 
 

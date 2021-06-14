@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 import { Link, useParams } from 'react-router-dom';
-import { Typography, Avatar, Card, Button, Divider } from 'antd';
+import { Typography, Avatar, Card, Button, Divider, Empty } from 'antd';
 import { LoadingOutlined, HeartOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet';
 import illustration from '../images/empty.png';
@@ -122,6 +122,17 @@ const CollectionProfile = () => {
                             <div className="col" style={{ width: "100%", margin: "0" }}>
                                 <Title>Items</Title>
                                 <div className="row my-3">
+                                    {assets.length === 0 &&
+                                        <div className="container-fluid py-5">
+                                            <div className="my-5" style={{ display: "flex", color: "#050D1B", justifyContent: "center", alignItems: "center" }}>
+                                                <div>
+                                                    <Empty description=""/>
+                                                    <h4>No Items in this Collection!</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
                                     {assets.map((asset) => (
                                         <div className="col-sm-4 my-2">
                                             <Card
