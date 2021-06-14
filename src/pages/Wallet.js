@@ -225,14 +225,12 @@ const Store = () => {
         <div className="">
           <div className="my-1" style={{ fontSize: "large" }}>
             <small>Your Balance:</small>
-            {balance &&
               <h1>
                 <Tooltip title={balance+ " BLC"} color="#0065ff" placement="bottom">
                   {balance.toString().split('.')[0]}{balance.toString().split('.')[1] && "." + balance.toString().split('.')[1].substring(0, 3)}
                 </Tooltip>
                 <span style={{ color: "#666666", fontSize: "75%" }}> BLC</span>
               </h1>
-            }
           </div>
         </div>
         <Divider />

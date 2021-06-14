@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { isMobile } from 'react-device-detect';
+import { BrowserView, isMobile } from 'react-device-detect';
 
 import Navbar from './components/navigation/Navbar';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { Layout } from 'antd';
 import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
@@ -92,7 +92,7 @@ const App = () => {
   }
   else {
     return (
-      <>
+      <BrowserView>
         <Helmet>
           <title>Bloc | Market - Buy & Sell NFTs</title>
         </Helmet>
@@ -128,7 +128,7 @@ const App = () => {
             <UserRoute exact path="/assets/:item/sell" component={SellItem} />
           </Switch>
         </Layout>
-      </>
+      </BrowserView>
     );
   }
 }

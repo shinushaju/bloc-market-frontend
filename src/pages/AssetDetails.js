@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import { Layout, Tag, Card, Breadcrumb, notification, Button, message, Modal, Typography, Tabs, Avatar, Divider, Tooltip } from 'antd';
-import { LoadingOutlined, ExperimentTwoTone, TagTwoTone, InteractionTwoTone, ArrowRightOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { LoadingOutlined, ExperimentTwoTone, TagTwoTone, InteractionTwoTone, ArrowRightOutlined, InfoCircleOutlined, WalletOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { Helmet } from 'react-helmet';
 
@@ -37,6 +37,7 @@ const AssetDetails = ({ history, match }) => {
     const [highestOffer, setHighestOffer] = useState(null);
     const [modal, setModalVisible] = useState(false);
     const [updateModal, setUpdateModalVisible] = useState(false);
+    const [noBalanceModal, setNoBalanceModal] = useState(false);
     const [myOffer, setMyOffer] = useState("");
     const [buttonLabel, setButtonLabel] = useState("Make Offer");
     const [buttonUpdateLabel, setButtonUpdateLabel] = useState("Update Offer");
@@ -189,6 +190,9 @@ const AssetDetails = ({ history, match }) => {
                     confirmOfferWithdrawal();
                 }
             }
+            else if(wallet && wallet.balance <= 0) {
+                setNoBalanceModal(true);
+            }
             else {
                 setModalVisible(true);
             }
@@ -196,6 +200,10 @@ const AssetDetails = ({ history, match }) => {
         else {
             history.push('/login');
         }
+    }
+
+    const closeNoBalanceModal = () => {
+        setNoBalanceModal(false);
     }
 
     const confirmOfferWithdrawal = () => {
@@ -738,6 +746,22 @@ const AssetDetails = ({ history, match }) => {
                     </div>
 
                     <MakeOfferModal assetData={asset} highestOffer={highestOffer} ownerId={owner._id} reload={loadAssetInfo} modal={modal} setModalVisible={setModalVisible} inputStyle={inputStyle} modalButtonStyle={modalButtonStyle} buttonLabel={buttonLabel} setButtonLabel={setButtonLabel} />
+
+                    <Modal
+                        title={null}
+                        visible={noBalanceModal}
+                        centered
+                        destroyOnClose={true}
+                        footer={null}
+                        maskClosable={false}
+                        width={320}
+                        onCancel={closeNoBalanceModal}
+                    > 
+                            <div className="mt-5" style={{ fontSize: "large", textAlign: "center" }}>
+                                You have insufficient balance!<br/><br/>
+                                <button type="button" className="px-5 py-3 mb-5" onClick={() => {history.push("/wallet"); setNoBalanceModal(false)}} style={modalButtonStyle}>Add Tokens&emsp;<WalletOutlined style={{color: "white"}}/></button>
+                            </div>                
+                    </Modal>
 
                     <Modal
                         title={<h5><b>Update Offer</b></h5>}

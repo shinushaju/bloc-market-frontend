@@ -34,7 +34,7 @@ const CompleteSignup = ({ history }) => {
 
     useEffect(() => {
         if (window.localStorage.getItem("emailForSignup") === null) {
-            // history.push('/sign-up');
+            history.push('/sign-up');
         }
         else {
             setEmail(window.localStorage.getItem("emailForSignup"));
