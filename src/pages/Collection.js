@@ -163,7 +163,7 @@ const Collection = ({ history, match }) => {
         Modal.confirm({
             centered: true,
             title: <h5>Delete Collection</h5>,
-            content: 'Are you sure you want to permanently delete this collection?',
+            content: "Are you sure you want to permanently delete this collection? You won't lose any NFTs in it!",
             width: 360,
             icon: '',
             okText: 'Delete Collection',
@@ -240,135 +240,135 @@ const Collection = ({ history, match }) => {
                         <UserProfile />
                     </div>
                     {!loading &&
-                    <div className="col container-fluid py-5">
-                        <div className="my-5" style={{ position: 'absolute', top: '45%', fontSize: "300%", fontWeight: "bold", left: '45%', msTransform: 'translateY(-50%)', transform: 'transalateY(-50%)' }}>
-                            <LoadingOutlined />
+                        <div className="col container-fluid py-5">
+                            <div className="my-5" style={{ position: 'absolute', top: '45%', fontSize: "300%", fontWeight: "bold", left: '45%', msTransform: 'translateY(-50%)', transform: 'transalateY(-50%)' }}>
+                                <LoadingOutlined />
+                            </div>
                         </div>
-                    </div>
                     }
                     {loading &&
-                    <div className="col py-4">
-                        <PageHeader
-                            style={{ paddingLeft: 0 }}
-                            onBack={() => (history.goBack())}
-                            title={`Collection / ${collectionInfo.name}`}
-                            extra={[
-                                <Button key="view" size="large" onClick={() => (history.push(`/collections/${collectionInfo.slug}`))}>Preview Collection</Button>,
-                                <Button key="mint" size="large" type="primary" onClick={mintNewNFT}>
-                                    Mint New NFT
-                                </Button>,
-                                <Dropdown
-                                    trigger={['click']}
-                                    overlay={
-                                        <Menu>
-                                            <Menu.Item key="1" onClick={() => modalVisible(true)}>
-                                                <EditOutlined /> Edit Collection
-                                    </Menu.Item>
-                                            <Menu.Item key="2" danger onClick={confirmCollectionDelete}>
-                                                <DeleteOutlined /> Delete Collection
-                                    </Menu.Item>
-                                        </Menu>
-                                    }
-                                >
-                                    <Button size="large">
-                                        <SettingOutlined />
-                                    </Button>
-                                </Dropdown>
-                            ]}
-                        />
-                        <div className="py-2">
-                            <div className="row">
-                                <div className="col-sm-3">
-                                    <Avatar size={150} src={collectionInfo.cover} alt={collectionInfo.name} />
-                                </div>
-                                <div className="col">
-                                    <Title>{collectionInfo.name}</Title>
-                                    <p>{collectionInfo.description}</p>
-                                </div>
-                            </div>
-                            <Divider />
-                            <div className="my-2">
-                                <span><h3> Collection Items</h3></span>
-                            </div>
-                            <div className="row">
-                                {collectionAssetsInfo.length <= 0 && (
-                                    <div className="py-5" style={{ display: "flex", margin: "auto" }}>
-                                        <h4>No Items Yet!</h4>
+                        <div className="col py-4">
+                            <PageHeader
+                                style={{ paddingLeft: 0 }}
+                                onBack={() => (history.goBack())}
+                                title={`Collection / ${collectionInfo.name}`}
+                                extra={[
+                                    <Button key="view" size="large" onClick={() => (history.push(`/collections/${collectionInfo.slug}`))}>Preview Collection</Button>,
+                                    <Button key="mint" size="large" type="primary" onClick={mintNewNFT}>
+                                        Mint New NFT
+                                    </Button>,
+                                    <Dropdown
+                                        trigger={['click']}
+                                        overlay={
+                                            <Menu>
+                                                <Menu.Item key="1" onClick={() => modalVisible(true)}>
+                                                    <EditOutlined /> Edit Collection
+                                                </Menu.Item>
+                                                <Menu.Item key="2" danger onClick={confirmCollectionDelete}>
+                                                    <DeleteOutlined /> Delete Collection
+                                                </Menu.Item>
+                                            </Menu>
+                                        }
+                                    >
+                                        <Button size="large">
+                                            <SettingOutlined />
+                                        </Button>
+                                    </Dropdown>
+                                ]}
+                            />
+                            <div className="py-2">
+                                <div className="row">
+                                    <div className="col-sm-3">
+                                        <Avatar size={150} src={collectionInfo.cover} alt={collectionInfo.name} />
                                     </div>
-                                )}
-                                {collectionAssetsInfo.map((asset) => (
-                                    <div key={asset._id} className="col-sm-4 my-3">
-                                        <Card
-                                            size="small"
-                                            bordered
-                                            style={{ width: "100%" }}
-                                            className="px-2"
-                                            headStyle={{ border: "none" }}
-                                            title={<div className="py-2" style={{ fontSize: "130%" }}>{asset.name}</div>}
-                                            extra={
-                                                <Dropdown
-                                                    trigger={['click']}
-                                                    overlay={
-                                                        <Menu>
-                                                            <Menu.Item key="1" onClick={() => changeCollection(asset)}>
-                                                                <RetweetOutlined /> Change Collection
-                                                            </Menu.Item>
-                                                            <Menu.Item key="2" disabled>
-                                                                <Link to={`/store/${collectionInfo.slug}/assets/${asset.slug}/edit`}>
-                                                                    <EditOutlined /> Edit Item Info
-                                                                </Link>
-                                                            </Menu.Item>
-                                                            <Menu.Item key="3" onClick={() => handleRemoveCollection(asset)}>
-                                                                <DeleteOutlined /> Remove From Collection
-                                                            </Menu.Item>
-                                                        </Menu>
-                                                    }
-                                                >
-                                                    <Button style={{ fontSize: "110%", cursor: "pointer", fontWeight: "800" }}>
-                                                        &#8942;
-                                                    </Button>
-                                                </Dropdown>
-                                            }
-                                            cover={
-                                                <Link to={`/assets/${asset.slug}`}>
-                                                    <img
-                                                        className="p-3"
-                                                        width="100%"
-                                                        style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover", borderRadius: "24px" }} height="auto"
-                                                        alt={asset.name}
-                                                        src={asset.assetFile}
-                                                    />
-                                                </Link>
-                                            }
-                                        >
-                                            <Meta
-                                                className="py-2"
-                                                style={{ marginTop: "-24px" }}
-                                                description={
-                                                    <>
-                                                        <span style={{ fontSize: "75%" }}>List price</span>
-                                                        <div className="row">
-                                                            <div className="col">
-                                                                {!asset.isListed && <>--</>}
-                                                                {asset.isListed &&
-                                                                    <div style={{ fontSize: "120%", color: "#000000", fontWeight: "700" }}>
-                                                                        {asset.price} BLC
-                                            </div>
-                                                                }
-                                                            </div>
-                                                            <div className="col">
-                                                                <b style={{ float: "right", color: "#333333" }}><HeartOutlined /> {asset.favourites}</b>
-                                                            </div>
-                                                        </div>
-                                                    </>
+                                    <div className="col">
+                                        <Title>{collectionInfo.name}</Title>
+                                        <p>{collectionInfo.description}</p>
+                                    </div>
+                                </div>
+                                <Divider />
+                                <div className="my-2">
+                                    <span><h3> Collection Items</h3></span>
+                                </div>
+                                <div className="row">
+                                    {collectionAssetsInfo.length <= 0 && (
+                                        <div className="py-5" style={{ display: "flex", margin: "auto" }}>
+                                            <h4>No Items Yet!</h4>
+                                        </div>
+                                    )}
+                                    {collectionAssetsInfo.map((asset) => (
+                                        <div key={asset._id} className="col-sm-4 my-3">
+                                            <Card
+                                                size="small"
+                                                bordered
+                                                style={{ width: "100%" }}
+                                                className="px-2"
+                                                headStyle={{ border: "none" }}
+                                                title={<div className="py-2" style={{ fontSize: "130%" }}>{asset.name}</div>}
+                                                extra={
+                                                    <Dropdown
+                                                        trigger={['click']}
+                                                        overlay={
+                                                            <Menu>
+                                                                <Menu.Item key="1" onClick={() => changeCollection(asset)}>
+                                                                    <RetweetOutlined /> Change Collection
+                                                                </Menu.Item>
+                                                                <Menu.Item key="2" disabled>
+                                                                    <Link to={`/store/${collectionInfo.slug}/assets/${asset.slug}/edit`}>
+                                                                        <EditOutlined /> Edit Item Info
+                                                                    </Link>
+                                                                </Menu.Item>
+                                                                <Menu.Item key="3" onClick={() => handleRemoveCollection(asset)}>
+                                                                    <DeleteOutlined /> Remove From Collection
+                                                                </Menu.Item>
+                                                            </Menu>
+                                                        }
+                                                    >
+                                                        <Button style={{ fontSize: "110%", cursor: "pointer", fontWeight: "800" }}>
+                                                            &#8942;
+                                                        </Button>
+                                                    </Dropdown>
                                                 }
-                                            />
-                                        </Card>
-                                    </div>
-                                ))}
+                                                cover={
+                                                    <Link to={`/assets/${asset.slug}`}>
+                                                        <img
+                                                            className="p-3"
+                                                            width="100%"
+                                                            style={{ height: "250px", width: "100%", objectFit: "cover", backgroundSize: "cover", borderRadius: "24px" }} height="auto"
+                                                            alt={asset.name}
+                                                            src={asset.assetFile}
+                                                        />
+                                                    </Link>
+                                                }
+                                            >
+                                                <Meta
+                                                    className="py-2"
+                                                    style={{ marginTop: "-24px" }}
+                                                    description={
+                                                        <>
+                                                            <span style={{ fontSize: "75%" }}>List price</span>
+                                                            <div className="row">
+                                                                <div className="col">
+                                                                    {!asset.isListed && <>--</>}
+                                                                    {asset.isListed &&
+                                                                        <div style={{ fontSize: "120%", color: "#000000", fontWeight: "700" }}>
+                                                                            {asset.price} BLC
+                                                                        </div>
+                                                                    }
+                                                                </div>
+                                                                <div className="col">
+                                                                    <b style={{ float: "right", color: "#333333" }}><HeartOutlined /> {asset.favourites}</b>
+                                                                </div>
+                                                            </div>
+                                                        </>
+                                                    }
+                                                />
+                                            </Card>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
-                    </div>
                     }
                 </div>
             </div>

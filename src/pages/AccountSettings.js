@@ -201,7 +201,7 @@ const AccountSettings = ({ history }) => {
                                             <Divider />
                                             <div className="my-5">
                                                 <h6>Delete Your Account Permanently</h6>
-                                                <Button className="my-2" size="large" danger onClick={handleDeleteAccount}>Delete Account</Button>
+                                                <Button className="my-2" size="large" danger onClick={handleDeleteAccount} disabled>Delete Account</Button>
                                             </div>
                                         </div>
                                     </div>
